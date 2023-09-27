@@ -4,4 +4,5 @@ export interface Task {
     content: string;
     created_on: Date;
     due_date: Date;
+    isEditable: boolean;
   }
