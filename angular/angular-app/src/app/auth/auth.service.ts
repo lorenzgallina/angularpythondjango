@@ -38,16 +38,21 @@ export class AuthService {
 
   // Looks for result of authentication in URL hash; result is processed in parseHash.
   public handleLoginCallback(): void {
-    this.auth0.parseHash((err: auth0.Auth0ParseHashError | null, authResult: auth0.Auth0DecodedHash | null) => {
+    this.auth0.parseHash((err, authResult) => {
+      console.log('Auth Result:', authResult);
+      console.log('Error:', err);
+      
       if (authResult && authResult.accessToken) {
-        window.location.hash = '';
-        this.getUserInfo({ accessToken: authResult.accessToken }); // Ensure that only accessToken is passed
+        this.getUserInfo({ accessToken: authResult.accessToken });
+        
       } else if (err) {
         console.log(`Error: ${err.error}`);
       }
-      this.router.navigate(['/']); // Redirect the user after the session is set up.
+  
+      this.router.navigate(['/']);
     });
   }
+  
 
 
   getAccessToken() {
@@ -61,6 +66,7 @@ export class AuthService {
   // Use access token to retrieve user's profile and set session
   getUserInfo(authResult: { accessToken: any; }) {
     this.auth0.client.userInfo(authResult.accessToken, (err: any, profile: any) => {
+      window.location.hash = '';
       if (profile) {
         this.setSession(authResult, profile);
       }
@@ -73,6 +79,7 @@ export class AuthService {
     this.accessToken = authResult.accessToken;
     this.userProfile = profile;
     this.authenticated = true;
+    console.log('AccessToken:', this.accessToken);
   }
 
   // Log out of Auth0 session
