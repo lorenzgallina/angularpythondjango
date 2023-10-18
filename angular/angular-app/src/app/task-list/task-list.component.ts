@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { ApiService } from '../api.service';
 import { Task } from '../task';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-task-list',
@@ -15,7 +16,9 @@ export class TaskListComponent implements OnInit {
   tasks$: Observable<Task[]> | undefined;
   task_form: any;
 
-  constructor(private apiService: ApiService, private form_builder: FormBuilder) { }
+  constructor(private keycloak: KeycloakService, private apiService: ApiService, private form_builder: FormBuilder) { }
+
+
 
   ngOnInit() {
     this.getTasks();
@@ -27,6 +30,19 @@ export class TaskListComponent implements OnInit {
 
     this.task_form.controls["title"].setValidators([Validators.required]);
     this.task_form.controls["content"].setValidators([Validators.required]);
+  }
+
+  public isAuthenticated() {
+    return this.keycloak.isLoggedIn();
+  }
+
+  getDisplayName(): string {
+    const userProfile = this.keycloak.loadUserProfile;
+    return userProfile ? userProfile.name : '';
+  }
+
+  login(): void {
+    this.keycloak.login();
   }
 
   public getTasks() {

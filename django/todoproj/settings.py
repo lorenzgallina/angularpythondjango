@@ -135,6 +135,7 @@ STATIC_URL = '/static/'
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:4200',
     'http://localhost:8080',
+    'http://localhost:8180',
 )
 
 ## Add JWT authentication to default authentication classes

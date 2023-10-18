@@ -28,5 +28,16 @@ services:
     ports:
       - "8080:80"
 
+  keycloak:
+    container_name: keycloak
+    image: jboss/keycloak
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - "8180:8080"
+    depends_on:
+      - db
+
 volumes:
   db-data:

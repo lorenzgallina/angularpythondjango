@@ -29,3 +29,8 @@
       <br>
       <button type="submit" [disabled]="task_form.invalid">Add Task</button>
   </form>
+  <div>
+    <h1>Test Keycloak</h1>
+    <p *ngIf="isAuthenticated()">Welcome, {{ getDisplayName() }}</p>
+    <button *ngIf="!isAuthenticated()" (click)="login()">Login</button>
+  </div>
