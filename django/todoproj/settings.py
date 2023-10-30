@@ -138,6 +138,11 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8180',
 )
 
+KEYCLOAK_BASE_URL = 'http://localhost:8180/'  # Keycloak server URL
+KEYCLOAK_REALM = 'Project2'  # Your Keycloak realm
+KEYCLOAK_CLIENT_ID = 'myapp'  # Your Keycloak client ID
+KEYCLOAK_CLIENT_SECRET = 'oxEXGbqk5oWmM8FNSjPVjUANpEUw7z9C'
+
 ## Add JWT authentication to default authentication classes
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -145,30 +150,32 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+       'keycloak_oidc.auth.OIDCAuthentication',
     ),
 }
 
-AUTH0_DOMAIN = 'dev-cka8qkl3fog2ukgw.us.auth0.com'
-API_IDENTIFIER = 'http://djangoangularapi'
-PUBLIC_KEY = None
-JWT_ISSUER = None
+# Configure Keycloak authentication settings
+LOGIN_URL = 'oidc_authentication_init'
+LOGOUT_URL = 'oidc_authentication_logout'
 
-if AUTH0_DOMAIN:
-    jsonurl = request.urlopen('https://' + AUTH0_DOMAIN + '/.well-known/jwks.json')
-    jwks = json.loads(jsonurl.read().decode('utf-8'))
-    cert = '-----BEGIN CERTIFICATE-----\n' + jwks['keys'][0]['x5c'][0] + '\n-----END CERTIFICATE-----'
-    certificate = load_pem_x509_certificate(cert.encode('utf-8'), default_backend())
-    PUBLIC_KEY = certificate.public_key()
-    JWT_ISSUER = 'https://' + AUTH0_DOMAIN + '/'
+
+# Add Keycloak-specific settings
+KEYCLOAK_AUTH = {
+    'OIDC_ENDPOINT': f'{KEYCLOAK_BASE_URL}/realms/{KEYCLOAK_REALM}',
+    'OIDC_CLIENT_ID': KEYCLOAK_CLIENT_ID,
+    'OIDC_CLIENT_SECRET': KEYCLOAK_CLIENT_SECRET,
+    'OIDC_LOGOUT_REDIRECT_URI': 'http://localhost:8080',  # Redirect URI after Keycloak logout
+}
+
 
 def jwt_get_username_from_payload_handler(payload):
     return 'auth0user'
 
 JWT_AUTH = {
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': jwt_get_username_from_payload_handler,
-    'JWT_PUBLIC_KEY': PUBLIC_KEY,
+    'JWT_PUBLIC_KEY': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3g4gi7JsszpSccExCPRH6EYYOvMDGK9WE//QpB8NpSJXElv17mbywHNUPpdnaIb+TNrmKxjiQfy9ZBFCerCXyQHk1l2jQH/+4aiDzb24f2RaB9KQ1VkjUAb5ucfvleEoSH/vTpiNX5thDM9OMZHU1lgukhwRnZ5YxQTPuAqMVHg/CnPDunJAg3uGDp7DmqoWPdYE6ckwB2uuuC7sDzFtrcMnY6AmtQaVFclKwSblmTvVi4oKO14+743E5EnweWmn11olkLbJzfJ/E4/d4LVFnO80iHN9udQZpKBzSjEv/KY4VXEIgJu/qwrOU4g8xcvS/swgH8ydDuZB2/yq6ncx7QIDAQAB\n-----END PUBLIC KEY-----',
     'JWT_ALGORITHM': 'RS256',
-    'JWT_AUDIENCE': API_IDENTIFIER,
-    'JWT_ISSUER': JWT_ISSUER,
+    'JWT_AUDIENCE': 'myapp',
+    'JWT_ISSUER': 'http://localhost:8180/auth',
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-}   
+} 

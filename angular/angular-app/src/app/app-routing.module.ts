@@ -7,6 +7,7 @@ import { KeycloakGuard } from './keycloak.guard';
 
 const routes: Routes = [
   { path: 'public', component: PublicSpaceComponent },
+  { path: 'task-list', component: TaskListComponent },
   { path: 'restricted', component: RestrictedSpaceComponent, canActivate: [KeycloakGuard]},
   { path: '**', component: PublicSpaceComponent}
 ];
