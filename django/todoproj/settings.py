@@ -148,39 +148,18 @@ CORS_ORIGIN_WHITELIST = (
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
-        #'rest_framework.authentication.SessionAuthentication',
-        #'rest_framework.authentication.BasicAuthentication',
-        #'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-       #'keycloak_oidc.auth.OIDCAuthentication',
     ),
 }
 
-# Configure Keycloak authentication settings
-# LOGIN_URL = 'oidc_authentication_init'
-# LOGOUT_URL = 'oidc_authentication_logout'
 
-
-#KEYCLOAK_EXEMPT_URIS = []
-#KEYCLOAK_CONFIG = {
-#   'KEYCLOAK_SERVER_URL': 'http://localhost:8180/auth',
-#   'KEYCLOAK_REALM': 'Project2',
-#    'KEYCLOAK_CLIENT_ID': 'myapp',
-    #'KEYCLOAK_CLIENT_SECRET_KEY': 'E2n41fJgl9BPIS3nDk1DQQ7BIPf6PauH'
-#}
-
-# Add Keycloak-specific settings
-#KEYCLOAK_BASE_URL = 'http://localhost:8180/'  # Keycloak server URL
-##KEYCLOAK_REALM = 'Project2'  # Your Keycloak realm
-#KEYCLOAK_CLIENT_ID = 'myapp'  # Your Keycloak client ID
-#KEYCLOAK_CLIENT_SECRET = 'ZGY2fBOPQelQqxUGaWhj7ALIS0ONiUY9' #'SHMXHHZBOPpSeI0WyEuTV2nT8lD0ta--nQXglOQCyVM'
 KEYCLOAK_CLIENT_PUBLIC_KEY ='-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlCBhoJ/MiXY0LfmopuJZ9YtJoFfXmisvVKOjaae3HJ9C2ozyhIRI1gT7WTkV86KeWBQ8qU/LuUKpnlrf/Sv8Vw8kwdoGHa2bgp4798lLxO9h/HOFHszc0xtn2i66KUsueCdWL4yGLbvsZ4ohltTXCuA62L47lmi0yMWhuuBZiJS9Cvz2wGFqJvW+GlIdzciejZ+RSoU1XnnWX15+yCijBrCTnldKalWe/7B/1rmM2YzDVx7fHZNEVWecwCZwU7g1CoxdNhCOLTjisLFLnyoeXRKZYv+M57+BWn0Oovzd8105FsRuwDXAQ+CFIzklPuc2QN4G5Y+kEurlUZUpcM9OIQIDAQAB\n-----END PUBLIC KEY-----'
 
 
 def jwt_get_username_from_payload_handler(payload):
-    return "user" #payload.get('preferred_username','admin')
+    return 'user' #payload.get('preferred_username','user')
 
 JWT_AUTH = {
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': jwt_get_username_from_payload_handler,
