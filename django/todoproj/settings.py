@@ -16,6 +16,9 @@ from six.moves.urllib import request
 from cryptography.x509 import load_pem_x509_certificate
 from cryptography.hazmat.backends import default_backend
 
+
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -113,6 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -138,44 +142,51 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8180',
 )
 
-KEYCLOAK_BASE_URL = 'http://localhost:8180/'  # Keycloak server URL
-KEYCLOAK_REALM = 'Project2'  # Your Keycloak realm
-KEYCLOAK_CLIENT_ID = 'myapp'  # Your Keycloak client ID
-KEYCLOAK_CLIENT_SECRET = 'oxEXGbqk5oWmM8FNSjPVjUANpEUw7z9C'
+
 
 ## Add JWT authentication to default authentication classes
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated', # All views have this permission active (unless overwritten).
+        'rest_framework.permissions.IsAuthenticated',
+        #'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.BasicAuthentication',
+        #'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-       'keycloak_oidc.auth.OIDCAuthentication',
+       #'keycloak_oidc.auth.OIDCAuthentication',
     ),
 }
 
 # Configure Keycloak authentication settings
-LOGIN_URL = 'oidc_authentication_init'
-LOGOUT_URL = 'oidc_authentication_logout'
+# LOGIN_URL = 'oidc_authentication_init'
+# LOGOUT_URL = 'oidc_authentication_logout'
 
+
+#KEYCLOAK_EXEMPT_URIS = []
+#KEYCLOAK_CONFIG = {
+#   'KEYCLOAK_SERVER_URL': 'http://localhost:8180/auth',
+#   'KEYCLOAK_REALM': 'Project2',
+#    'KEYCLOAK_CLIENT_ID': 'myapp',
+    #'KEYCLOAK_CLIENT_SECRET_KEY': 'E2n41fJgl9BPIS3nDk1DQQ7BIPf6PauH'
+#}
 
 # Add Keycloak-specific settings
-KEYCLOAK_AUTH = {
-    'OIDC_ENDPOINT': f'{KEYCLOAK_BASE_URL}/realms/{KEYCLOAK_REALM}',
-    'OIDC_CLIENT_ID': KEYCLOAK_CLIENT_ID,
-    'OIDC_CLIENT_SECRET': KEYCLOAK_CLIENT_SECRET,
-    'OIDC_LOGOUT_REDIRECT_URI': 'http://localhost:8080',  # Redirect URI after Keycloak logout
-}
+#KEYCLOAK_BASE_URL = 'http://localhost:8180/'  # Keycloak server URL
+##KEYCLOAK_REALM = 'Project2'  # Your Keycloak realm
+#KEYCLOAK_CLIENT_ID = 'myapp'  # Your Keycloak client ID
+#KEYCLOAK_CLIENT_SECRET = 'ZGY2fBOPQelQqxUGaWhj7ALIS0ONiUY9' #'SHMXHHZBOPpSeI0WyEuTV2nT8lD0ta--nQXglOQCyVM'
+KEYCLOAK_CLIENT_PUBLIC_KEY ='-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlCBhoJ/MiXY0LfmopuJZ9YtJoFfXmisvVKOjaae3HJ9C2ozyhIRI1gT7WTkV86KeWBQ8qU/LuUKpnlrf/Sv8Vw8kwdoGHa2bgp4798lLxO9h/HOFHszc0xtn2i66KUsueCdWL4yGLbvsZ4ohltTXCuA62L47lmi0yMWhuuBZiJS9Cvz2wGFqJvW+GlIdzciejZ+RSoU1XnnWX15+yCijBrCTnldKalWe/7B/1rmM2YzDVx7fHZNEVWecwCZwU7g1CoxdNhCOLTjisLFLnyoeXRKZYv+M57+BWn0Oovzd8105FsRuwDXAQ+CFIzklPuc2QN4G5Y+kEurlUZUpcM9OIQIDAQAB\n-----END PUBLIC KEY-----'
 
 
 def jwt_get_username_from_payload_handler(payload):
-    return 'auth0user'
+    return "user" #payload.get('preferred_username','admin')
 
 JWT_AUTH = {
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': jwt_get_username_from_payload_handler,
-    'JWT_PUBLIC_KEY': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3g4gi7JsszpSccExCPRH6EYYOvMDGK9WE//QpB8NpSJXElv17mbywHNUPpdnaIb+TNrmKxjiQfy9ZBFCerCXyQHk1l2jQH/+4aiDzb24f2RaB9KQ1VkjUAb5ucfvleEoSH/vTpiNX5thDM9OMZHU1lgukhwRnZ5YxQTPuAqMVHg/CnPDunJAg3uGDp7DmqoWPdYE6ckwB2uuuC7sDzFtrcMnY6AmtQaVFclKwSblmTvVi4oKO14+743E5EnweWmn11olkLbJzfJ/E4/d4LVFnO80iHN9udQZpKBzSjEv/KY4VXEIgJu/qwrOU4g8xcvS/swgH8ydDuZB2/yq6ncx7QIDAQAB\n-----END PUBLIC KEY-----',
+    'JWT_PUBLIC_KEY': KEYCLOAK_CLIENT_PUBLIC_KEY,
     'JWT_ALGORITHM': 'RS256',
-    'JWT_AUDIENCE': 'myapp',
-    'JWT_ISSUER': 'http://localhost:8180/auth',
+    'JWT_AUDIENCE': 'account',
+    'JWT_ISSUER': 'http://localhost:8180/auth/realms/Project2',
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 } 
