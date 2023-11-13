@@ -1,26 +1,109 @@
 {
     "realm": "Project2",
+    "id" : "Project2",
     "enabled": true,
-    "rootUrl": "http://localhost:8180/",
     "clients": [
       {
         "clientId": "myapp",
-        "directAccessGrantsEnabled": true,
-        "publicClient": true,
-        "redirectUris": ["http://localhost:8080/*"]
+        "rootUrl" : "http://localhost:8080/",
+        "baseUrl": "/realms/Project2/account/",
+        "redirectUris": [ "http://localhost:80/*", "http://localhost:8080/*", "http://localhost/*", "http://localhost:4200" ],
+        "webOrigins" : [ "http://localhost:8080", "http://localhost:4200" ],
+        "protocol" : "openid-connect",
+        "publicClient" : true,
+        "directAccessGrantsEnabled" : true,
+        "access" : {
+          "view" : true,
+          "configure" : true,
+          "manage" : true
+        },
+        "fullScopeAllowed" : true,
+        "attributes" : {
+          "access.token.lifespan" : "600",
+          "saml.force.post.binding" : "false",
+          "saml.multivalued.roles" : "false",
+          "oauth2.device.authorization.grant.enabled" : "false",
+          "backchannel.logout.revoke.offline.tokens" : "false",
+          "saml.server.signature.keyinfo.ext" : "false",
+          "use.refresh.tokens" : "true",
+          "jwt.credential.certificate" : "MIICmTCCAYECBgGLmkJlATANBgkqhkiG9w0BAQsFADAQMQ4wDAYDVQQDDAVteWFwcDAeFw0yMzExMDQxMjEzNDRaFw0zMzExMDQxMjE1MjRaMBAxDjAMBgNVBAMMBW15YXBwMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmwWlrOBWsm3V4ZrwT3ZlByt36404qLZxdlej78WHWqoFzzTxaCN4rdwSEn+z7DWt+IlbZ8piNE+9/BZX5NrFXTaDGnKqdcl/0PyAaEpQcGwmYb+IL2Ufw5YDxmrJmYtNB3lIGOG7DT1fB1o4PEAoMTZCDrkoULWV5I85byJ3TZMufEyPHIwOw0KYyMLvV/qzwST1fUea7pKE+5+bKjS20suHH1B55uVIzFSyf9vTGC5X2OiIvGNvpKj/e2zD5MpBWH0hR7ecQdzMiM1kAPwPM3vtnm7OIq/iWg3OPOx3iku7qSx6NCIlOtln0ZzImDLdkixPFRZNgkdtawPfA+xtlQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQB2TTCDT7nYktPAz+Q2+YxF7A1nbBLv0b/eqCt3J65m66eED3/h67oRRRAUc+wOi4RUn7r8/0/ldCa79O0ll4dUpWIC1pZpxYD+haghFqvBZJx1xPN0VAX1Wsao9p+laMCvA5oKTQGEccaYbMUmou7xqL3E+8A7RtcnU/ckRoo++Arc+iTHSixClEkdw6RWAF6CnxUzAxzlinQLxHLboDMfQjHq/NKvH+uZtv1VEvBl+p8f3ZSOGlbqa6w72YwNyyuiiki4Y39v4CxYjUCCCUndikGk75fdikWdMt7fa42DvbNkPwfOcuDVblwe7ANQW2ilrznpshhBMk4fYD4Qg6sM",
+          "oidc.ciba.grant.enabled" : "false",
+          "backchannel.logout.session.required" : "true",
+          "client_credentials.use_refresh_token" : "false",
+          "require.pushed.authorization.requests" : "false",
+          "saml.client.signature" : "false",
+          "id.token.as.detached.signature" : "false",
+          "saml.assertion.signature" : "false",
+          "saml.encrypt" : "false",
+          "saml.server.signature" : "false",
+          "exclude.session.state.from.auth.response" : "false",
+          "saml.artifact.binding" : "false",
+          "saml_force_name_id_format" : "false",
+          "tls.client.certificate.bound.access.tokens" : "false",
+          "saml.authnstatement" : "false",
+          "display.on.consent.screen" : "false",
+          "saml.onetimeuse.condition" : "false"
+        }
       }
     ],
     "users": [
       {
+        "id" : "52c7c7c4-7550-4e51-b69c-a3d07b792496",
         "username": "user",
         "enabled": true,
+        "emailVerified" : true,
+        "email": "lorenz@cometoweb.ch",
+        "firstName": "user",
+        "lastName": "user",
+        "createdTimestamp" : 1698871314432,
+        "requiredActions" : [ ],
         "credentials": [
           {
             "type": "password",
             "value": "user"
           }
+        ],
+        "realmRoles": [
+          "default-roles-project2"
         ]
       }
-    ]
-  }
+    ],
+    "roles": {
+      "realm": [
+        {
+          "name": "offline_access",
+          "description": "${role_offline-access}",
+          "composite": false,
+          "clientRole": false,
+          "containerId": "Example-Realm",
+          "attributes": {}
+        },
+        {
+          "name": "uma_authorization",
+          "description": "${role_uma_authorization}",
+          "composite": false,
+          "clientRole": false,
+          "containerId": "Example-Realm",
+          "attributes": {}
+        },
+        {
+          "name": "default-roles-project2",
+          "description": "${role_default-roles}",
+          "composite": true,
+          "composites": {
+            "realm": [
+              "offline_access",
+              "uma_authorization"
+            ],
+            "client": {
+              "account": [
+                "view-profile",
+                "manage-account"
+              ]
+            }
+          } 
+        }
+      ]
+    }
+}
   

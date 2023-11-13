@@ -4,12 +4,16 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TaskListComponent } from './task-list/task-list.component';
+import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { PublicSpaceComponent } from './public-space/public-space.component';
 import { RestrictedSpaceComponent } from './restricted-space/restricted-space.component';
 import { JwtInterceptor } from './jwt.interceptor';
+import { ExerciseComponent } from './fitnesstracker/exercise/exercise.component';
+import { ExerciseLstComponent } from './fitnesstracker/exercise-list/exercise-list.component';
+import { WorkoutComponent } from './fitnesstracker/workout/workout.component';
+import { WorkoutPlanComponent } from './fitnesstracker/workout-plan/workout-plan.component';
 
 
 function initializeKeycloak(keycloak: KeycloakService) {
@@ -35,6 +39,10 @@ function initializeKeycloak(keycloak: KeycloakService) {
     TaskListComponent,
     PublicSpaceComponent,
     RestrictedSpaceComponent,
+    ExerciseComponent,
+    ExerciseLstComponent,
+    WorkoutComponent,
+    WorkoutPlanComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +59,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     deps: [KeycloakService]
   },{
     provide: HTTP_INTERCEPTORS,
-    useClass: JwtInterceptor, // Use your JWT interceptor
+    useClass: JwtInterceptor,
     multi: true,
   },
 ],

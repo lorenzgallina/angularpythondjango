@@ -20,5 +20,9 @@ from todoapi import views as todoapi_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/task/', todoapi_views.TaskList.as_view(), name='task-list'),
-     path('api/task/<int:task_id>/', todoapi_views.TaskDetail.as_view(), name='task-detail'),
+    path('api/task/<int:task_id>/', todoapi_views.TaskDetail.as_view(), name='task-detail'),
+    path('api/exercises/',  todoapi_views.ExerciseViewSet.as_view(), name='exercise-list'),
+    path('api/workout-plans/',  todoapi_views.WorkoutPlanViewSet),
+    path('api/workouts/',  todoapi_views.WorkoutViewSet),
+    path('api/exercise-logs/',  todoapi_views.ExerciseLogViewSet),
 ]

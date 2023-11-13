@@ -10,6 +10,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       TZ: "UTC"
+    ports:
+      - "5432:5432"
 
   dj:
     container_name: dj
@@ -34,11 +36,11 @@ services:
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
-    #  KEYCLOAK_IMPORT: /tmp/realm-export.json
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
     ports:
       - "8180:8080"
-    #volumes:
-    #  - ./config/realm-export.json:/tmp/realm-export.json
+    volumes:
+      - ./config/realm-export.json:/tmp/realm-export.json
     depends_on:
       - db
 

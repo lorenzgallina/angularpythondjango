@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
-import { ApiService } from '../api.service';
-import { Task } from '../task';
+import { ApiService } from '../task.service';
+import { Task } from '../../task';
 import { KeycloakService } from 'keycloak-angular';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-task-list',
@@ -13,7 +15,9 @@ import { KeycloakService } from 'keycloak-angular';
 })
 export class TaskListComponent implements OnInit {
 
-  tasks$: Observable<Task[]> | undefined;
+  API_URL = environment.apiUrl;
+
+  tasks: Task[] | undefined;
   task_form: any;
 
   constructor(private keycloak: KeycloakService, private apiService: ApiService, private form_builder: FormBuilder) { }
@@ -21,7 +25,7 @@ export class TaskListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getTasks();
+    this.getTasks()
 
     this.task_form = this.form_builder.group({
       title: '',
@@ -32,21 +36,21 @@ export class TaskListComponent implements OnInit {
     this.task_form.controls["content"].setValidators([Validators.required]);
   }
 
-  public isAuthenticated() {
-    return this.keycloak.isLoggedIn();
-  }
 
   getDisplayName(): string {
     const userProfile = this.keycloak.loadUserProfile;
     return userProfile ? userProfile.name : '';
   }
 
-  login(): void {
-    this.keycloak.login();
-  }
-
   public getTasks() {
-    this.tasks$ = this.apiService.getTasks();
+    this.apiService.getTasks().subscribe(
+      (tasks) => {
+        this.tasks = tasks;
+      },
+      (error) => {
+        console.error('Error loading tasks:', error);
+      }
+    );
   }
 
   onSubmit() {
