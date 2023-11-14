@@ -11,9 +11,11 @@ import { PublicSpaceComponent } from './public-space/public-space.component';
 import { RestrictedSpaceComponent } from './restricted-space/restricted-space.component';
 import { JwtInterceptor } from './jwt.interceptor';
 import { ExerciseComponent } from './fitnesstracker/exercise/exercise.component';
-import { ExerciseLstComponent } from './fitnesstracker/exercise-list/exercise-list.component';
+import { ExerciseListComponent } from './fitnesstracker/exercise-list/exercise-list.component';
 import { WorkoutComponent } from './fitnesstracker/workout/workout.component';
 import { WorkoutPlanComponent } from './fitnesstracker/workout-plan/workout-plan.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 function initializeKeycloak(keycloak: KeycloakService) {
@@ -40,7 +42,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     PublicSpaceComponent,
     RestrictedSpaceComponent,
     ExerciseComponent,
-    ExerciseLstComponent,
+    ExerciseListComponent,
     WorkoutComponent,
     WorkoutPlanComponent,
   ],
@@ -51,6 +53,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     ReactiveFormsModule,
     FormsModule,
     KeycloakAngularModule,
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [{
     provide: APP_INITIALIZER,

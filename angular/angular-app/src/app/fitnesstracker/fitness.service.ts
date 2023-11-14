@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Task } from '../task';
 import { environment } from 'src/environments/environment';
 import { Exercise } from './interfaces';
 
@@ -19,12 +18,12 @@ export class ApiService {
     return this.http.get<Exercise[]>(`${this.API_URL}/exercises/`);
   }
 
-  public postExercise(new_exercise: Exercise) {
-    return this.http.post(`${this.API_URL}exercises/`,new_exercise);
+  public addExercise(new_exercise: Exercise) {
+    return this.http.post(`${this.API_URL}/exercises/`,new_exercise);
   }
 
-  public putExercise(the_exercise: Exercise) {
-    return this.http.put(`${this.API_URL}/exercises/${the_exercise.id}/`,the_exercise);
+  public updateExercise(exercise: Exercise) {
+    return this.http.put(`${this.API_URL}/exercises/${exercise.id}/`,exercise);
   }
 
   public deleteExercise(exercise_id: number) {

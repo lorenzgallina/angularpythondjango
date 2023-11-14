@@ -169,3 +169,24 @@ JWT_AUTH = {
     'JWT_ISSUER': 'http://localhost:8180/auth/realms/Project2',
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 } 
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'todoapi' : {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    }
+}

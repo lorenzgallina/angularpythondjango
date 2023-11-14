@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { FormBuilder, Validators } from '@angular/forms';
 
 import { ApiService } from '../task.service';
 import { Task } from '../../task';
