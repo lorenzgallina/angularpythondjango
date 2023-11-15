@@ -159,7 +159,7 @@ KEYCLOAK_CLIENT_PUBLIC_KEY ='-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQE
 
 
 def jwt_get_username_from_payload_handler(payload):
-    return 'user' #payload.get('preferred_username','user')
+    return payload.get('preferred_username','user')
 
 JWT_AUTH = {
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': jwt_get_username_from_payload_handler,

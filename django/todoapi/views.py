@@ -28,6 +28,15 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
 
+    def get_queryset(self):
+        """
+        This view should return a list of all the exercises
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        logger.info(f"Get queryset data: {user}")
+        return Exercise.objects.filter(user=user)
+
     def create(self, request, *args, **kwargs):
         logger.info(f"Request data: {request}")
         return super().create(request, *args, **kwargs)

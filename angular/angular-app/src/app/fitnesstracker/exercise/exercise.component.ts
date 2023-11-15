@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Inject, Input, Optional, Output } from '@angular/core';
-import { KeycloakService } from 'keycloak-angular';
+import { Component, Inject, Optional } from '@angular/core';
 import { ApiService } from '../fitness.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { environment } from 'src/environments/environment';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Exercise } from '../interfaces';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -23,7 +21,6 @@ export class ExerciseComponent {
       default_weight: '',
       default_sets: '',
       default_reps: '',
-      // user: ''
     });
 
     if (data && data.exercise) {
@@ -35,11 +32,21 @@ export class ExerciseComponent {
   onSubmit() {
     if (this.isEditing) {
       this.apiService.updateExercise(this.exerciseForm.value).subscribe(
-        // todo: Handle response and errors
+        response => {
+          this.dialogRef.close(true);
+        },
+        error => {
+          console.error('Error updating exercise:', error);
+        }
       );
     } else {
       this.apiService.addExercise(this.exerciseForm.value).subscribe(
-        // todo: Handle response and errors
+        response => {
+          this.dialogRef.close(true);
+        },
+        error => {
+          console.error('Error adding exercise:', error);
+        }
       );
     }
     this.dialogRef.close();
@@ -50,7 +57,7 @@ export class ExerciseComponent {
 
     this.apiService.addExercise(this.exerciseForm.value).subscribe(
       response => {
-        // todo: Handle response here
+        this.dialogRef.close(true);
       },
       error => {
         console.error('Error adding exercise:', error);
@@ -61,7 +68,7 @@ export class ExerciseComponent {
   updateExercise(exercise: Exercise) {
     this.apiService.updateExercise(this.exerciseForm.value).subscribe(
       response => {
-        // todo: Handle response here
+        this.dialogRef.close(true);
       },
       error => {
         console.error('Error updating exercise:', error);

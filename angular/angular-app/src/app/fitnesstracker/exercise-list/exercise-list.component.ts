@@ -29,7 +29,9 @@ export class ExerciseListComponent {
       data: { exercise: exercise }
     });
     dialogRef.afterClosed().subscribe(result => {
-      // todo: Handle the result, refresh the list if needed
+      if (result === true) {
+        this.getExercises();
+      }
     });
   }
 
