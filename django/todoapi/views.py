@@ -52,9 +52,32 @@ class ExerciseViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-class WorkoutPlanViewSet(generics.ListCreateAPIView):
+class WorkoutPlanViewSet(viewsets.ModelViewSet):
     queryset = WorkoutPlan.objects.all()
     serializer_class = WorkoutPlanSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the workoutplanss
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        logger.info(f"Get queryset data: {user}")
+        return Exercise.objects.filter(user=user)
+
+    def create(self, request, *args, **kwargs):
+        logger.info(f"Request data: {request}")
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        logger.info(f"Request data: {request}")
+        return super().update(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
 
 class WorkoutViewSet(generics.ListCreateAPIView):
     queryset = Workout.objects.all()

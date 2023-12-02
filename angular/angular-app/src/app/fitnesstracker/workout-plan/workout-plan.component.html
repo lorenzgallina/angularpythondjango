@@ -1,1 +1,12 @@
-<p>workout-plan works!</p>
+<div>
+    <form [formGroup]="workoutPlanForm" (ngSubmit)="onSubmit()">
+      <input type="text" formControlName="name" placeholder="Plan Name">
+  
+      <div *ngFor="let exercise of exercises">
+        <input type="checkbox" [value]="exercise.id" formControlName="selectedExercises">{{exercise.name}}
+      </div>
+  
+      <button type="submit">Create Workout Plan</button>
+    </form>
+  </div>
+  

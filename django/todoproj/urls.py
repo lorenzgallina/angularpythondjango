@@ -20,15 +20,16 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'exercises', todoapi_views.ExerciseViewSet)
+router.register(r'workout-plans', todoapi_views.WorkoutPlanViewSet)
 
 urlpatterns = [
-     path('api/', include(router.urls)),
+    path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api/task/', todoapi_views.TaskList.as_view(), name='task-list'),
     #path('api/task/<int:task_id>/', todoapi_views.TaskDetail.as_view(), name='task-detail'),
     #path('api/exercises/<int:task_id>/', todoapi_views.ExerciseDetail),
     #path('api/exercises/', todoapi_views.ExerciseViewSet),
-    path('api/workout-plans/',  todoapi_views.WorkoutPlanViewSet.as_view(), name='workout-plan' ),
+    #path('api/workout-plans/',  todoapi_views.WorkoutPlanViewSet.as_view(), name='workout-plan' ),
     path('api/workouts/',  todoapi_views.WorkoutViewSet.as_view(), name='workout'),
     path('api/exercise-logs/',  todoapi_views.ExerciseLogViewSet.as_view(), name='exercise-log'),
 ]

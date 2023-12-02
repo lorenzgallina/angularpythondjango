@@ -16,6 +16,7 @@ import { WorkoutComponent } from './fitnesstracker/workout/workout.component';
 import { WorkoutPlanComponent } from './fitnesstracker/workout-plan/workout-plan.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 function initializeKeycloak(keycloak: KeycloakService) {
@@ -54,7 +55,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     FormsModule,
     KeycloakAngularModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [{
     provide: APP_INITIALIZER,
