@@ -35,33 +35,6 @@ export class ExerciseComponent {
     }
   }
 
-  onSubmit() {
-    if (this.isEditing) {
-      this.apiService.updateExercise(this.exerciseForm.value).subscribe(
-        response => {
-          this.snackBar.open('Exercise updated successfully!', 'Close', { duration: 3000 });
-          this.dialogRef.close(true);
-        },
-        error => {
-          this.snackBar.open('Error updating exercise.', 'Close', { duration: 3000 });
-          console.error('Error updating exercise:', error);
-        }
-      );
-    } else {
-      this.apiService.addExercise(this.exerciseForm.value).subscribe(
-        response => {
-          this.snackBar.open('Exercise added successfully!', 'Close', { duration: 3000 });
-          this.dialogRef.close(true);
-        },
-        error => {
-          this.snackBar.open('Error adding exercise.', 'Close', { duration: 3000 });
-          console.error('Error adding exercise:', error);
-        }
-      );
-    }
-    this.dialogRef.close();
-  }
-
   addExercise() {
     const ex = this.exerciseForm.value;
 
@@ -77,7 +50,7 @@ export class ExerciseComponent {
     );
   }
 
-  updateExercise(exercise: Exercise) {
+  updateExercise() {
     this.apiService.updateExercise(this.exerciseForm.value).subscribe(
       response => {
         this.snackBar.open('Exercise updated successfully!', 'Close', { duration: 3000 });
@@ -88,5 +61,20 @@ export class ExerciseComponent {
         console.error('Error updating exercise:', error);
       }
     );
+  }
+
+  deleteExercise() {
+    if (this.data && this.data.exercise) {
+      this.apiService.deleteExercise(this.data.exercise.id).subscribe(
+        response => {
+          this.snackBar.open('Exercise deleted successfully!', 'Close', { duration: 3000 });
+          this.dialogRef.close(true);
+        },
+        error => {
+          this.snackBar.open('Error deleting exercise.', 'Close', { duration: 3000 });
+          console.error('Error deleting exercise:', error);
+        }
+      );
+    }
   }
 }

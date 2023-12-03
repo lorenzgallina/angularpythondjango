@@ -19,9 +19,9 @@ class WorkoutPlanSerializer(serializers.ModelSerializer):
 class WorkoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workout
-        fields = '__all__'
+        fields = ('id', 'date', 'workout_plan')
 
 class ExerciseLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExerciseLog
-        fields = '__all__'
+        fields = ('id', 'exercise','sets','reps', 'weight', 'workout')

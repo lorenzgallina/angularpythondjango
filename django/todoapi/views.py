@@ -63,7 +63,7 @@ class WorkoutPlanViewSet(viewsets.ModelViewSet):
         """
         user = self.request.user
         logger.info(f"Get queryset data: {user}")
-        return Exercise.objects.filter(user=user)
+        return WorkoutPlan.objects.filter(user=user)
 
     def create(self, request, *args, **kwargs):
         logger.info(f"Request data: {request}")
@@ -79,10 +79,56 @@ class WorkoutPlanViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         serializer.save(user=self.request.user)
 
-class WorkoutViewSet(generics.ListCreateAPIView):
+class WorkoutViewSet(viewsets.ModelViewSet):
     queryset = Workout.objects.all()
     serializer_class = WorkoutSerializer
 
-class ExerciseLogViewSet(generics.ListCreateAPIView):
+    def get_queryset(self):
+        """
+        This view should return a list of all the Workouts
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        logger.info(f"Get queryset data: {user}")
+        return Workout.objects.filter(user=user)
+
+    def create(self, request, *args, **kwargs):
+        logger.info(f"Request data: {request}")
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        logger.info(f"Request data: {request}")
+        return super().update(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
+
+class ExerciseLogViewSet(viewsets.ModelViewSet):
     queryset = ExerciseLog.objects.all()
     serializer_class = ExerciseLogSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the ExerciseLogs
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        logger.info(f"Get queryset data: {user}")
+        return ExerciseLog.objects.filter(user=user)
+
+    def create(self, request, *args, **kwargs):
+        logger.info(f"Request data: {request}")
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        logger.info(f"Request data: {request}")
+        return super().update(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)

@@ -6,3 +6,9 @@ export interface Exercise {
     default_reps: number;
     user: number;
   }
+
+export interface WorkoutPlan {
+  id: number;
+  name: string;
+  exercises: any;
+}
