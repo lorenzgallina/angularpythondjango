@@ -1,0 +1,15 @@
+<div>
+    <form [formGroup]="workoutPlanForm" (ngSubmit)="isEditing && workoutPlanForm ? updateWorkoutPlan() : addWorkoutPlan()">
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" formControlName="name" placeholder="Workout Plan Name">
+      </div>
+  
+      <div *ngFor="let exercise of exercises">
+        <input type="checkbox" [value]="exercise.id" [checked]="isExerciseSelected(exercise.id)" (change)="onExerciseChange(exercise.id, $event)" />{{exercise.name}}
+      </div>
+ 
+      <button type="submit">{{ isEditing ? 'Update' : 'Add' }} Workout Plan</button>
+    </form>
+  </div>
+  

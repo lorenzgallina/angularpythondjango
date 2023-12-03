@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from '../fitness.service';
-import { Exercise } from '../interfaces';
+import { Exercise, WorkoutPlan } from '../interfaces';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { WorkoutPlanDialogComponent } from './workout-plan-dialog/workout-plan-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-workout-plan',
@@ -11,8 +14,9 @@ import { Exercise } from '../interfaces';
 export class WorkoutPlanComponent implements OnInit {
   exercises: Exercise[] | undefined;
   workoutPlanForm: FormGroup;
+  workoutPlans: WorkoutPlan[] | undefined;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder) {
+  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private snackBar: MatSnackBar, private dialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) {
     this.workoutPlanForm = this.formBuilder.group({
       name: '',
       selectedExercises: []
@@ -21,6 +25,18 @@ export class WorkoutPlanComponent implements OnInit {
 
   ngOnInit() {
     this.getExercises();
+    this.getWorkoutPlans();
+  }
+
+  getWorkoutPlans() {
+    this.apiService.getWorkoutPlans().subscribe(
+      (workoutplans) => {
+        this.workoutPlans = workoutplans;
+      },
+      (error) => {
+        console.error('Error loading (workoutplans:', error);
+      }
+    );
   }
 
   getExercises() {
@@ -34,9 +50,17 @@ export class WorkoutPlanComponent implements OnInit {
     );
   }
 
-  onSubmit() {
-    // Logic to handle form submission, including selected exercises
-    console.log(this.workoutPlanForm.value);
-  }
+  openDialog(workoutPlan?: WorkoutPlan) {
+    const dialogRef = this.dialog.open(WorkoutPlanDialogComponent, {
+      width: '250px',
+      data: { workoutPlan: workoutPlan }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.getWorkoutPlans();
+        this.changeDetectorRef.detectChanges();
+      }
+    });
+  }
 }

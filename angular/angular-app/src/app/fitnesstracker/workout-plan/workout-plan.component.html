@@ -1,12 +1,24 @@
 <div>
-    <form [formGroup]="workoutPlanForm" (ngSubmit)="onSubmit()">
-      <input type="text" formControlName="name" placeholder="Plan Name">
+    <button (click)="openDialog()">Add Workout Plan</button>
   
-      <div *ngFor="let exercise of exercises">
-        <input type="checkbox" [value]="exercise.id" formControlName="selectedExercises">{{exercise.name}}
-      </div>
-  
-      <button type="submit">Create Workout Plan</button>
-    </form>
+    <!-- Add a table or list to display workout plans -->
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <!-- Other headers if needed -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let workoutPlan of workoutPlans">
+          <td>{{ workoutPlan.id }}</td>
+          <td>{{ workoutPlan.name }}</td>
+          <!-- Other data -->
+          <td>
+            <button (click)="openDialog(workoutPlan)">Edit</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  
