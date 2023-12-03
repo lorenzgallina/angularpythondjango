@@ -109,4 +109,19 @@ export class WorkoutPlanDialogComponent {
     );
   }
 
+  deleteWorkoutPlan() {
+    if (this.data && this.data.workoutPlan) {
+      this.apiService.deleteWorkoutPlan(this.data.workoutPlan.id).subscribe(
+        response => {
+          this.snackBar.open('WorkoutPlan deleted successfully!', 'Close', { duration: 3000 });
+          this.dialogRef.close(true);
+        },
+        error => {
+          this.snackBar.open('Error deleting WorkoutPlan.', 'Close', { duration: 3000 });
+          console.error('Error deleting WorkoutPlan:', error);
+        }
+      );
+    }
+  }
+
 }
