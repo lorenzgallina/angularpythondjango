@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Exercise } from './interfaces';
+import { Exercise, WorkoutPlan } from './interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +30,21 @@ export class ApiService {
     return this.http.delete(`${this.API_URL}/exercises/${exercise_id}/`);
   }
 
-  public createWorkoutPlan(workoutPlan: any) {
-    return this.http.post(`${this.API_URL}/workout-plans/`, workoutPlan);
+  
+  public getWorkoutPlans(): Observable<WorkoutPlan[]> {
+    return this.http.get<WorkoutPlan[]>(`${this.API_URL}/workout-plans/`);
+  }
+
+  public addWorkoutPlan(workoutplan: any) {
+    return this.http.post(`${this.API_URL}/workout-plans/`, workoutplan);
+  }
+
+  public updateWorkoutPlan(workoutplan: WorkoutPlan) {
+    return this.http.put(`${this.API_URL}/workout-plans/${workoutplan.id}/`,workoutplan);
+  }
+
+  public deleteWorkoutPlan(workoutplan_id: number) {
+    return this.http.delete(`${this.API_URL}/workout-plans/${workoutplan_id}/`);
   }
 
 }

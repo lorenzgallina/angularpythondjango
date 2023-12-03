@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { ApiService } from '../fitness.service';
 import { FormBuilder } from '@angular/forms';
@@ -17,7 +17,7 @@ export class ExerciseListComponent {
 
   exercises: Exercise[] | undefined;
 
-  constructor(private keycloak: KeycloakService, private apiService: ApiService, private form_builder: FormBuilder, private dialog: MatDialog) {}
+  constructor(private keycloak: KeycloakService, private apiService: ApiService, private form_builder: FormBuilder, private dialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) {}
   
   ngOnInit() {
     this.getExercises()
@@ -31,6 +31,7 @@ export class ExerciseListComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         this.getExercises();
+        this.changeDetectorRef.detectChanges();
       }
     });
   }
