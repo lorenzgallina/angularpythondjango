@@ -1,14 +1,14 @@
 import { Component, Inject, Optional } from '@angular/core';
-import { ApiService } from '../fitness.service';
+import { ApiService } from '../../fitness.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Exercise } from '../interfaces';
+import { Exercise } from '../../interfaces';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-exercise',
-  templateUrl: './exercise.component.html',
-  styleUrls: ['./exercise.component.css']
+  templateUrl: './exercise-dialog.component.html',
+  styleUrls: ['./exercise-dialog.component.css']
 })
 
 export class ExerciseComponent {

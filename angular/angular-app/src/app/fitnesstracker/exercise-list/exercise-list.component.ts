@@ -5,7 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Exercise } from '../interfaces';
 import { MatDialog } from '@angular/material/dialog';
-import { ExerciseComponent } from '../exercise/exercise.component';
+import { ExerciseComponent } from './exercise-dialog/exercise-dialog.component';
 
 @Component({
   selector: 'app-exercise-list',
