@@ -47,4 +47,12 @@ export class ApiService {
     return this.http.delete(`${this.API_URL}/workout-plans/${workoutplan_id}/`);
   }
 
+  public addWorkout(workout: any) {
+    return this.http.post(`${this.API_URL}/workouts/`, workout);
+  }
+
+  public addExerciseLogs(exerciselogs: any) {
+    return this.http.post(`${this.API_URL}/exercise-logs/`, exerciselogs);
+  }
+
 }
