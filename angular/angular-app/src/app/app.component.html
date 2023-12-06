@@ -6,4 +6,7 @@
 <div><a routerLink="/workout-plan" routerLinkActive="active">Workout-Plan</a></div>
 <div><a routerLink="/workout" routerLinkActive="active">Workout</a></div>
 
+<button *ngIf="!isLoggedIn" (click)="login()">Sign In</button>
+<button *ngIf="isLoggedIn" (click)="logout()">Sign Out</button>
+
 <router-outlet></router-outlet>

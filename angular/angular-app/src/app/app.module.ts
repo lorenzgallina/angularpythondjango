@@ -10,7 +10,7 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { PublicSpaceComponent } from './public-space/public-space.component';
 import { RestrictedSpaceComponent } from './restricted-space/restricted-space.component';
 import { JwtInterceptor } from './jwt.interceptor';
-import { ExerciseComponent } from './fitnesstracker/exercise/exercise.component';
+import { ExerciseComponent } from './fitnesstracker/exercise-list/exercise-dialog/exercise-dialog.component';
 import { ExerciseListComponent } from './fitnesstracker/exercise-list/exercise-list.component';
 import { WorkoutComponent } from './fitnesstracker/workout/workout.component';
 import { WorkoutPlanComponent } from './fitnesstracker/workout-plan/workout-plan.component';
