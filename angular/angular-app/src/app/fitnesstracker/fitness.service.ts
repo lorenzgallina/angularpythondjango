@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Exercise, WorkoutPlan } from './interfaces';
+import { Exercise, ExerciseLog, Workout, WorkoutPlan } from './interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -51,8 +51,25 @@ export class ApiService {
     return this.http.post(`${this.API_URL}/workouts/`, workout);
   }
 
+  public getWorkoutByWorkoutPlanID(workoutplan_id: any) {
+    return this.http.get<Workout[]>(`${this.API_URL}/workouts/?workout_plan=${workoutplan_id}`);
+  }
+
   public addExerciseLogs(exerciselogs: any) {
     return this.http.post(`${this.API_URL}/exercise-logs/`, exerciselogs);
   }
+
+  public getExerciseLogsByWorkoutId(workout_id: number) {
+    return this.http.get<ExerciseLog[]>(`${this.API_URL}/exercise-logs/?workout=${workout_id}`);
+  }
+
+  public getAllExerciseLogsGroupedByWorkout(workoutplan_id?: number) {
+    let url = `${this.API_URL}/exercise-logs/grouped_by_workout/`;
+    if (workoutplan_id) {
+      url += `?workout_plan=${workoutplan_id}`;
+    }
+    return this.http.get<{ [key: number]: ExerciseLog[] }>(url);
+  }
+  
 
 }
