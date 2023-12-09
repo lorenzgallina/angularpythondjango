@@ -5,8 +5,13 @@
   <div *ngFor="let workout of workouts">
     <h3>Workout on {{workout.date}}</h3>
     <div *ngFor="let exerciseLog of exerciseLogs[workout.id]">
-        <!-- Display details of each exercise log -->
-        <p>Exercise ID: {{exerciseLog.exercise}}</p>
+        <ng-container *ngIf="findExercise(exerciseLog.exercise)">
+            <h4>{{ findExercise(exerciseLog.exercise)?.name }}</h4>
+            <p>Default Sets: {{ findExercise(exerciseLog.exercise)?.default_sets }}</p>
+            <p>Default Reps: {{ findExercise(exerciseLog.exercise)?.default_reps }}</p>
+            <p>Default Weight: {{ findExercise(exerciseLog.exercise)?.default_weight }}</p>
+          </ng-container>
+        <!--<p>Exercise ID: {{exerciseLog.exercise}}</p>-->
         <p>Sets: {{exerciseLog.sets}}</p>
         <p>Reps: {{exerciseLog.reps}}</p>
         <p>Weight: {{exerciseLog.weight}}</p>
