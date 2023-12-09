@@ -1,0 +1,15 @@
+<select [(ngModel)]="selectedWorkoutPlanId" (ngModelChange)="onWorkoutPlanSelected()">
+    <option *ngFor="let plan of workoutPlans" [value]="plan.id">{{plan.name}}</option>
+  </select>
+  
+  <div *ngFor="let workout of workouts">
+    <h3>Workout on {{workout.date}}</h3>
+    <div *ngFor="let exerciseLog of exerciseLogs[workout.id]">
+        <!-- Display details of each exercise log -->
+        <p>Exercise ID: {{exerciseLog.exercise}}</p>
+        <p>Sets: {{exerciseLog.sets}}</p>
+        <p>Reps: {{exerciseLog.reps}}</p>
+        <p>Weight: {{exerciseLog.weight}}</p>
+      </div>
+  </div>
+  

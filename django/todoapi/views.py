@@ -7,6 +7,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status   
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from django.db.models import Prefetch
 
 logger = logging.getLogger(__name__)
 class TaskList(generics.ListCreateAPIView):
@@ -88,9 +91,11 @@ class WorkoutViewSet(viewsets.ModelViewSet):
         This view should return a list of all the Workouts
         for the currently authenticated user.
         """
-        user = self.request.user
-        logger.info(f"Get queryset data: {user}")
-        return Workout.objects.filter(user=user)
+        queryset = Workout.objects.filter(user=self.request.user)
+        workout_plan_id = self.request.query_params.get('workout_plan', None)
+        if workout_plan_id is not None:
+            queryset = queryset.filter(workout_plan=workout_plan_id)
+        return queryset
 
     def create(self, request, *args, **kwargs):
         logger.info(f"Request data: {request}")
@@ -115,9 +120,31 @@ class ExerciseLogViewSet(viewsets.ModelViewSet):
         This view should return a list of all the ExerciseLogs
         for the currently authenticated user.
         """
-        user = self.request.user
-        logger.info(f"Get queryset data: {user}")
-        return ExerciseLog.objects.filter(user=user)
+        queryset = ExerciseLog.objects.filter(user=self.request.user)
+        workout_id = self.request.query_params.get('workout', None)
+        if workout_id is not None:
+            queryset = queryset.filter(workout=workout_id)
+        return queryset
+    
+    @action(detail=False, methods=['get'])
+    def grouped_by_workout(self, request):
+        workout_plan_id = request.query_params.get('workout_plan', None)
+        if workout_plan_id:
+            workouts = Workout.objects.filter(workout_plan=workout_plan_id)
+        else:
+            workouts = Workout.objects.all()
+
+        workouts = workouts.prefetch_related(
+            Prefetch('exerciselog_set', queryset=ExerciseLog.objects.all())
+        )
+
+        data = {
+            workout.id: ExerciseLogSerializer(workout.exerciselog_set.all(), many=True).data
+            for workout in workouts
+        }
+
+        return Response(data)
+    
 
     def create(self, request, *args, **kwargs):
         logger.info(f"Request data: {request}")
