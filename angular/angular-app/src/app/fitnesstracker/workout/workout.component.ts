@@ -3,6 +3,7 @@ import { Exercise, WorkoutPlan } from '../interfaces';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from '../fitness.service';
 import { formatDate } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-workout',
@@ -16,7 +17,7 @@ export class WorkoutComponent implements OnInit {
   selectedWorkoutPlanId: number | null = null;
   allExercises: Exercise[] | undefined;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder) {
+  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
     const currentDate = new Date();
     const formattedDate = formatDate(currentDate, 'yyyy-MM-dd', 'en-US');
     this.workoutForm = this.formBuilder.group({
@@ -91,8 +92,10 @@ export class WorkoutComponent implements OnInit {
     this.apiService.addWorkout(workoutData).subscribe(
       (createdWorkout: any) => {
         this.createExerciseLogs(createdWorkout.id);
+        this.snackBar.open('Workout created successfully!', 'Close', { duration: 3000 });
       },
       (error) => {
+        this.snackBar.open('Error creating workout.', 'Close', { duration: 3000 });
         console.error('Error creating workout:', error);
       }
     );
@@ -112,9 +115,11 @@ export class WorkoutComponent implements OnInit {
   
       this.apiService.addExerciseLogs(exerciseLogData).subscribe(
         (response) => {
+          this.snackBar.open('Exercise log created successfully!', 'Close', { duration: 3000 });
           console.log('Exercise log created successfully', response);
         },
         (error) => {
+          this.snackBar.open('Error creating exercise log.', 'Close', { duration: 3000 });
           console.error('Error creating exercise log:', error);
         }
       );
