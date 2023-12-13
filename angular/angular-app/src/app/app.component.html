@@ -1,13 +1,17 @@
 
-<h1>Fitness Tracker</h1>
+<mat-toolbar>
+    <h1>Fitness Tracker</h1>
+    <span class="flex-spacer"></span>
+    <button mat-button *ngIf="!isLoggedIn" (click)="login()">Sign In</button>
+    <button mat-button *ngIf="isLoggedIn" (click)="logout()">Sign Out</button>
+</mat-toolbar>
 
-<div><a routerLink="/public" routerLinkActive="active">Public</a></div>
-<div><a routerLink="/exercises" routerLinkActive="active">Exercises</a></div>
-<div><a routerLink="/workout-plan" routerLinkActive="active">Workout-Plan</a></div>
-<div><a routerLink="/workout" routerLinkActive="active">Workout</a></div>
-<div><a routerLink="/workout-display" routerLinkActive="active">Workout-Display</a></div>
-
-<button *ngIf="!isLoggedIn" (click)="login()">Sign In</button>
-<button *ngIf="isLoggedIn" (click)="logout()">Sign Out</button>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center">
+    <a mat-button routerLink="/public" routerLinkActive="active">Public</a>
+    <a mat-button routerLink="/exercises" routerLinkActive="active">Exercises</a>
+    <a mat-button routerLink="/workout-plan" routerLinkActive="active">Workout-Plan</a>
+    <a mat-button routerLink="/workout" routerLinkActive="active">Workout</a>
+    <a mat-button routerLink="/workout-display" routerLinkActive="active">Workout-Display</a>
+</div>
 
 <router-outlet></router-outlet>

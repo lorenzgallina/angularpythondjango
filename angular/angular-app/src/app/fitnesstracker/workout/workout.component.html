@@ -1,26 +1,29 @@
-<select [(ngModel)]="selectedWorkoutPlanId" (ngModelChange)="onWorkoutPlanSelected()">
-    <option *ngFor="let plan of workoutPlans" [value]="plan.id">{{plan.name}}</option>
-  </select>
-  
-  
-  <form [formGroup]="workoutForm" (ngSubmit)="submitWorkout()">
-    <input formControlName="date" type="date">
-  
-    <div formArrayName="exercises">
-        <div *ngFor="let exerciseGroup of exerciseControls; let i = index" [formGroupName]="i">
-            <div>
-                <h4>{{exerciseGroup.get('name')?.value}}</h4>
-                <p>Default Sets: {{exerciseGroup.get('defaultSets')?.value}}</p>
-                <p>Default Reps: {{exerciseGroup.get('defaultReps')?.value}}</p>
-                <p>Default Weight: {{exerciseGroup.get('defaultWeight')?.value}}</p>
-              </div>
-          <input formControlName="sets" type="number" placeholder="Sets">
-          <input formControlName="reps" type="number" placeholder="Reps">
-          <input formControlName="weight" type="number" placeholder="Weight">
-        </div>
-      </div>
-      
-  
-    <button type="submit">Log Workout</button>
-  </form>
-  
+<mat-form-field appearance="fill">
+  <mat-label>Select Workout Plan</mat-label>
+  <mat-select [(ngModel)]="selectedWorkoutPlanId" (selectionChange)="onWorkoutPlanSelected()">
+    <mat-option *ngFor="let plan of workoutPlans" [value]="plan.id">{{plan.name}}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<form [formGroup]="workoutForm" (ngSubmit)="submitWorkout()" fxLayout="column" fxLayoutGap="10px">
+  <mat-form-field appearance="fill">
+    <mat-label>Date</mat-label>
+    <input matInput formControlName="date" type="date">
+  </mat-form-field>
+
+  <div formArrayName="exercises">
+    <div *ngFor="let exerciseGroup of exerciseControls; let i = index" [formGroupName]="i">
+        <div>
+            <h4>{{exerciseGroup.get('name')?.value}}</h4>
+            <p>Default Sets: {{exerciseGroup.get('defaultSets')?.value}}</p>
+            <p>Default Reps: {{exerciseGroup.get('defaultReps')?.value}}</p>
+            <p>Default Weight: {{exerciseGroup.get('defaultWeight')?.value}}</p>
+          </div>
+      <input formControlName="sets" type="number" placeholder="Sets">
+      <input formControlName="reps" type="number" placeholder="Reps">
+      <input formControlName="weight" type="number" placeholder="Weight">
+    </div>
+  </div>
+
+  <button mat-raised-button type="submit">Log Workout</button>
+</form>
