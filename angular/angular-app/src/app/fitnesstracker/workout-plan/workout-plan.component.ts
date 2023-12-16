@@ -14,7 +14,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class WorkoutPlanComponent implements OnInit {
   exercises: Exercise[] | undefined;
   workoutPlanForm: FormGroup;
-  workoutPlans: WorkoutPlan[] | undefined;
+  workoutPlans: WorkoutPlan[] = [];
+  displayedColumns: string[] = ['id', 'name', 'actions'];
 
   constructor(private apiService: ApiService, private formBuilder: FormBuilder, private snackBar: MatSnackBar, private dialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) {
     this.workoutPlanForm = this.formBuilder.group({

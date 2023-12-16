@@ -1,24 +1,27 @@
 <div>
-    <button (click)="openDialog()">Add Workout Plan</button>
-  
-    <!-- Add a table or list to display workout plans -->
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <!-- Other headers if needed -->
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let workoutPlan of workoutPlans">
-          <td>{{ workoutPlan.id }}</td>
-          <td>{{ workoutPlan.name }}</td>
-          <!-- Other data -->
-          <td>
-            <button (click)="openDialog(workoutPlan)">Edit</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <button mat-raised-button color="primary" (click)="openDialog()">Add Workout Plan</button>
+  <table mat-table [dataSource]="workoutPlans" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button color="accent" (click)="openDialog(element)">Edit</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

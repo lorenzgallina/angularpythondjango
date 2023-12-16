@@ -15,9 +15,11 @@ import { ExerciseComponent } from './exercise-dialog/exercise-dialog.component';
 export class ExerciseListComponent {
   API_URL = environment.apiUrl;
 
-  exercises: Exercise[] | undefined;
+  exercises: Exercise[] = [];
+  displayedColumns: string[] = ['id', 'name', 'default_weight', 'default_sets', 'default_reps', 'actions'];
 
-  constructor(private keycloak: KeycloakService, private apiService: ApiService, private form_builder: FormBuilder, private dialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) {}
+
+  constructor(private apiService: ApiService, private dialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) {}
   
   ngOnInit() {
     this.getExercises()

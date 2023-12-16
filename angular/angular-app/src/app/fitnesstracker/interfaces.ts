@@ -4,7 +4,7 @@ export interface Exercise {
     default_weight: number;
     default_sets: number;
     default_reps: number;
-    user: number;
+    user?: number;
   }
 
 export interface WorkoutPlan {
