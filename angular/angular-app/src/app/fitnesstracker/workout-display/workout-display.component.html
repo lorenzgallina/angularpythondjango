@@ -1,20 +1,31 @@
-<select [(ngModel)]="selectedWorkoutPlanId" (ngModelChange)="onWorkoutPlanSelected()">
-    <option *ngFor="let plan of workoutPlans" [value]="plan.id">{{plan.name}}</option>
-  </select>
-  
-  <div *ngFor="let workout of workouts">
-    <h3>Workout on {{workout.date}}</h3>
+<mat-form-field appearance="fill">
+  <mat-label>Select a Workout Plan</mat-label>
+  <mat-select [(value)]="selectedWorkoutPlanId" (selectionChange)="onWorkoutPlanSelected()">
+    <mat-option *ngFor="let plan of workoutPlans" [value]="plan.id">{{plan.name}}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-accordion multi>
+  <mat-expansion-panel *ngFor="let workout of workouts">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Workout on {{workout.date}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
     <div *ngFor="let exerciseLog of exerciseLogs[workout.id]">
-        <ng-container *ngIf="findExercise(exerciseLog.exercise)">
-            <h4>{{ findExercise(exerciseLog.exercise)?.name }}</h4>
+      <ng-container *ngIf="findExercise(exerciseLog.exercise)">
+        <mat-card>
+          <mat-card-title>{{ findExercise(exerciseLog.exercise)?.name }}</mat-card-title>
+          <mat-card-content>
             <p>Default Sets: {{ findExercise(exerciseLog.exercise)?.default_sets }}</p>
             <p>Default Reps: {{ findExercise(exerciseLog.exercise)?.default_reps }}</p>
             <p>Default Weight: {{ findExercise(exerciseLog.exercise)?.default_weight }}</p>
-          </ng-container>
-        <!--<p>Exercise ID: {{exerciseLog.exercise}}</p>-->
-        <p>Sets: {{exerciseLog.sets}}</p>
-        <p>Reps: {{exerciseLog.reps}}</p>
-        <p>Weight: {{exerciseLog.weight}}</p>
-      </div>
-  </div>
-  
+            <p>Sets: {{exerciseLog.sets}}</p>
+            <p>Reps: {{exerciseLog.reps}}</p>
+            <p>Weight: {{exerciseLog.weight}}</p>
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

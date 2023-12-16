@@ -16,8 +16,8 @@ export class WorkoutPlanDialogComponent {
   isEditing = false;
 
   workoutPlanForm = this.formBuilder.group({
-    id: new FormControl(0),
-    name: new FormControl(''),
+    id: 0,
+    name: '',
     exercises: this.formBuilder.array([])
   });
 
@@ -59,9 +59,9 @@ export class WorkoutPlanDialogComponent {
 
   addExercise(exercise: Exercise, isSelected: boolean) {
     const exercisesForm = this.formBuilder.group({
-        id: new FormControl(exercise.id),
-        name: new FormControl(exercise.name),
-        selected: new FormControl(isSelected)
+        id: exercise.id,
+        name: exercise.name,
+        selected: isSelected
       });
       this.exercisesfromarray.push(exercisesForm);
   }
