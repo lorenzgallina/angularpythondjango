@@ -39,7 +39,7 @@ export class ApiService {
     return this.http.post(`${this.API_URL}/workout-plans/`, workoutplan);
   }
 
-  public updateWorkoutPlan(workoutplan: WorkoutPlan) {
+  public updateWorkoutPlan(workoutplan: any) {
     return this.http.put(`${this.API_URL}/workout-plans/${workoutplan.id}/`,workoutplan);
   }
 

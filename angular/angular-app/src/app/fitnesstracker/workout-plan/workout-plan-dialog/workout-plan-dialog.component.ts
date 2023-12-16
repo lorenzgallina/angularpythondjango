@@ -11,10 +11,15 @@ import { ApiService } from '../../fitness.service';
   styleUrls: ['./workout-plan-dialog.component.css']
 })
 export class WorkoutPlanDialogComponent {
-  workoutPlanForm: FormGroup;
-  exercises: Exercise[] | undefined;
+  allexercises: Exercise[] = [];
   workoutPlans: WorkoutPlan[] | undefined;
   isEditing = false;
+
+  workoutPlanForm = this.formBuilder.group({
+    id: new FormControl(0),
+    name: new FormControl(''),
+    exercises: this.formBuilder.array([])
+  });
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,33 +27,28 @@ export class WorkoutPlanDialogComponent {
     public dialogRef: MatDialogRef<WorkoutPlanDialogComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: { workoutPlan: WorkoutPlan },
     private snackBar: MatSnackBar
-  ) {
-    this.workoutPlanForm = this.formBuilder.group({
-      id: '',
-      name: '',
-      exercises: this.formBuilder.array([])
-    });
-
-    this.getExercises();
-  }
+  ) {}
 
   ngOnInit() {
     this.getExercises();
   }
 
+  get exercisesfromarray() {
+    return this.workoutPlanForm.controls["exercises"] as FormArray;
+  }
+
   getExercises() {
     this.apiService.getExercises().subscribe(
       (exercises) => {
-        this.exercises = exercises;
+        this.allexercises = exercises;
+        exercises.forEach((exercise) => {
+          const isSelected = this.data && this.data.workoutPlan && this.data.workoutPlan.exercises.includes(exercise.id);
+          this.addExercise(exercise, isSelected);
+        });
+  
         if (this.data && this.data.workoutPlan) {
           this.isEditing = true;
-          this.workoutPlanForm.patchValue(this.data.workoutPlan);
-  
-          // Populate the form array with the exercise IDs
-          const exercisesFormArray = this.workoutPlanForm.get('exercises') as FormArray;
-          this.data.workoutPlan.exercises.forEach((exerciseId: any) => {
-            exercisesFormArray.push(new FormControl(exerciseId));
-          });
+          this.workoutPlanForm.patchValue({ id: this.data.workoutPlan.id, name: this.data.workoutPlan.name });
         }
       },
       (error) => {
@@ -57,46 +57,48 @@ export class WorkoutPlanDialogComponent {
     );
   }
 
-  onExerciseChange(exerciseId: number, event: Event) {
-    const isChecked = (event.target as HTMLInputElement).checked;
-    const exercisesFormArray = this.workoutPlanForm.get('exercises') as FormArray;
-  
-    if (isChecked) {
-      exercisesFormArray.push(new FormControl(exerciseId));
-    } else {
-      const index = exercisesFormArray.controls.findIndex(x => x.value === exerciseId);
-      exercisesFormArray.removeAt(index);
-    }
-  }
-
-  isExerciseSelected(exerciseId: number): boolean {
-    const exercisesFormArray = this.workoutPlanForm.get('exercises') as FormArray;
-    return exercisesFormArray.value.includes(exerciseId);
+  addExercise(exercise: Exercise, isSelected: boolean) {
+    const exercisesForm = this.formBuilder.group({
+        id: new FormControl(exercise.id),
+        name: new FormControl(exercise.name),
+        selected: new FormControl(isSelected)
+      });
+      this.exercisesfromarray.push(exercisesForm);
   }
 
   addWorkoutPlan() {
+    const selectedExerciseIds = this.exercisesfromarray.value
+      .filter((exercise: { selected: any; }) => exercise.selected)
+      .map((exercise: { id: any; }) => exercise.id);
+  
     const workoutPlanData = {
-      ...this.workoutPlanForm.value,
-      exercises: this.workoutPlanForm.value.exercises
+      name: this.workoutPlanForm.get('name')?.value || '',
+      exercises: selectedExerciseIds
     };
-
+  
     this.apiService.addWorkoutPlan(workoutPlanData).subscribe(
       response => {
-        this.snackBar.open('WorkoutPlan updated successfully!', 'Close', { duration: 3000 });
+        this.snackBar.open('WorkoutPlan added successfully!', 'Close', { duration: 3000 });
         this.dialogRef.close(true);
       },
       error => {
-        this.snackBar.open('Error updating WorkoutPlan.', 'Close', { duration: 3000 });
-        console.error('Error updating WorkoutPlan:', error);
+        this.snackBar.open('Error adding WorkoutPlan.', 'Close', { duration: 3000 });
+        console.error('Error adding WorkoutPlan:', error);
       }
     );
   }
 
   updateWorkoutPlan() {
+    const selectedExercises = this.exercisesfromarray.value
+      .filter((exercise: { selected: any; }) => exercise.selected)
+      .map((exercise: { id: any; }) => exercise.id);
+
     const workoutPlanData = {
-      ...this.workoutPlanForm.value,
-      exercises: this.workoutPlanForm.value.exercises
+      id: this.workoutPlanForm.get('id')?.value,
+      name: this.workoutPlanForm.get('name')?.value,
+      exercises: selectedExercises
     };
+
     this.apiService.updateWorkoutPlan(workoutPlanData).subscribe(
       response => {
         this.snackBar.open('WorkoutPlan updated successfully!', 'Close', { duration: 3000 });

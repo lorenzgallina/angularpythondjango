@@ -23,10 +23,14 @@ import { WorkoutDisplayComponent } from './fitnesstracker/workout-display/workou
 
 // Angular Material Modules
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+
 
 // Flex Layout Module
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -75,11 +79,13 @@ function initializeKeycloak(keycloak: KeycloakService) {
     MatSnackBarModule,
     MatToolbarModule,
     MatButtonModule,
+    MatTableModule,
     MatSelectModule,
     FlexLayoutModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule,
   ],
   providers: [{
     provide: APP_INITIALIZER,
