@@ -1,10 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ApiService } from '../fitness.service';
-import { Exercise, WorkoutPlan } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { WorkoutPlanDialogComponent } from './workout-plan-dialog/workout-plan-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Exercise, WorkoutPlan } from 'src/app/core/interfaces/fitness.interface';
+import { WorkoutPlanService } from 'src/app/core/services/workoutplan.service';
+import { ExerciseService } from 'src/app/core/services/exercise.service';
 
 @Component({
   selector: 'app-workout-plan',
@@ -17,7 +18,10 @@ export class WorkoutPlanComponent implements OnInit {
   workoutPlans: WorkoutPlan[] = [];
   displayedColumns: string[] = ['id', 'name', 'actions'];
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private snackBar: MatSnackBar, private dialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(
+    private exerciseService: ExerciseService,
+    private workoutPlanService: WorkoutPlanService,
+    private formBuilder: FormBuilder, private snackBar: MatSnackBar, private dialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) {
     this.workoutPlanForm = this.formBuilder.group({
       name: '',
       selectedExercises: []
@@ -30,7 +34,7 @@ export class WorkoutPlanComponent implements OnInit {
   }
 
   getWorkoutPlans() {
-    this.apiService.getWorkoutPlans().subscribe(
+    this.workoutPlanService.getAll().subscribe(
       (workoutplans) => {
         this.workoutPlans = workoutplans;
       },
@@ -41,7 +45,7 @@ export class WorkoutPlanComponent implements OnInit {
   }
 
   getExercises() {
-    this.apiService.getExercises().subscribe(
+    this.exerciseService.getAll().subscribe(
       (exercises) => {
         this.exercises = exercises;
       },

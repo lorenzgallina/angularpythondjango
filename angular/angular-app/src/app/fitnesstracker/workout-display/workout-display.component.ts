@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Exercise, ExerciseLog, Workout, WorkoutPlan } from '../interfaces';
-import { ApiService } from '../fitness.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
+import { Exercise, ExerciseLog, Workout, WorkoutPlan } from 'src/app/core/interfaces/fitness.interface';
+import { WorkoutPlanService } from 'src/app/core/services/workoutplan.service';
+import { ExerciseService } from 'src/app/core/services/exercise.service';
+import { WorkoutService } from 'src/app/core/services/workout.service';
+import { ExerciseLogService } from 'src/app/core/services/exerciselog.service';
 
 @Component({
   selector: 'app-workout-display',
@@ -54,15 +57,59 @@ export class WorkoutDisplayComponent implements OnInit {
     type: 'line'
   }];
   
+  public combinedChartData: ChartDataset[] = [
+    {
+      data: [], // Weight data
+      label: 'Exercise Weight',
+      borderColor: 'blue',
+      backgroundColor: 'rgba(0, 0, 255, 0.3)',
+      yAxisID: 'y-axis-l', // Assign to left y-axis
+      //type: 'line'
+    },
+    {
+      data: [], // Reps data
+      label: 'Exercise Reps',
+      borderColor: 'green',
+      backgroundColor: 'rgba(0, 255, 0, 0.3)',
+      yAxisID: 'y-axis-r', // Assign to right y-axis
+      //type: 'line'
+    }
+  ];
+  
+
   public lineChartLabels: string[] = [];
   public lineChartOptions: ChartOptions = {
     responsive: true,
-    // additional chart options here
+    scales: {
+      'y-axis-l': {
+        position: 'left',
+        title: {
+          display: true,
+          text: 'Weight'
+        }
+      },
+      'y-axis-r': {
+        position: 'right',
+        grid: {
+          drawOnChartArea: false,
+        },
+        title: {
+          display: true,
+          text: 'Reps'
+        }
+      }
+    }
   };
+  
+  
   public lineChartType: ChartType = 'line';
   selectedExerciseId: number | null = null;
 
-  constructor(private apiService: ApiService, private snackBar: MatSnackBar) {}
+  constructor(private exerciseService: ExerciseService,
+    private workoutService: WorkoutService,
+    private workoutPlanService: WorkoutPlanService,
+    private exerciseLogService: ExerciseLogService,
+    private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.loadWorkoutPlans();
@@ -70,7 +117,7 @@ export class WorkoutDisplayComponent implements OnInit {
   }
 
   loadWorkoutPlans() {
-    this.apiService.getWorkoutPlans().subscribe(
+    this.workoutPlanService.getAll().subscribe(
       (workoutplans) => {
         this.workoutPlans = workoutplans;
       },
@@ -82,7 +129,7 @@ export class WorkoutDisplayComponent implements OnInit {
   }
 
   getExercises() {
-    this.apiService.getExercises().subscribe(
+    this.exerciseService.getAll().subscribe(
       (exercises) => {
         this.allExercises = exercises;
       },
@@ -98,10 +145,10 @@ export class WorkoutDisplayComponent implements OnInit {
 
   onWorkoutPlanSelected() {
     if (this.selectedWorkoutPlanId !== null) {
-      this.apiService.getWorkoutByWorkoutPlanID(this.selectedWorkoutPlanId).subscribe(
+      this. workoutService.getWorkoutByWorkoutPlanID(this.selectedWorkoutPlanId!).subscribe(
         (workouts) => {
           this.workouts = workouts;
-          this.apiService.getAllExerciseLogsGroupedByWorkout(this.selectedWorkoutPlanId).subscribe(
+          this.exerciseLogService.getAllExerciseLogsGroupedByWorkout(this.selectedWorkoutPlanId).subscribe(
             (groupedExerciseLogs) => {
               this.exerciseLogs = groupedExerciseLogs;
               this.snackBar.open('Exercise Logs Loaded successfully!', 'Close', { duration: 3000 });
@@ -121,25 +168,22 @@ export class WorkoutDisplayComponent implements OnInit {
   }
 
   onExerciseSelected() {
-    this.lineChartWeightData[0].data = [];
-    this.lineChartRepsData[0].data = [];
-    this.lineChartSetsData[0].data = [];
+    this.combinedChartData[0].data = []; // Reset weight data
+    this.combinedChartData[1].data = []; // Reset reps data
     this.lineChartLabels = [];
-  
+
     this.workouts?.forEach(workout => {
-      const exerciseLogsForWorkout = this.exerciseLogs[workout.id];
-      if (exerciseLogsForWorkout) {
-        const exerciseLog = exerciseLogsForWorkout.find(log => log.exercise === this.selectedExerciseId);
-        if (exerciseLog) {
-          this.lineChartWeightData[0].data.push(exerciseLog.weight);
-          this.lineChartRepsData[0].data.push(exerciseLog.reps);
-          this.lineChartSetsData[0].data.push(exerciseLog.sets);
-          this.lineChartLabels.push(new Date(workout.date).toLocaleDateString());
+      if (typeof workout.id === 'number') {
+        const exerciseLogsForWorkout = this.exerciseLogs[workout.id];
+        if (exerciseLogsForWorkout) {
+          const exerciseLog = exerciseLogsForWorkout.find(log => log.exercise === this.selectedExerciseId);
+          if (exerciseLog) {
+            this.combinedChartData[0].data.push(exerciseLog.weight);
+            this.combinedChartData[1].data.push(exerciseLog.reps);
+            this.lineChartLabels.push(new Date(workout.date).toLocaleDateString());
+          }
         }
-      }
-    });
-  
-    // Update or rerender the chart if needed
+  }});
   }
 
 }

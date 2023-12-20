@@ -15,6 +15,14 @@
     </mat-form-field>
     
     <div class="charts-container">
+      <div class="chart" *ngIf="combinedChartData[0].data.length">
+        <canvas baseChart
+                [datasets]="combinedChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                chartType="line">
+        </canvas>
+      </div>
       <div class="chart" *ngIf="lineChartWeightData[0].data.length">
         <canvas baseChart
                 [datasets]="lineChartWeightData"
@@ -47,7 +55,7 @@
             Workout on {{workout.date}}
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div *ngFor="let exerciseLog of exerciseLogs[workout.id]">
+        <div *ngFor="let exerciseLog of exerciseLogs[workout.id!]">
           <ng-container *ngIf="findExercise(exerciseLog.exercise)">
             <mat-card>
               <mat-card-title>{{ findExercise(exerciseLog.exercise)?.name }}</mat-card-title>

@@ -6,12 +6,23 @@
     <button mat-button *ngIf="isLoggedIn" (click)="logout()">Sign Out</button>
 </mat-toolbar>
 
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center">
-    <a mat-button routerLink="/public" routerLinkActive="active">Public</a>
-    <a mat-button routerLink="/exercises" routerLinkActive="active">Exercises</a>
-    <a mat-button routerLink="/workout-plan" routerLinkActive="active">Workout-Plan</a>
-    <a mat-button routerLink="/workout" routerLinkActive="active">Workout</a>
-    <a mat-button routerLink="/workout-display" routerLinkActive="active">Workout-Display</a>
-</div>
+<mat-sidenav-container>
+    <mat-sidenav mode="side" opened>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+        <div class="navigation-links">
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center">
+                <a mat-button routerLink="/public" routerLinkActive="active">Public</a>
+                <a mat-button routerLink="/exercises" routerLinkActive="active">Exercises</a>
+                <a mat-button routerLink="/workout-plan" routerLinkActive="active">Workout-Plan</a>
+                <a mat-button routerLink="/workout" routerLinkActive="active">Workout</a>
+                <a mat-button routerLink="/workout-display" routerLinkActive="active">Workout-Display</a>
+            </div>
+        </div>
+        <div class="content-wrapper">
+                <router-outlet></router-outlet>
+        </div>
 
-<router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
