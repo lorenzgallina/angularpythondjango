@@ -1,11 +1,9 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { KeycloakService } from 'keycloak-angular';
-import { ApiService } from '../fitness.service';
-import { FormBuilder } from '@angular/forms';
 import { environment } from 'src/environments/environment';
-import { Exercise } from '../interfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { ExerciseComponent } from './exercise-dialog/exercise-dialog.component';
+import { ExerciseService } from 'src/app/core/services/exercise.service';
+import { Exercise } from 'src/app/core/interfaces/fitness.interface';
 
 @Component({
   selector: 'app-exercise-list',
@@ -16,10 +14,10 @@ export class ExerciseListComponent {
   API_URL = environment.apiUrl;
 
   exercises: Exercise[] = [];
-  displayedColumns: string[] = ['id', 'name', 'default_weight', 'default_sets', 'default_reps', 'actions'];
+  displayedColumns: string[] = ['name', 'default_weight', 'default_sets', 'default_reps', 'actions'];
 
 
-  constructor(private apiService: ApiService, private dialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private exerciseService: ExerciseService, private dialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) {}
   
   ngOnInit() {
     this.getExercises()
@@ -39,12 +37,12 @@ export class ExerciseListComponent {
   }
 
   getExercises() {
-    this.apiService.getExercises().subscribe(
-      (tasks) => {
-        this.exercises = tasks;
+    this.exerciseService.getAll().subscribe(
+      (exercises) => {
+        this.exercises = exercises;
       },
       (error) => {
-        console.error('Error loading tasks:', error);
+        console.error('Error loading exercises:', error);
       }
     );
   }

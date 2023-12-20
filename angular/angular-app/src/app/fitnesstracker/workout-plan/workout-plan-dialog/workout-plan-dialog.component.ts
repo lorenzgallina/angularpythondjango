@@ -1,9 +1,10 @@
 import { Component, Inject, Optional } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Exercise, WorkoutPlan } from '../../interfaces';
-import { ApiService } from '../../fitness.service';
+import { Exercise, WorkoutPlan } from 'src/app/core/interfaces/fitness.interface';
+import { ExerciseService } from 'src/app/core/services/exercise.service';
+import { WorkoutPlanService } from 'src/app/core/services/workoutplan.service';
 
 @Component({
   selector: 'app-workout-plan-dialog',
@@ -17,13 +18,14 @@ export class WorkoutPlanDialogComponent {
 
   workoutPlanForm = this.formBuilder.group({
     id: 0,
-    name: '',
+    name: ['', Validators.required],
     exercises: this.formBuilder.array([])
   });
 
   constructor(
+    private exerciseService: ExerciseService,
+    private workoutPlanService: WorkoutPlanService,
     private formBuilder: FormBuilder,
-    private apiService: ApiService,
     public dialogRef: MatDialogRef<WorkoutPlanDialogComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: { workoutPlan: WorkoutPlan },
     private snackBar: MatSnackBar
@@ -38,7 +40,7 @@ export class WorkoutPlanDialogComponent {
   }
 
   getExercises() {
-    this.apiService.getExercises().subscribe(
+    this.exerciseService.getAll().subscribe(
       (exercises) => {
         this.allexercises = exercises;
         exercises.forEach((exercise) => {
@@ -71,12 +73,12 @@ export class WorkoutPlanDialogComponent {
       .filter((exercise: { selected: any; }) => exercise.selected)
       .map((exercise: { id: any; }) => exercise.id);
   
-    const workoutPlanData = {
+    const workoutPlanData: WorkoutPlan = {
       name: this.workoutPlanForm.get('name')?.value || '',
       exercises: selectedExerciseIds
     };
   
-    this.apiService.addWorkoutPlan(workoutPlanData).subscribe(
+    this.workoutPlanService.add(workoutPlanData).subscribe(
       response => {
         this.snackBar.open('WorkoutPlan added successfully!', 'Close', { duration: 3000 });
         this.dialogRef.close(true);
@@ -93,13 +95,13 @@ export class WorkoutPlanDialogComponent {
       .filter((exercise: { selected: any; }) => exercise.selected)
       .map((exercise: { id: any; }) => exercise.id);
 
-    const workoutPlanData = {
-      id: this.workoutPlanForm.get('id')?.value,
-      name: this.workoutPlanForm.get('name')?.value,
+    const workoutPlanData: WorkoutPlan = {
+      id: Number(this.workoutPlanForm.get('id')?.value),
+      name: this.workoutPlanForm.get('name')?.value!,
       exercises: selectedExercises
     };
 
-    this.apiService.updateWorkoutPlan(workoutPlanData).subscribe(
+    this.workoutPlanService.update(workoutPlanData, workoutPlanData.id!).subscribe(
       response => {
         this.snackBar.open('WorkoutPlan updated successfully!', 'Close', { duration: 3000 });
         this.dialogRef.close(true);
@@ -113,7 +115,7 @@ export class WorkoutPlanDialogComponent {
 
   deleteWorkoutPlan() {
     if (this.data && this.data.workoutPlan) {
-      this.apiService.deleteWorkoutPlan(this.data.workoutPlan.id).subscribe(
+      this.workoutPlanService.delete(this.data.workoutPlan.id!).subscribe(
         response => {
           this.snackBar.open('WorkoutPlan deleted successfully!', 'Close', { duration: 3000 });
           this.dialogRef.close(true);

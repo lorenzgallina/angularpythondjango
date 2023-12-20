@@ -8,20 +8,20 @@ export interface Exercise {
   }
 
 export interface WorkoutPlan {
-  id: number;
+  id?: number;
   name: string;
   exercises: any;
 }
 
 export interface Workout {
-  id: number;
+  id?: number;
   date: string;
   workout_plan: number;
   user?: number;
 }
 
 export interface ExerciseLog {
-  id: number;
+  id?: number;
   exercise: number;
   sets: number;
   reps: number;

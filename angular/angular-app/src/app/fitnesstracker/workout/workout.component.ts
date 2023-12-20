@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Exercise, WorkoutPlan } from '../interfaces';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { ApiService } from '../fitness.service';
 import { formatDate } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Exercise, ExerciseLog, Workout, WorkoutPlan } from 'src/app/core/interfaces/fitness.interface';
+import { ExerciseService } from 'src/app/core/services/exercise.service';
+import { WorkoutService } from 'src/app/core/services/workout.service';
+import { WorkoutPlanService } from 'src/app/core/services/workoutplan.service';
+import { ExerciseLogService } from 'src/app/core/services/exerciselog.service';
 
 @Component({
   selector: 'app-workout',
@@ -17,7 +20,13 @@ export class WorkoutComponent implements OnInit {
   selectedWorkoutPlanId: number | null = null;
   allExercises: Exercise[] | undefined;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(private exerciseService: ExerciseService,
+    private workoutService: WorkoutService,
+    private workoutPlanService: WorkoutPlanService,
+    private exerciseLogService: ExerciseLogService,
+    private formBuilder: FormBuilder, 
+    private snackBar: MatSnackBar) 
+    {
     const currentDate = new Date();
     const formattedDate = formatDate(currentDate, 'yyyy-MM-dd', 'en-US');
     this.workoutForm = this.formBuilder.group({
@@ -32,7 +41,7 @@ export class WorkoutComponent implements OnInit {
   }
 
   loadWorkoutPlans() {
-    this.apiService.getWorkoutPlans().subscribe(
+    this.workoutPlanService.getAll().subscribe(
       (workoutplans) => {
         this.workoutPlans = workoutplans;
       },
@@ -43,7 +52,7 @@ export class WorkoutComponent implements OnInit {
   }
 
   getExercises() {
-    this.apiService.getExercises().subscribe(
+    this.exerciseService.getAll().subscribe(
       (exercises) => {
         this.allExercises = exercises;
       },
@@ -84,12 +93,12 @@ export class WorkoutComponent implements OnInit {
   }
 
   submitWorkout() {
-    const workoutData = {
+    const workoutData: Workout = {
       date: this.workoutForm.value.date,
-      workout_plan: this.selectedWorkoutPlanId,
+      workout_plan: Number(this.selectedWorkoutPlanId),
     };
   
-    this.apiService.addWorkout(workoutData).subscribe(
+    this.workoutService.add(workoutData).subscribe(
       (createdWorkout: any) => {
         this.createExerciseLogs(createdWorkout.id);
         this.snackBar.open('Workout created successfully!', 'Close', { duration: 3000 });
@@ -105,7 +114,7 @@ export class WorkoutComponent implements OnInit {
     const exerciseLogs = this.workoutForm.value.exercises;
   
     exerciseLogs.forEach((log: { exerciseId: any; sets: any; reps: any; weight: any; }) => {
-      const exerciseLogData = {
+      const exerciseLogData: ExerciseLog = {
         exercise: log.exerciseId,
         sets: log.sets,
         reps: log.reps,
@@ -113,7 +122,7 @@ export class WorkoutComponent implements OnInit {
         workout: [workoutId],
       };
   
-      this.apiService.addExerciseLogs(exerciseLogData).subscribe(
+      this.exerciseLogService.add(exerciseLogData).subscribe(
         (response) => {
           this.snackBar.open('Exercise log created successfully!', 'Close', { duration: 3000 });
           console.log('Exercise log created successfully', response);
