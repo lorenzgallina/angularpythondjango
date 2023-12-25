@@ -1,28 +1,29 @@
 
-<mat-toolbar>
-    <h1>Fitness Tracker</h1>
-    <span class="flex-spacer"></span>
-    <button mat-button *ngIf="!isLoggedIn" (click)="login()">Sign In</button>
-    <button mat-button *ngIf="isLoggedIn" (click)="logout()">Sign Out</button>
+<mat-toolbar class="py-2 md:py-4">
+    <div class="bg-gray-200 md:flex md:items-center md:justify-between p-4">
+        <h1 class="text-lg md:text-xl font-bold">Fitness Tracker</h1>
+        <div class="mt-4 md:mt-0">
+            <button mat-button *ngIf="!isLoggedIn" (click)="login()" class="mr-2">Sign In</button>
+            <button mat-button *ngIf="isLoggedIn" (click)="logout()">Sign Out</button>
+        </div>
+    </div>
 </mat-toolbar>
 
-<mat-sidenav-container>
-    <mat-sidenav mode="side" opened>
-    </mat-sidenav>
+<mat-sidenav-container class="flex flex-col h-screen">
   
-    <mat-sidenav-content>
-        <div class="navigation-links">
-            <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center">
-                <a mat-button routerLink="/public" routerLinkActive="active">Public</a>
-                <a mat-button routerLink="/exercises" routerLinkActive="active">Exercises</a>
-                <a mat-button routerLink="/workout-plan" routerLinkActive="active">Workout-Plan</a>
-                <a mat-button routerLink="/workout" routerLinkActive="active">Workout</a>
-                <a mat-button routerLink="/workout-display" routerLinkActive="active">Workout-Display</a>
-            </div>
-        </div>
-        <div class="content-wrapper">
-                <router-outlet></router-outlet>
-        </div>
+    <!-- Top Navigation Links -->
+    <nav class="flex justify-around bg-gray-100 p-4">
+        <a mat-button routerLink="/public" routerLinkActive="active" class="hover:text-blue-600">Public</a>
+        <a mat-button routerLink="/exercises" routerLinkActive="active" class="hover:text-blue-600">Exercises</a>
+        <a mat-button routerLink="/workout-plan" routerLinkActive="active" class="hover:text-blue-600">Workout-Plan</a>
+        <a mat-button routerLink="/workout" routerLinkActive="active" class="hover:text-blue-600">Workout</a>
+        <a mat-button routerLink="/workout-display" routerLinkActive="active" class="hover:text-blue-600">Workout-Display</a>
+    </nav>
 
-    </mat-sidenav-content>
+    <!-- Main Content Area -->
+    <div class="flex-grow p-4 mx-auto max-w-5xl">
+        <router-outlet></router-outlet>
+    </div>
+
 </mat-sidenav-container>
+
