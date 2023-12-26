@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { NgChartsModule } from 'ng2-charts';
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 
@@ -34,6 +34,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -93,7 +94,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     MatCheckboxModule,
     MatExpansionModule,
     NgChartsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatIconModule,
   ],
   providers: [{
     provide: APP_INITIALIZER,

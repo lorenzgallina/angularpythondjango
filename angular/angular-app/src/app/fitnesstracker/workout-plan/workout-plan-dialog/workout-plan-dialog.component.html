@@ -19,7 +19,7 @@
       </div>
     </ng-container>
 
-    <button mat-raised-button color="primary" type="submit">{{ isEditing ? 'Update' : 'Add' }} Workout Plan</button>
-    <button *ngIf="isEditing" mat-raised-button color="warn" type="button" (click)="deleteWorkoutPlan()">Delete WorkoutPlan</button>
+    <button mat-raised-button color="primary" type="submit">{{ isEditing ? 'Update' : 'Add' }} <mat-icon>done</mat-icon></button>
+    <button *ngIf="isEditing" mat-raised-button color="warn" type="button" (click)="deleteWorkoutPlan()"><mat-icon>delete</mat-icon> Delete</button>
   </form>
 </div>

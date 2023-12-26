@@ -1,43 +1,47 @@
-<div class="responsive-table">
-  <button mat-raised-button color="primary" (click)="openDialog()">Add Exercise</button>
-  <table mat-table [dataSource]="exercises" class="mat-elevation-z8">
+<div class="flex flex-col space-y-4 my-4 mx-auto max-w-7xl">
+  <div class="self-end">
+    <button mat-raised-button color="primary" (click)="openDialog()" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-dark">Add Exercise</button>
+  </div>
+  <div class="overflow-x-auto shadow-md rounded-lg">
+    <table mat-table [dataSource]="exercises" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="default_weight">
-      <th mat-header-cell *matHeaderCellDef> Default Weight </th>
-      <td mat-cell *matCellDef="let element"> {{element.default_weight}} </td>
-    </ng-container>
+      <ng-container matColumnDef="default_weight">
+        <th mat-header-cell *matHeaderCellDef> Default Weight </th>
+        <td mat-cell *matCellDef="let element"> {{element.default_weight}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="default_sets">
-      <th mat-header-cell *matHeaderCellDef> Default Sets </th>
-      <td mat-cell *matCellDef="let element"> {{element.default_sets}} </td>
-    </ng-container>
+      <ng-container matColumnDef="default_sets">
+        <th mat-header-cell *matHeaderCellDef> Default Sets </th>
+        <td mat-cell *matCellDef="let element"> {{element.default_sets}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="default_reps">
-      <th mat-header-cell *matHeaderCellDef> Default Reps </th>
-      <td mat-cell *matCellDef="let element"> {{element.default_reps}} </td>
-    </ng-container>
+      <ng-container matColumnDef="default_reps">
+        <th mat-header-cell *matHeaderCellDef> Default Reps </th>
+        <td mat-cell *matCellDef="let element"> {{element.default_reps}} </td>
+      </ng-container>
 
-    <!-- Other columns... -->
+      <!-- Other columns... -->
 
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Actions </th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-button color="accent" (click)="openDialog(element)">Edit</button>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button color="accent" (click)="openDialog(element)"><mat-icon>edit</mat-icon></button>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
 </div>

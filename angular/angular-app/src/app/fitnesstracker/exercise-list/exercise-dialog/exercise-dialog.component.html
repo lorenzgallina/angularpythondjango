@@ -22,6 +22,10 @@
     <input matInput type="number" formControlName="default_reps">
   </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit">{{ isEditing ? 'Update' : 'Add' }} Exercise</button>
-  <button *ngIf="isEditing" mat-raised-button color="warn" type="button" (click)="deleteExercise()">Delete Exercise</button>
+  <button mat-raised-button class="custom-primary-button" type="submit">
+    {{ isEditing ? 'Update' : 'Add' }} <mat-icon>done</mat-icon>
+</button>
+
+
+  <button *ngIf="isEditing" mat-raised-button color="warn" type="button" (click)="deleteExercise()"><mat-icon>delete</mat-icon> Delete</button>
 </form>
