@@ -12,18 +12,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     --primary-color: #212121;
   }
   
-  /*.custom-background {
+  .custom-background {
     background-color: var(--primary-color);
-  }*/
+  }
 
  
-  .button-like {
+  /*.button-like {
     @apply flex justify-center items-center w-1/2 mx-auto py-2.5 bg-primary text-accent font-medium rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 active:bg-gray-800;
-  }
+  }*/
   
-  /* .button-like {
+   .button-like {
     @apply flex justify-center items-center w-1/2 mx-auto py-2.5 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out;
-  } */
+  } 
   
   
   
@@ -31,6 +31,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 // Define black and white palettes
 $my-black: mat.define-palette(mat.$grey-palette, 900); // Black
 $my-white: mat.define-palette(mat.$grey-palette, 50); // White
+$tailwind-black: #000000;
 
 // Optionally, you can define a grey palette for the warn color
 $my-warn: mat.define-palette(mat.$grey-palette, 500); // Grey for warnings
