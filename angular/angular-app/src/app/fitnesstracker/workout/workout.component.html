@@ -14,9 +14,13 @@
       <input matInput formControlName="date" type="date">
     </mat-form-field>
   </div>
-  <div formArrayName="exercises" fxLayout="column" fxLayoutGap="10px">
-    <div *ngFor="let exerciseGroup of exerciseControls; let i = index" [formGroupName]="i" fxLayout="column" fxLayoutGap="10px">
-      <mat-card>
+  <mat-accordion multi="true" formArrayName="exercises" fxLayout="column" fxLayoutGap="10px">
+    <mat-expansion-panel *ngFor="let exerciseGroup of exerciseControls; let i = index" [formGroupName]="i">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ exerciseGroup.get('name')?.value }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
         <mat-card-content >
           <h4>{{ exerciseGroup.get('name')?.value }}</h4>
           
@@ -25,7 +29,7 @@
             <p fxFlex="33%">Default Reps: {{ exerciseGroup.get('defaultReps')?.value }}</p>
             <p fxFlex="33%">Default Weight: {{ exerciseGroup.get('defaultWeight')?.value }}</p>
           </div>
-         
+        </mat-card-content>
           <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
             <mat-form-field fxFlex="33%" appearance="fill">
               <mat-label>Sets</mat-label>
@@ -42,10 +46,9 @@
               <input matInput formControlName="weight" type="number">
             </mat-form-field>
           </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+
 
   <button mat-raised-button type="submit">Log Workout</button>
 </form>
