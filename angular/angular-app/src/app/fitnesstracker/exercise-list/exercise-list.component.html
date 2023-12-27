@@ -1,6 +1,6 @@
 <div class="flex flex-col space-y-4 my-4 mx-auto max-w-7xl">
   <div class="self-end">
-    <button mat-raised-button color="primary" (click)="openDialog()" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-dark">Add Exercise</button>
+    <button mat-raised-button color="primary" (click)="openDialog()" class="bg-primary text-white py-2 px-4 rounded hover:bg-primary-dark"><mat-icon>add_circle</mat-icon>Add Exercise</button>
   </div>
   <div class="overflow-x-auto shadow-md rounded-lg">
     <table mat-table [dataSource]="exercises" class="mat-elevation-z8">
@@ -36,7 +36,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-button color="accent" (click)="openDialog(element)"><mat-icon>edit</mat-icon></button>
+          <button mat-button (click)="openDialog(element)"><mat-icon>edit</mat-icon></button>
         </td>
       </ng-container>
 
