@@ -1,15 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{html,ts}",
+    "./src/**/*.{html,ts,scss}",
   ],
   theme: {
     extend: {
       colors: {
-        primary: '#f5425d',  // Example primary color
-        secondary: '#ffed4a',  // Example secondary color
-        accent: '#e3342f',  // Example accent color
-        // Add other colors or shades as needed
+        primary: '#212121',
+        accent: '#FAFAFA',
+        warn: '#9E9E9E',
       },
     },
   },
