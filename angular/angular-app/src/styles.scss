@@ -1,0 +1,52 @@
+@use '@angular/material' as mat;
+/* Tailwind CSS Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+:root {
+    --primary-color: black;/*  #8b0000; Dark red */
+    --accent-color: #ffc107; /* Amber */
+  }
+  
+  .custom-background {
+    background-color: var(--primary-color);
+  }
+  
+  .custom-color {
+    color: var(--accent-color);
+  }
+
+
+  .custom-primary-button {
+    background-color: var(--primary-color) !important; /* Your primary color */
+    color: white !important; /* Text color for the button */
+}
+
+
+
+
+// Define black and white palettes
+$my-black: mat.define-palette(mat.$grey-palette, 900); // Black
+$my-white: mat.define-palette(mat.$grey-palette, 50); // White
+
+// Optionally, you can define a grey palette for the warn color
+$my-warn: mat.define-palette(mat.$grey-palette, 500); // Grey for warnings
+
+// Define the theme
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: $my-black,
+    accent: $my-white,
+    warn: $my-warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+// Include the theme
+@include mat.all-component-themes($my-theme);
