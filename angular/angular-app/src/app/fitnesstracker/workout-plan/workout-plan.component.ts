@@ -16,7 +16,7 @@ export class WorkoutPlanComponent implements OnInit {
   exercises: Exercise[] | undefined;
   workoutPlanForm: FormGroup;
   workoutPlans: WorkoutPlan[] = [];
-  displayedColumns: string[] = ['name', 'actions'];
+  displayedColumns: string[] = ['name'];
 
   constructor(
     private exerciseService: ExerciseService,

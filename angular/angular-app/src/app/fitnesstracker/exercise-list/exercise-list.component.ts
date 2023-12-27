@@ -14,7 +14,7 @@ export class ExerciseListComponent {
   API_URL = environment.apiUrl;
 
   exercises: Exercise[] = [];
-  displayedColumns: string[] = ['name', 'actions'];
+  displayedColumns: string[] = ['name'];
 
 
   constructor(private exerciseService: ExerciseService, private dialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) {}
