@@ -1,44 +1,84 @@
-<div class="flex row gap-2.5">
-  <div class="flex-1">
-    <label class="block text-gray-700 text-sm font-bold mb-2">Select Workout Plan</label>
-    <select class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="selectedWorkoutPlanId" (change)="onWorkoutPlanSelected()">
-      <option *ngFor="let plan of workoutPlans" [value]="plan.id">{{ plan.name }}</option>
-    </select>
+<div class="flex flex-col">
+  <!-- Top Section: Workout Plan Selector and Date Input -->
+  <div class="flex flex-row gap-2.5">
+    <!-- Workout Plan Selector -->
+    <div class="flex-1">
+      <label class="block text-gray-700 text-sm font-bold mb-2">Select Workout Plan</label>
+      <select class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="selectedWorkoutPlanId" (change)="onWorkoutPlanSelected()">
+        <option *ngFor="let plan of workoutPlans" [value]="plan.id">{{ plan.name }}</option>
+      </select>
+    </div>
+
+    <!-- Date Input -->
+    <div class="flex-1">
+      <form [formGroup]="workoutForm" class="flex flex-col gap-2.5">
+        <div>
+          <label class="block text-gray-700 text-sm font-bold mb-2">Date</label>
+          <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="date" type="date">
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bottom Section: Exercise Table and Details -->
+  <div class="flex flex-row gap-2.5 mt-4">
+    <!-- Exercise Table -->
+    <div class="flex-1">
+      <table class="min-w-full">
+        <thead>
+          <tr>
+            <th class="text-center py-3 px-4">Exercises</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let exerciseGroup of exerciseControls; let i = index" (click)="selectExercise(i)" class="cursor-pointer hover:bg-gray-100">
+            <td class="text-center py-3 px-4">{{ exerciseGroup.get('name')?.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  <!-- Right Side -->
+  <div class="flex-1" *ngIf="selectedExerciseGroup">
+    <!-- Exercise Details -->
+    <div class="card-content flex flex-col gap-3 p-4" [formGroup]="selectedExerciseGroup">
+      <!-- Exercise Name Display -->
+      <div class="flex-1">
+        <label class="block text-gray-700 text-sm font-bold mb-1">Exercise Name</label>
+        <div class="py-2 px-3 bg-gray-100 rounded text-gray-700">
+          {{ selectedExerciseGroup.get('name')?.value }}
+        </div>
+      </div>
+      <!-- Weight Field -->
+      <div class="flex row gap-5 items-center">
+        <div class="flex-1">
+          <label class="block text-gray-700 text-sm font-bold mb-1">Weight</label>
+          <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="weight" type="number">
+        </div>
+      </div>
+      <!-- Sets Field -->
+      <div class="flex row gap-5 items-center">
+        <div class="flex-1">
+          <label class="block text-gray-700 text-sm font-bold mb-1">Sets</label>
+          <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="sets" type="number">
+        </div>
+      </div>
+      <!-- Reps Field -->
+      <div class="flex row gap-5 items-center">
+        <div class="flex-1">
+          <label class="block text-gray-700 text-sm font-bold mb-1">Reps</label>
+          <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="reps" type="number">
+        </div>
+      </div>
+      <!-- Navigation Buttons -->
+      <div class="flex justify-between mt-4">
+        <button class="button-like" (click)="selectPreviousExercise()">Previous</button>
+        <button class="button-like" (click)="selectNextExercise()">Next</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<form [formGroup]="workoutForm" (ngSubmit)="submitWorkout()" class="flex flex-col gap-2.5">
-  <div class="flex row gap-2.5">
-    <div class="flex-1">
-      <label class="block text-gray-700 text-sm font-bold mb-2">Date</label>
-      <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="date" type="date">
-    </div>
-  </div>
-
-  <div class="accordion flex flex-col gap-2.5" formArrayName="exercises">
-    <div *ngFor="let exerciseGroup of exerciseControls; let i = index" [formGroupName]="i" class="expansion-panel">
-      <!-- Panel header -->
-      <div class="panel-header">
-        <div class="text-sm ml-2">{{ exerciseGroup.get('name')?.value }}</div>
-      </div>
-      <!-- Panel content -->
-      <div class="card-content flex row gap-5 items-center">
-        <!-- Use default values as placeholders -->
-        <div class="flex-1">
-          <label class="block text-gray-700 text-sm font-bold mb-1">Weight</label>
-          <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="weight" type="number" placeholder="Weight (Default: {{ exerciseGroup.get('defaultWeight')?.value }})">
-        </div>
-        <div class="flex-1">
-          <label class="block text-gray-700 text-sm font-bold mb-1">Sets</label>
-          <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="sets" type="number" placeholder="Sets (Default: {{ exerciseGroup.get('defaultSets')?.value }})">
-        </div>
-        <div class="flex-1">
-          <label class="block text-gray-700 text-sm font-bold mb-1">Reps</label>
-          <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="reps" type="number" placeholder="Reps (Default: {{ exerciseGroup.get('defaultReps')?.value }})">
-        </div>
-      </div>
-    </div>
-  </div>
-
+<form [formGroup]="workoutForm" (ngSubmit)="submitWorkout()">
   <button class="button-like" type="submit">Log Workout</button>
 </form>

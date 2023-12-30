@@ -19,6 +19,8 @@ export class WorkoutComponent implements OnInit {
   workoutForm: FormGroup;
   selectedWorkoutPlanId: number | null = null;
   allExercises: Exercise[] | undefined;
+  selectedExerciseGroup: FormGroup | null = null;
+
 
   constructor(private exerciseService: ExerciseService,
     private workoutService: WorkoutService,
@@ -62,6 +64,10 @@ export class WorkoutComponent implements OnInit {
     );
   }
 
+  selectExercise(index: number) {
+    this.selectedExerciseGroup = this.exerciseControls[index];
+  }
+
   onWorkoutPlanSelected() {
     if (this.selectedWorkoutPlanId !== null) {
     
@@ -85,11 +91,39 @@ export class WorkoutComponent implements OnInit {
           }));
         }
       });
+
+      this.preselectFirstExercise();
     }
   }
 
   get exerciseControls(): FormGroup[] {
     return (this.workoutForm.get('exercises') as FormArray).controls as FormGroup[];
+  }
+
+  preselectFirstExercise() {
+    if (this.exerciseControls.length > 0) {
+      this.selectedExerciseGroup = this.exerciseControls[0];
+    } else {
+      this.selectedExerciseGroup = null;
+    }
+  }
+
+  selectPreviousExercise() {
+    if (this.selectedExerciseGroup) {
+      const currentIndex = this.exerciseControls.indexOf(this.selectedExerciseGroup);
+      if (currentIndex > 0) {
+        this.selectedExerciseGroup = this.exerciseControls[currentIndex - 1];
+      }
+    }
+  }
+
+  selectNextExercise() {
+    if (this.selectedExerciseGroup) {
+      const currentIndex = this.exerciseControls.indexOf(this.selectedExerciseGroup);
+      if (currentIndex >= 0 && currentIndex < this.exerciseControls.length - 1) {
+        this.selectedExerciseGroup = this.exerciseControls[currentIndex + 1];
+      }
+    }
   }
 
   submitWorkout() {
