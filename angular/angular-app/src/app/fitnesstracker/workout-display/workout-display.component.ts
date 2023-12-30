@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
 import { Exercise, ExerciseLog, Workout, WorkoutPlan } from 'src/app/core/interfaces/fitness.interface';
@@ -15,7 +15,7 @@ import { ExerciseLogService } from 'src/app/core/services/exerciselog.service';
 export class WorkoutDisplayComponent implements OnInit {
 
   workoutPlans: WorkoutPlan[] | undefined;
-  selectedWorkoutPlanId: number | undefined;
+  selectedWorkoutPlanId: number | null = null;
   workouts: Workout[] | undefined;
   exerciseLogs: { [key: number]: ExerciseLog[] } = {};
   allExercises: Exercise[] | undefined;
@@ -109,7 +109,8 @@ export class WorkoutDisplayComponent implements OnInit {
     private workoutService: WorkoutService,
     private workoutPlanService: WorkoutPlanService,
     private exerciseLogService: ExerciseLogService,
-    private snackBar: MatSnackBar) {}
+    private snackBar: MatSnackBar,
+    private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.loadWorkoutPlans();
@@ -148,7 +149,7 @@ export class WorkoutDisplayComponent implements OnInit {
       this. workoutService.getWorkoutByWorkoutPlanID(this.selectedWorkoutPlanId!).subscribe(
         (workouts) => {
           this.workouts = workouts;
-          this.exerciseLogService.getAllExerciseLogsGroupedByWorkout(this.selectedWorkoutPlanId).subscribe(
+          this.exerciseLogService.getAllExerciseLogsGroupedByWorkout(Number(this.selectedWorkoutPlanId)).subscribe(
             (groupedExerciseLogs) => {
               this.exerciseLogs = groupedExerciseLogs;
               this.snackBar.open('Exercise Logs Loaded successfully!', 'Close', { duration: 3000 });
@@ -176,7 +177,7 @@ export class WorkoutDisplayComponent implements OnInit {
       if (typeof workout.id === 'number') {
         const exerciseLogsForWorkout = this.exerciseLogs[workout.id];
         if (exerciseLogsForWorkout) {
-          const exerciseLog = exerciseLogsForWorkout.find(log => log.exercise === this.selectedExerciseId);
+          const exerciseLog = exerciseLogsForWorkout.find(log => log.exercise === Number(this.selectedExerciseId));
           if (exerciseLog) {
             this.combinedChartData[0].data.push(exerciseLog.weight);
             this.combinedChartData[1].data.push(exerciseLog.reps);
@@ -184,6 +185,8 @@ export class WorkoutDisplayComponent implements OnInit {
           }
         }
   }});
+
+  this.changeDetectorRef.detectChanges();
   }
 
 }

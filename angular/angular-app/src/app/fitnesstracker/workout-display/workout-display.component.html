@@ -1,19 +1,14 @@
 <div class="container">
-  <mat-form-field appearance="fill">
-    <mat-label>Select a Workout Plan</mat-label>
-    <mat-select [(value)]="selectedWorkoutPlanId" (selectionChange)="onWorkoutPlanSelected()">
-      <mat-option *ngFor="let plan of workoutPlans" [value]="plan.id">{{plan.name}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <select class="w-1/2 mx-auto py-2.5 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 focus:bg-white focus:text-black focus:outline-none focus:shadow-outline text-center" [(ngModel)]="selectedWorkoutPlanId" (change)="onWorkoutPlanSelected()">
+    <option value="null" [selected]="selectedWorkoutPlanId === null" disabled>--Select Workout Plan--</option>
+    <option *ngFor="let plan of workoutPlans" [value]="plan.id">{{ plan.name }}</option>
+  </select>
+  <select *ngIf="selectedWorkoutPlanId" class="w-1/2 mx-auto py-2.5 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 focus:bg-white focus:text-black focus:outline-none focus:shadow-outline text-center" [(ngModel)]="selectedExerciseId" (change)="onExerciseSelected()">
+    <option value="null" [selected]="selectedWorkoutPlanId === null" disabled>--Select an Exercise--</option>
+    <option *ngFor="let exercise of allExercises" [value]="exercise.id">{{exercise.name}}</option>
+  </select>
 
   <div class="chart-section">
-    <mat-form-field appearance="fill">
-      <mat-label>Select an Exercise</mat-label>
-      <mat-select [(value)]="selectedExerciseId" (selectionChange)="onExerciseSelected()">
-        <mat-option *ngFor="let exercise of allExercises" [value]="exercise.id">{{exercise.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    
     <div class="charts-container">
       <div class="chart" *ngIf="combinedChartData[0].data.length">
         <canvas baseChart
