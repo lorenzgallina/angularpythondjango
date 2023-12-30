@@ -1,54 +1,44 @@
-<div fxLayout="row" fxLayoutGap="10px">
-  <mat-form-field fxFlex="33%" appearance="fill">
-    <mat-label>Select Workout Plan</mat-label>
-    <mat-select [(ngModel)]="selectedWorkoutPlanId" (selectionChange)="onWorkoutPlanSelected()">
-      <mat-option *ngFor="let plan of workoutPlans" [value]="plan.id">{{ plan.name }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+<div class="flex row gap-2.5">
+  <div class="flex-1">
+    <label class="block text-gray-700 text-sm font-bold mb-2">Select Workout Plan</label>
+    <select class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="selectedWorkoutPlanId" (change)="onWorkoutPlanSelected()">
+      <option *ngFor="let plan of workoutPlans" [value]="plan.id">{{ plan.name }}</option>
+    </select>
+  </div>
 </div>
 
-  <form [formGroup]="workoutForm" (ngSubmit)="submitWorkout()" fxLayout="column" fxLayoutGap="10px">
-    <div fxLayout="row" fxLayoutGap="10px">
-    <mat-form-field fxFlex="33%" appearance="fill">
-      <mat-label>Date</mat-label>
-      <input matInput formControlName="date" type="date">
-    </mat-form-field>
+<form [formGroup]="workoutForm" (ngSubmit)="submitWorkout()" class="flex flex-col gap-2.5">
+  <div class="flex row gap-2.5">
+    <div class="flex-1">
+      <label class="block text-gray-700 text-sm font-bold mb-2">Date</label>
+      <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="date" type="date">
+    </div>
   </div>
-  <mat-accordion multi="true" formArrayName="exercises" fxLayout="column" fxLayoutGap="10px">
-    <mat-expansion-panel *ngFor="let exerciseGroup of exerciseControls; let i = index" [formGroupName]="i">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{ exerciseGroup.get('name')?.value }}
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-        <mat-card-content >
-          <h4>{{ exerciseGroup.get('name')?.value }}</h4>
-          
-          <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
-            <p fxFlex="33%">Default Sets: {{ exerciseGroup.get('defaultSets')?.value }}</p>
-            <p fxFlex="33%">Default Reps: {{ exerciseGroup.get('defaultReps')?.value }}</p>
-            <p fxFlex="33%">Default Weight: {{ exerciseGroup.get('defaultWeight')?.value }}</p>
-          </div>
-        </mat-card-content>
-          <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
-            <mat-form-field fxFlex="33%" appearance="fill">
-              <mat-label>Sets</mat-label>
-              <input matInput formControlName="sets" type="number">
-            </mat-form-field>
-            
-            <mat-form-field fxFlex="33%" appearance="fill">
-              <mat-label>Reps</mat-label>
-              <input matInput formControlName="reps" type="number">
-            </mat-form-field>
 
-            <mat-form-field fxFlex="33%" appearance="fill">
-              <mat-label>Weight</mat-label>
-              <input matInput formControlName="weight" type="number">
-            </mat-form-field>
-          </div>
-        </mat-expansion-panel>
-      </mat-accordion>
+  <div class="accordion flex flex-col gap-2.5" formArrayName="exercises">
+    <div *ngFor="let exerciseGroup of exerciseControls; let i = index" [formGroupName]="i" class="expansion-panel">
+      <!-- Panel header -->
+      <div class="panel-header">
+        <div class="text-sm ml-2">{{ exerciseGroup.get('name')?.value }}</div>
+      </div>
+      <!-- Panel content -->
+      <div class="card-content flex row gap-5 items-center">
+        <!-- Use default values as placeholders -->
+        <div class="flex-1">
+          <label class="block text-gray-700 text-sm font-bold mb-1">Weight</label>
+          <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="weight" type="number" placeholder="Weight (Default: {{ exerciseGroup.get('defaultWeight')?.value }})">
+        </div>
+        <div class="flex-1">
+          <label class="block text-gray-700 text-sm font-bold mb-1">Sets</label>
+          <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="sets" type="number" placeholder="Sets (Default: {{ exerciseGroup.get('defaultSets')?.value }})">
+        </div>
+        <div class="flex-1">
+          <label class="block text-gray-700 text-sm font-bold mb-1">Reps</label>
+          <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="reps" type="number" placeholder="Reps (Default: {{ exerciseGroup.get('defaultReps')?.value }})">
+        </div>
+      </div>
+    </div>
+  </div>
 
-
-  <button mat-raised-button type="submit">Log Workout</button>
+  <button class="button-like" type="submit">Log Workout</button>
 </form>

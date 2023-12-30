@@ -79,9 +79,9 @@ export class WorkoutComponent implements OnInit {
             defaultSets: matchingexercise.default_sets,
             defaultReps: matchingexercise.default_reps,
             defaultWeight: matchingexercise.default_weight,
-            sets: '',
-            reps: '',
-            weight: ''
+            sets: matchingexercise.default_sets,
+            reps: matchingexercise.default_reps,
+            weight: matchingexercise.default_weight
           }));
         }
       });
