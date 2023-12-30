@@ -1,13 +1,12 @@
 <div class="flex flex-col items-center">
   <!-- Top Section: Workout Plan Selector and Date Input -->
-  <div class="flex flex-row gap-2.5 w-full justify-center">
+  <div class="flex justify-center w-full mt-8">
     <!-- Workout Plan Selector -->
-    <div class="w-1/2 flex flex-col items-center justify-center">
-      <select class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="selectedWorkoutPlanId" (change)="onWorkoutPlanSelected()">
+      <select class="w-1/2 mx-auto py-2.5 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 focus:bg-white focus:text-black focus:outline-none focus:shadow-outline text-center" [(ngModel)]="selectedWorkoutPlanId" (change)="onWorkoutPlanSelected()">
         <option value="null" [selected]="selectedWorkoutPlanId === null" disabled>--Select Workout Plan--</option>
         <option *ngFor="let plan of workoutPlans" [value]="plan.id">{{ plan.name }}</option>
       </select>
-    </div>
+
   </div>
 
   <!-- Bottom Section: Exercise Table and Details -->
