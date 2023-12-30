@@ -24,10 +24,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
    .button-like {
     @apply flex justify-center items-center w-1/2 mx-auto py-2.5 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out;
   } 
-  
-  .accordion-header {
-    @apply flex justify-center items-center w-1/2 mx-auto py-2.5 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out;
+
+  .button-like-mini {
+    @apply flex justify-center items-center w-2/3 mx-auto py-3 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out;
   }
+
   
 
 // Define black and white palettes
