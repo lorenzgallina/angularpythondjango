@@ -3,8 +3,8 @@
   <div class="flex flex-row gap-2.5 w-full justify-center">
     <!-- Workout Plan Selector -->
     <div class="w-1/2 flex flex-col items-center justify-center">
-      <label class="block text-gray-700 text-sm font-bold mb-2">Select Workout Plan</label>
       <select class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="selectedWorkoutPlanId" (change)="onWorkoutPlanSelected()">
+        <option value="null" [selected]="selectedWorkoutPlanId === null" disabled>--Select Workout Plan--</option>
         <option *ngFor="let plan of workoutPlans" [value]="plan.id">{{ plan.name }}</option>
       </select>
     </div>
@@ -13,11 +13,11 @@
   <!-- Bottom Section: Exercise Table and Details -->
   <div class="flex flex-row gap-2.5 w-full justify-center">
     <!-- Exercise Table -->
-    <div class="w-1/2 flex flex-col items-center justify-center p-4">
-      <table class="min-w-full">
+    <div class="w-1/3 flex flex-col items-center justify-start">
+      <table *ngIf="selectedWorkoutPlan" class="min-w-full">
         <thead>
           <tr>
-            <th class="text-center py-3 px-4">Exercises</th>
+            <th class="text-center py-1">Exercises</th>
           </tr>
         </thead>
         <tbody>
@@ -31,7 +31,8 @@
     </div>
 
     <!-- Right Side -->
-    <div class="w-1/2 flex flex-col items-center justify-center p-4" *ngIf="selectedExerciseGroup">
+    <div class="w-2/3 flex flex-col items-center justify-center p-4" *ngIf="selectedExerciseGroup">
+      <div class="border border-black p-4 rounded">
       <!-- Exercise Details -->
       <div [formGroup]="selectedExerciseGroup">
         <!-- Exercise Name Display -->
@@ -64,14 +65,15 @@
         </div>
         <!-- Navigation Buttons -->
         <div class="flex justify-between mt-4">
-          <button class="button-like" (click)="selectPreviousExercise()">Previous</button>
-          <button class="button-like" (click)="selectNextExercise()">Next</button>
+          <button class="button-like-horizontal mr-2" (click)="selectPreviousExercise()">Previous</button>
+          <button class="button-like-horizontal" (click)="selectNextExercise()">Next</button>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </div>
 
-<form [formGroup]="workoutForm" (ngSubmit)="submitWorkout()">
+<form *ngIf="selectedWorkoutPlan" [formGroup]="workoutForm" (ngSubmit)="submitWorkout()" class="flex justify-center w-full mt-8">
   <button class="button-like" type="submit">Finish Workout</button>
 </form>
