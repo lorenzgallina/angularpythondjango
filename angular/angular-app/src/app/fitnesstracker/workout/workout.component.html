@@ -8,16 +8,6 @@
         <option *ngFor="let plan of workoutPlans" [value]="plan.id">{{ plan.name }}</option>
       </select>
     </div>
-
-    <!-- Date Input -->
-    <div class="w-1/2 flex flex-col items-center justify-center">
-      <form [formGroup]="workoutForm" >
-        <div>
-          <label class="block text-gray-700 text-sm font-bold mb-2">Date</label>
-          <input class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="date" type="date">
-        </div>
-      </form>
-    </div>
   </div>
 
   <!-- Bottom Section: Exercise Table and Details -->
@@ -31,15 +21,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let exerciseGroup of exerciseControls; let i = index" (click)="selectExercise(i)" class="cursor-pointer hover:bg-gray-100">
-            <td class="button-like-mini">{{ exerciseGroup.get('name')?.value }}</td>
+          <tr *ngFor="let exerciseGroup of exerciseControls; let i = index" (click)="selectExercise(i)" class="cursor-pointer hover:bg-gray-100 my-12">
+            <td class="py-1">
+              <div class="button-like-mini">{{ exerciseGroup.get('name')?.value }}</div>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <!-- Right Side -->
-    <div class="w-1/2 flex flex-col items-center justify-center" *ngIf="selectedExerciseGroup">
+    <div class="w-1/2 flex flex-col items-center justify-center p-4" *ngIf="selectedExerciseGroup">
       <!-- Exercise Details -->
       <div [formGroup]="selectedExerciseGroup">
         <!-- Exercise Name Display -->
@@ -81,5 +73,5 @@
 </div>
 
 <form [formGroup]="workoutForm" (ngSubmit)="submitWorkout()">
-  <button class="button-like" type="submit">Log Workout</button>
+  <button class="button-like" type="submit">Finish Workout</button>
 </form>
