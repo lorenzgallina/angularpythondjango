@@ -32,7 +32,7 @@ SECRET_KEY = 'b+6um8z%n3gznbji6mkww8f9uwn=@-tjr0uw2%tkixl6yg02us'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -140,6 +140,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:4200',
     'http://localhost:8080',
     'http://localhost:8180',
+    'http://193.31.26.167:8080',
 )
 
 
@@ -155,7 +156,7 @@ REST_FRAMEWORK = {
 }
 
 
-KEYCLOAK_CLIENT_PUBLIC_KEY ='-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAthqNXV1J6We+n3fyj9JnyXF9ocUb9vtQ33A/+kIlg4b0R9yZs2/orGB1f6z4FLYpSWvYZEL09TOnvi86Ny7Qe4JwCyAgySsAi2ciaE9FZFcK7xnIu9w9o1mzsC2xv1o52LQJGwlMRhYyu9QlUzXkBCVuZsGaurEZF2p6ftw0gnaeOnfCfUoNd7zzXtBYZ39pM+25gsK4c2VlcPA6QvuLUQp4ldGKJJAZzNxhfpGvppxkuGZbTbHfWTur6QFX3uYMjxSfZiNq9TrHHFyMJkiw1ijuGmNbbp3L/yIUwJLDFWAKIo0gIHO4LI2MXfQ12P+3IS4b3XoeCfQRT0DLDtqBmwIDAQAB\n-----END PUBLIC KEY-----'
+KEYCLOAK_CLIENT_PUBLIC_KEY ='-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgUz3+5tmcQLgAbm0GIlvPbW8eEZOPZ2fdUhZG/0PbQshfLGKo5zAP0jprsFdeJ2SK+1DEbl4mcUdQXIBdFcdWgz6trhnKo8+gDMbns2evsMON9ymdVSdoh+TJDu2IbVOzb99MHhk4HGhwZgEIhdt043tM9nB4i9sWdmYI9JsiiM2HF+A5K5zXbC4ILPEF56UGAqjOkEh9M+fYHZpALko4WdhLxhfAwwkn8O+LfJecDwNlAg3d7b4KkORqtUuKt4hFz5gIAndNWh4RdBuJ8mLiynbGcPDfq0obsnVAzl+8n4Es2jj+FdHVmdZuNj3RuM+sMM1xnnhevqlc6DRPX64dQIDAQAB\n-----END PUBLIC KEY-----'
 
 
 def jwt_get_username_from_payload_handler(payload):
@@ -166,7 +167,7 @@ JWT_AUTH = {
     'JWT_PUBLIC_KEY': KEYCLOAK_CLIENT_PUBLIC_KEY,
     'JWT_ALGORITHM': 'RS256',
     'JWT_AUDIENCE': 'account',
-    'JWT_ISSUER': 'http://localhost:8180/auth/realms/Project2',
+    'JWT_ISSUER': 'http://193.31.26.167:8180/auth/realms/Project2',
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 } 
 
