@@ -2,6 +2,7 @@
     "realm": "Project2",
     "id" : "Project2",
     "enabled": true,
+    "sslRequired" : "None",
     "clients": [
       {
         "clientId": "myapp",
