@@ -1,6 +1,15 @@
 version: "3"
 
 services:
+  reverse-proxy:
+    image: nginx:alpine
+    volumes:
+      - ./config/nginx-reverse-proxy.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - ng
+
   db:
     image: postgres
     volumes:
