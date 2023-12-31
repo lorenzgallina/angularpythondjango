@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
 import { Exercise, ExerciseLog, Workout, WorkoutPlan } from 'src/app/core/interfaces/fitness.interface';
@@ -27,54 +27,12 @@ export class WorkoutDisplayComponent implements OnInit {
     fill: true,
     backgroundColor: 'rgba(255, 99, 132, 0.25)',
     borderColor: 'rgb(255, 99, 132)',
+    yAxisID: 'y-axis-l',
     //pointBackgroundColor: 'blue',
     //pointRadius: 5,
     //pointHoverRadius: 7,
     type: 'line'
   }];
-
-  public lineChartRepsData: ChartDataset[] = [{
-    data: [],
-    label: 'Reps',
-    fill: true,
-    backgroundColor: 'rgba(255, 99, 132, 0.25)',
-    borderColor: 'rgb(255, 99, 132)',
-    //pointBackgroundColor: 'green',
-    //pointRadius: 5,
-    //pointHoverRadius: 7,
-    type: 'line'
-  }];
-
-  public lineChartSetsData: ChartDataset[] = [{
-    data: [],
-    label: 'Sets',
-    fill: true,
-    backgroundColor: 'rgba(255, 99, 132, 0.25)',
-    borderColor: 'rgb(255, 99, 132)',
-    //pointBackgroundColor: 'red',
-    //pointRadius: 5,
-    //pointHoverRadius: 7,
-    type: 'line'
-  }];
-  
-  public combinedChartData: ChartDataset[] = [
-    {
-      data: [], // Weight data
-      label: 'Exercise Weight',
-      borderColor: 'blue',
-      backgroundColor: 'rgba(0, 0, 255, 0.3)',
-      yAxisID: 'y-axis-l', // Assign to left y-axis
-      //type: 'line'
-    },
-    {
-      data: [], // Reps data
-      label: 'Exercise Reps',
-      borderColor: 'green',
-      backgroundColor: 'rgba(0, 255, 0, 0.3)',
-      yAxisID: 'y-axis-r', // Assign to right y-axis
-      //type: 'line'
-    }
-  ];
   
 
   public lineChartLabels: string[] = [];
@@ -88,16 +46,6 @@ export class WorkoutDisplayComponent implements OnInit {
           text: 'Weight'
         }
       },
-      'y-axis-r': {
-        position: 'right',
-        grid: {
-          drawOnChartArea: false,
-        },
-        title: {
-          display: true,
-          text: 'Reps'
-        }
-      }
     }
   };
   
@@ -109,8 +57,7 @@ export class WorkoutDisplayComponent implements OnInit {
     private workoutService: WorkoutService,
     private workoutPlanService: WorkoutPlanService,
     private exerciseLogService: ExerciseLogService,
-    private snackBar: MatSnackBar,
-    private changeDetectorRef: ChangeDetectorRef) {}
+    private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.loadWorkoutPlans();
@@ -169,8 +116,7 @@ export class WorkoutDisplayComponent implements OnInit {
   }
 
   onExerciseSelected() {
-    this.combinedChartData[0].data = []; // Reset weight data
-    this.combinedChartData[1].data = []; // Reset reps data
+    this.lineChartWeightData[0].data = [];
     this.lineChartLabels = [];
 
     this.workouts?.forEach(workout => {
@@ -179,14 +125,12 @@ export class WorkoutDisplayComponent implements OnInit {
         if (exerciseLogsForWorkout) {
           const exerciseLog = exerciseLogsForWorkout.find(log => log.exercise === Number(this.selectedExerciseId));
           if (exerciseLog) {
-            this.combinedChartData[0].data.push(exerciseLog.weight);
-            this.combinedChartData[1].data.push(exerciseLog.reps);
+            this.lineChartWeightData[0].data.push(exerciseLog.weight);
             this.lineChartLabels.push(new Date(workout.date).toLocaleDateString());
           }
         }
-  }});
-
-  this.changeDetectorRef.detectChanges();
+      }
+    });
   }
 
 }
