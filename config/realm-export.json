@@ -5,10 +5,10 @@
     "clients": [
       {
         "clientId": "myapp",
-        "rootUrl" : "http://localhost:8080/",
+        "rootUrl" : "http://193.31.26.167:8080/",
         "baseUrl": "/realms/Project2/account/",
-        "redirectUris": [ "http://localhost:80/*", "http://localhost:8080/*", "http://localhost/*", "http://localhost:4200" ],
-        "webOrigins" : [ "http://localhost:8080", "http://localhost:4200" ],
+        "redirectUris": [ "http://localhost:80/*", "http://localhost:8080/*", "http://localhost/*", "http://localhost:4200", "http://193.31.26.167:80/*", "http://193.31.26.167:8080/*", "http://193.31.26.167/*", "http://193.31.26.167:4200" ],
+        "webOrigins" : [ "http://localhost:8080", "http://localhost:4200","http://193.31.26.167:8080", "http://193.31.26.167:4200" ],
         "protocol" : "openid-connect",
         "publicClient" : true,
         "directAccessGrantsEnabled" : true,
