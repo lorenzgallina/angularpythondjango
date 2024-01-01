@@ -12,6 +12,7 @@
         <!-- Authentication Buttons -->
         <div>
             <button mat-button *ngIf="!isLoggedIn" (click)="login()" class="mr-2">Sign In</button>
+            <button mat-button *ngIf="!isLoggedIn" (click)="redirectToRegistration()" class="mr-2">Register</button>
             <button mat-button *ngIf="isLoggedIn" (click)="logout()">Sign Out</button>
         </div>
     </div>
@@ -21,6 +22,7 @@
     <!-- Top Navigation Links -->
     <nav class="flex justify-around bg-gray-100 p-4">
         <!--<a mat-button routerLink="/public" routerLinkActive="active" class="hover:text-blue-600">Public</a>-->
+        <a mat-button routerLink="/contact" routerLinkActive="active" >Contact</a>
         <a mat-button routerLink="/exercises" routerLinkActive="active" >Exercises</a>
         <a mat-button routerLink="/workout-plan" routerLinkActive="active" >Workout-Plan</a>
         <a mat-button routerLink="/workout" routerLinkActive="active" >Workout</a>

@@ -40,6 +40,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 // Flex Layout Module
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { RegisterComponent } from './register/register.component';
+import { ContactComponent } from './contact/contact.component';
 
 
 
@@ -72,6 +74,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     WorkoutPlanComponent,
     WorkoutPlanDialogComponent,
     WorkoutDisplayComponent,
+    RegisterComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
