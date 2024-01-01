@@ -6,6 +6,8 @@ import { ExerciseListComponent } from './fitnesstracker/exercise-list/exercise-l
 import { WorkoutPlanComponent } from './fitnesstracker/workout-plan/workout-plan.component';
 import { WorkoutComponent } from './fitnesstracker/workout/workout.component';
 import { WorkoutDisplayComponent } from './fitnesstracker/workout-display/workout-display.component';
+import { RegisterComponent } from './register/register.component';
+import { ContactComponent } from './contact/contact.component';
 
 const routes: Routes = [
   { path: 'public', component: PublicSpaceComponent },
@@ -13,6 +15,8 @@ const routes: Routes = [
   { path: 'workout-plan', component: WorkoutPlanComponent, canActivate: [KeycloakGuard] },
   { path: 'workout', component: WorkoutComponent, canActivate: [KeycloakGuard] },
   { path: 'workout-display', component: WorkoutDisplayComponent, canActivate: [KeycloakGuard] },
+  { path: 'register', component: RegisterComponent },
+  { path: 'contact', component: ContactComponent },
   { path: '**', component: PublicSpaceComponent}
 ];
 

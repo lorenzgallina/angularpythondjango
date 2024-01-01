@@ -26,4 +26,8 @@ export class AppComponent implements OnInit{
   logout() {
     this.keycloakService.logout();
   }
+
+  redirectToRegistration() {
+    window.location.href = 'http://localhost/api/accounts/register'; // URL to your Django registration view
+  }
 }
