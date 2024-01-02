@@ -1,4 +1,4 @@
-<div>
+<div class="p-4 border border-gray-300 rounded-lg">
   <form [formGroup]="workoutPlanForm" (ngSubmit)="isEditing && workoutPlanForm ? updateWorkoutPlan() : addWorkoutPlan()">
     
     <mat-form-field appearance="fill">
@@ -18,8 +18,9 @@
 
       </div>
     </ng-container>
-
-    <button mat-raised-button color="primary" type="submit">{{ isEditing ? 'Update' : 'Add' }} <mat-icon>done</mat-icon></button>
-    <button *ngIf="isEditing" mat-raised-button color="warn" type="button" (click)="deleteWorkoutPlan()"><mat-icon>delete</mat-icon> Delete</button>
+    <div class="flex justify-end space-x-2">
+      <button mat-raised-button color="primary" type="submit">{{ isEditing ? 'Update' : 'Add' }} <mat-icon>done</mat-icon></button>
+      <button *ngIf="isEditing" mat-raised-button color="warn" type="button" (click)="deleteWorkoutPlan()"><mat-icon>delete</mat-icon> Delete</button>
+    </div>
   </form>
 </div>

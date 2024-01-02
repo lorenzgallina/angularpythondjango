@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'workout', component: WorkoutComponent, canActivate: [KeycloakGuard] },
   { path: 'workout-display', component: WorkoutDisplayComponent, canActivate: [KeycloakGuard] },
   { path: 'register', component: RegisterComponent },
-  { path: 'contact', component: ContactComponent },
+  { path: 'contact', component: ContactComponent, canActivate: [KeycloakGuard] },
 ];
 
 @NgModule({
