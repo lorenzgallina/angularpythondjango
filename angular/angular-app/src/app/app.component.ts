@@ -1,7 +1,9 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +16,12 @@ export class AppComponent implements OnInit{
   title = 'angular-app';
   isMobile: boolean = false;
 
-  constructor(private keycloakService: KeycloakService, private breakpointObserver: BreakpointObserver) {}
+  constructor(private router: Router, private keycloakService: KeycloakService, private breakpointObserver: BreakpointObserver, private authService: AuthService) {}
   
 
   ngOnInit(): void {
-    this.keycloakService.isLoggedIn().then(isLoggedIn => {
-      this.isLoggedIn = isLoggedIn;
+    this.authService.isLoggedIn$.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
     });
     this.breakpointObserver
       .observe([Breakpoints.Handset])
@@ -34,10 +36,12 @@ export class AppComponent implements OnInit{
 
   login() {
     this.keycloakService.login();
+    this.router.navigate(['/starting-page']);
   }
 
   logout() {
     this.keycloakService.logout();
+    this.router.navigate(['/starting-page']);
   }
 
   redirectToRegistration() {

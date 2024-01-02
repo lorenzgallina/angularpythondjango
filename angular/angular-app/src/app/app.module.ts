@@ -42,6 +42,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RegisterComponent } from './register/register.component';
 import { ContactComponent } from './contact/contact.component';
+import { StartingPageComponent } from './starting-page/starting-page.component';
 
 
 
@@ -75,6 +76,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     WorkoutDisplayComponent,
     RegisterComponent,
     ContactComponent,
+    StartingPageComponent,
   ],
   imports: [
     BrowserModule,
