@@ -40,8 +40,8 @@ export class AppComponent implements OnInit{
   }
 
   logout() {
-    this.keycloakService.logout();
     this.router.navigate(['/starting-page']);
+    this.keycloakService.logout();
   }
 
   redirectToRegistration() {
