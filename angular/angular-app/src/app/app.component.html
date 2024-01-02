@@ -1,32 +1,59 @@
-<mat-toolbar class="py-2 md:py-4 bg-gray-200">
+<mat-toolbar class="py-2 md:py-4 px-4 md:px-6 bg-gray-200">
+    <!-- Mobile Burger Menu Button -->
+    <button mat-icon-button (click)="sidenav.toggle()" *ngIf="isMobile" class="md:hidden">
+        <mat-icon class="icon-display">menu</mat-icon>
+    </button>
+
     <!-- Header Image -->
-    <div class="w-full">
+    <!--<div class="w-full">
         <img src="assets/fitnesstrackerheaderv2.jpg" alt="Fitness Tracker" class="w-full h-auto object-cover">
-    </div>
+    </div>-->
 
-    <!-- Title and Buttons Row -->
-    <div class="flex items-center justify-between p-4">
+     <!-- Title and Authentication -->
+    <div class="flex items-center justify-between p-4 w-full">
         <!-- Title -->
-        <h1 class="text-lg md:text-xl font-bold">Fitness Tracker</h1>
+        <h1 class="text-lg md:text-xl font-bold">Gym Tracker</h1>
 
-        <!-- Authentication Buttons -->
-        <div>
-            <button mat-button *ngIf="!isLoggedIn" (click)="login()" class="mr-2">Sign In</button>
-            <button mat-button *ngIf="!isLoggedIn" (click)="redirectToRegistration()" class="mr-2">Register</button>
-            <button mat-button *ngIf="isLoggedIn" (click)="logout()">Sign Out</button>
+        <!-- Authentication Area -->
+        <div class="flex items-center space-x-4">
+            <!-- Sign In Button (Visible when not logged in) -->
+            <button mat-button *ngIf="!isLoggedIn" (click)="login()">Sign In</button>
+            
+            <!-- Account Dropdown (Visible when logged in) -->
+            <div *ngIf="isLoggedIn">
+                <button mat-icon-button [matMenuTriggerFor]="userMenu" class="pr-2">
+                    <mat-icon class="icon-display">account_circle</mat-icon>
+                </button>
+                <mat-menu #userMenu="matMenu">
+                    <button mat-menu-item routerLink="/contact">Account</button>
+                    <button mat-menu-item (click)="logout()">Log Out</button>
+                </mat-menu>
+            </div>
         </div>
     </div>
 </mat-toolbar>
 
+<!-- Header Image -->
+<div class="w-full max-h-24 overflow-hidden">
+    <img src="assets/fitnesstrackerheaderv4.jpg" alt="Fitness Tracker" class="w-full h-full object-cover object-center">
+</div>
+
 <mat-sidenav-container class="flex flex-col h-screen">
-    <!-- Top Navigation Links -->
-    <nav class="flex justify-around bg-gray-100 p-4">
-        <!--<a mat-button routerLink="/public" routerLinkActive="active" class="hover:text-blue-600">Public</a>-->
-        <a mat-button routerLink="/contact" routerLinkActive="active" >Contact</a>
-        <a mat-button routerLink="/exercises" routerLinkActive="active" >Exercises</a>
-        <a mat-button routerLink="/workout-plan" routerLinkActive="active" >Workout-Plan</a>
-        <a mat-button routerLink="/workout" routerLinkActive="active" >Workout</a>
-        <a mat-button routerLink="/workout-display" routerLinkActive="active" >Workout-Display</a>
+    <!-- Mobile Navigation Sidenav -->
+    <mat-sidenav #sidenav mode="over" *ngIf="isMobile" class="bg-gray-100 w-48">
+        <!-- Mobile navigation links -->
+        <a mat-button routerLink="/exercises" class="block my-2">Exercises</a>
+        <a mat-button routerLink="/workout-plan" class="block my-2">Workout-Plan</a>
+        <a mat-button routerLink="/workout" class="block my-2">Workout</a>
+        <a mat-button routerLink="/workout-display" class="block my-2">Workout-Display</a>
+    </mat-sidenav>
+
+    <!-- Desktop Top Navigation Links -->
+    <nav *ngIf="!isMobile" class="md:flex justify-around bg-gray-100 p-4">
+        <a mat-button routerLink="/exercises" routerLinkActive="active">Exercises</a>
+        <a mat-button routerLink="/workout-plan" routerLinkActive="active">Workout-Plan</a>
+        <a mat-button routerLink="/workout" routerLinkActive="active">Workout</a>
+        <a mat-button routerLink="/workout-display" routerLinkActive="active">Workout-Display</a>
     </nav>
 
     <!-- Main Content Area -->
@@ -34,7 +61,7 @@
         <div class="flex flex-grow">
             <div class="hidden md:block md:w-1/12 custom-background">
             </div>
-    
+
             <!-- Main Content Area -->
             <div class="flex-grow p-4 mx-auto max-w-5xl">
                 <router-outlet></router-outlet>
@@ -42,7 +69,6 @@
 
             <div class="hidden md:block md:w-1/12 custom-background">
             </div>
-    
         </div>
     </div>
 </mat-sidenav-container>
