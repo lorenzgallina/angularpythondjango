@@ -13,7 +13,6 @@ import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { PublicSpaceComponent } from './public-space/public-space.component';
-import { RestrictedSpaceComponent } from './restricted-space/restricted-space.component';
 import { JwtInterceptor } from './jwt.interceptor';
 import { ExerciseComponent } from './fitnesstracker/exercise-list/exercise-dialog/exercise-dialog.component';
 import { ExerciseListComponent } from './fitnesstracker/exercise-list/exercise-list.component';
@@ -35,6 +34,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 
@@ -67,7 +67,6 @@ function initializeKeycloak(keycloak: KeycloakService) {
     AppComponent,
     TaskListComponent,
     PublicSpaceComponent,
-    RestrictedSpaceComponent,
     ExerciseComponent,
     ExerciseListComponent,
     WorkoutComponent,
@@ -100,6 +99,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     NgChartsModule,
     MatSidenavModule,
     MatIconModule,
+    MatMenuModule
   ],
   providers: [{
     provide: APP_INITIALIZER,
