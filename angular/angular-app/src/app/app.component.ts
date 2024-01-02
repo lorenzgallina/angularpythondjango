@@ -40,8 +40,11 @@ export class AppComponent implements OnInit{
   }
 
   logout() {
-    this.router.navigate(['/starting-page']);
-    this.keycloakService.logout();
+    this.router.navigate(['/starting-page']).then(() => {
+      this.keycloakService.logout().catch(error => {
+        console.error('Logout failed', error);
+      });
+    });
   }
 
   redirectToRegistration() {
