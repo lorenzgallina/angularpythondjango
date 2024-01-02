@@ -1,8 +1,9 @@
-<mat-toolbar class="py-2 md:py-4 px-4 md:px-6 bg-gray-200">
+<mat-toolbar class="py-2 md:py-4 px-4 md:px-6 bg-gray-200 flex justify-between items-center">
     <!-- Mobile Burger Menu Button -->
-    <button mat-icon-button (click)="sidenav.toggle()" *ngIf="isMobile" class="md:hidden">
+    <button mat-icon-button (click)="sidenav.toggle()" *ngIf="isMobile && isLoggedIn" class="md:hidden">
         <mat-icon class="icon-display">menu</mat-icon>
     </button>
+    <div *ngIf="!(isMobile && isLoggedIn)" style="width: 48px;" ></div>
 
     <!-- Header Image -->
     <!--<div class="w-full">
@@ -10,7 +11,7 @@
     </div>-->
 
      <!-- Title and Authentication -->
-    <div class="flex items-center justify-between p-4 w-full">
+
         <!-- Title -->
         <h1 class="text-lg md:text-xl font-bold">Gym Tracker</h1>
 
@@ -30,17 +31,17 @@
                 </mat-menu>
             </div>
         </div>
-    </div>
+
 </mat-toolbar>
 
 <!-- Header Image -->
-<div class="w-full max-h-24 overflow-hidden">
-    <img src="assets/fitnesstrackerheaderv4.jpg" alt="Fitness Tracker" class="w-full h-full object-cover object-center">
-</div>
+<!--<div class="w-full overflow-hidden max-h-12 sm:max-h-16 md:max-h-24 lg:max-h-32">
+    <img src="assets/fitnesstrackerheaderv4.jpg" alt="Fitness Tracker" class="">
+</div>-->
 
 <mat-sidenav-container class="flex flex-col h-screen">
     <!-- Mobile Navigation Sidenav -->
-    <mat-sidenav #sidenav mode="over" *ngIf="isMobile" class="bg-gray-100 w-48">
+    <mat-sidenav #sidenav mode="over" *ngIf="isMobile && isLoggedIn" class="bg-gray-100 w-48">
         <!-- Mobile navigation links -->
         <a mat-button routerLink="/exercises" class="block my-2">Exercises</a>
         <a mat-button routerLink="/workout-plan" class="block my-2">Workout-Plan</a>
@@ -49,7 +50,7 @@
     </mat-sidenav>
 
     <!-- Desktop Top Navigation Links -->
-    <nav *ngIf="!isMobile" class="md:flex justify-around bg-gray-100 p-4">
+    <nav *ngIf="!isMobile && isLoggedIn" class="md:flex justify-around bg-gray-100 p-4">
         <a mat-button routerLink="/exercises" routerLinkActive="active">Exercises</a>
         <a mat-button routerLink="/workout-plan" routerLinkActive="active">Workout-Plan</a>
         <a mat-button routerLink="/workout" routerLinkActive="active">Workout</a>

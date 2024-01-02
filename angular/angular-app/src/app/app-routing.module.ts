@@ -8,16 +8,17 @@ import { WorkoutComponent } from './fitnesstracker/workout/workout.component';
 import { WorkoutDisplayComponent } from './fitnesstracker/workout-display/workout-display.component';
 import { RegisterComponent } from './register/register.component';
 import { ContactComponent } from './contact/contact.component';
+import { StartingPageComponent } from './starting-page/starting-page.component';
 
 const routes: Routes = [
-  { path: 'public', component: PublicSpaceComponent },
+  { path: 'starting-page', component: StartingPageComponent },
+  { path: '', redirectTo: '/starting-page', pathMatch: 'full' },
   { path: 'exercises', component: ExerciseListComponent, canActivate: [KeycloakGuard] },
   { path: 'workout-plan', component: WorkoutPlanComponent, canActivate: [KeycloakGuard] },
   { path: 'workout', component: WorkoutComponent, canActivate: [KeycloakGuard] },
   { path: 'workout-display', component: WorkoutDisplayComponent, canActivate: [KeycloakGuard] },
   { path: 'register', component: RegisterComponent },
   { path: 'contact', component: ContactComponent },
-  { path: '**', component: PublicSpaceComponent}
 ];
 
 @NgModule({
