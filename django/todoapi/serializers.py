@@ -15,7 +15,7 @@ class TaskSerializer(serializers.ModelSerializer):
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercise
-        fields = ('id', 'name','default_weight','default_sets','default_reps')
+        fields = ('id', 'name','default_weight','default_sets','default_reps', 'comments', 'time', 'timer_active')
 
 class WorkoutPlanSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,4 +30,4 @@ class WorkoutSerializer(serializers.ModelSerializer):
 class ExerciseLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExerciseLog
-        fields = ('id', 'exercise','sets','reps', 'weight', 'workout')
+        fields = ('id', 'exercise','sets','reps', 'weight', 'workout', 'comments', 'time', 'timer_active')

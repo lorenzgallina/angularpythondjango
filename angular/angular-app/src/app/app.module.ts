@@ -43,6 +43,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RegisterComponent } from './register/register.component';
 import { ContactComponent } from './contact/contact.component';
 import { StartingPageComponent } from './starting-page/starting-page.component';
+import { TimerComponent } from './fitnesstracker/timer/timer.component';
 
 
 
@@ -77,6 +78,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     RegisterComponent,
     ContactComponent,
     StartingPageComponent,
+    TimerComponent,
   ],
   imports: [
     BrowserModule,

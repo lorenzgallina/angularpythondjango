@@ -7,6 +7,7 @@ import { ExerciseService } from 'src/app/core/services/exercise.service';
 import { WorkoutService } from 'src/app/core/services/workout.service';
 import { WorkoutPlanService } from 'src/app/core/services/workoutplan.service';
 import { ExerciseLogService } from 'src/app/core/services/exerciselog.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-workout',
@@ -20,6 +21,7 @@ export class WorkoutComponent implements OnInit {
   selectedWorkoutPlanId: number | null = null;
   allExercises: Exercise[] | undefined;
   selectedExerciseGroup: FormGroup | null = null;
+  routerplanid!: number | null;
 
 
   constructor(private exerciseService: ExerciseService,
@@ -27,7 +29,9 @@ export class WorkoutComponent implements OnInit {
     private workoutPlanService: WorkoutPlanService,
     private exerciseLogService: ExerciseLogService,
     private formBuilder: FormBuilder, 
-    private snackBar: MatSnackBar) 
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private router: Router) 
     {
     const currentDate = new Date();
     const formattedDate = formatDate(currentDate, 'yyyy-MM-dd', 'en-US');
@@ -38,14 +42,26 @@ export class WorkoutComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.routerplanid = null;
     this.getExercises();
     this.loadWorkoutPlans();
+    this.route.queryParams.subscribe(params => {
+      if (params['planId']) {
+        this.routerplanid = params['planId'];
+        this.selectedWorkoutPlanId = this.routerplanid;
+        this.onWorkoutPlanSelected();
+      }
+    });
   }
 
   loadWorkoutPlans() {
     this.workoutPlanService.getAll().subscribe(
       (workoutplans) => {
         this.workoutPlans = workoutplans;
+        if (this.routerplanid){
+          this.selectedWorkoutPlanId = this.routerplanid;
+          this.onWorkoutPlanSelected();
+        }
       },
       (error) => {
         console.error('Error loading (workoutplans:', error);
@@ -87,12 +103,25 @@ export class WorkoutComponent implements OnInit {
             defaultWeight: matchingexercise.default_weight,
             sets: matchingexercise.default_sets,
             reps: matchingexercise.default_reps,
-            weight: matchingexercise.default_weight
+            weight: matchingexercise.default_weight,
+            timer_active: matchingexercise.timer_active,
+            time: 0,
+            defaultTime: matchingexercise.time
           }));
         }
       });
 
       this.preselectFirstExercise();
+
+      const queryParams = this.selectedWorkoutPlanId ? { planId: this.selectedWorkoutPlanId } : {};
+      this.router.navigate(
+        [], 
+        {
+          relativeTo: this.route,
+          queryParams: queryParams,
+          queryParamsHandling: 'merge',
+        }
+      );
     }
   }
 
@@ -126,6 +155,13 @@ export class WorkoutComponent implements OnInit {
     }
   }
 
+  onTimeUpdated(time: number) {
+    if (this.selectedExerciseGroup) {
+      const roundedTime = Math.round(time);
+      this.selectedExerciseGroup.patchValue({ time: roundedTime });
+    }
+  }
+
   submitWorkout() {
     const workoutData: Workout = {
       date: this.workoutForm.value.date,
@@ -147,12 +183,14 @@ export class WorkoutComponent implements OnInit {
   createExerciseLogs(workoutId: number) {
     const exerciseLogs = this.workoutForm.value.exercises;
   
-    exerciseLogs.forEach((log: { exerciseId: any; sets: any; reps: any; weight: any; }) => {
+    exerciseLogs.forEach((log: { exerciseId: any; sets: any; reps: any; weight: any; timer_active:any; time:any; }) => {
       const exerciseLogData: ExerciseLog = {
         exercise: log.exerciseId,
         sets: log.sets,
         reps: log.reps,
         weight: log.weight,
+        time: log.time,
+        timer_active: log.timer_active,
         workout: [workoutId],
       };
   
