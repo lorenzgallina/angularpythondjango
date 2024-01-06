@@ -7,7 +7,7 @@
       <th mat-header-cell *matHeaderCellDef> 
         <div class="text-center">
           <button class="center button-like-add" (click)="openDialog()">
-            <mat-icon class="mr-2">add_circle</mat-icon> Add
+            <mat-icon class="mr-2">add_circle</mat-icon> New
           </button>
         </div>
       </th>
@@ -15,8 +15,9 @@
         <div class="center button-like" (click)="openDialog(element)">
           <mat-icon class="text-sm ml-2">edit</mat-icon> {{ element.name }}
         </div>
-        <button class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg transition duration-150 ease-in-out py-2.5 px-3 absolute right-0 mr-4" (click)="navigateToWorkout(element.id)">
-          <mat-icon>arrow_forward</mat-icon>
+        <button class="flex items-center justify-center bg-black hover:bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg transition duration-150 ease-in-out py-2.5 px-3 absolute right-0 mr-4" (click)="navigateToWorkout(element.id)">
+
+          Start
         </button>
       </td>
 
