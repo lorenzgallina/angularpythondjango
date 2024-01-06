@@ -1,4 +1,3 @@
-// timer.component.ts
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 
 @Component({
