@@ -27,6 +27,9 @@ export class ExerciseComponent {
       default_weight: '',
       default_sets: '',
       default_reps: '',
+      comments: ['', Validators.maxLength(500)],
+      timer_active: [false],
+      time: [0, [Validators.required, Validators.min(0)]]
     });
 
     if (data && data.exercise) {
@@ -36,9 +39,8 @@ export class ExerciseComponent {
   }
 
   addExercise() {
-    const ex = this.exerciseForm.value;
-
-    this.exerciseService.add(this.exerciseForm.value).subscribe(
+    const formValue = this.prepareFormValue(this.exerciseForm.value);
+    this.exerciseService.add(formValue).subscribe(
       response => {
         this.snackBar.open('Exercise added successfully!', 'Close', { duration: 3000 });
         this.dialogRef.close(true);
@@ -51,7 +53,8 @@ export class ExerciseComponent {
   }
 
   updateExercise() {
-    this.exerciseService.update(this.exerciseForm.value, this.exerciseForm.value.id).subscribe(
+    const formValue = this.prepareFormValue(this.exerciseForm.value);
+    this.exerciseService.update(formValue, this.exerciseForm.value.id).subscribe(
       response => {
         this.snackBar.open('Exercise updated successfully!', 'Close', { duration: 3000 });
         this.dialogRef.close(true);
@@ -76,5 +79,21 @@ export class ExerciseComponent {
         }
       );
     }
+  }
+
+  prepareFormValue(formValue: any): any {
+    if (!formValue.default_weight) {
+      formValue.default_weight = 0;
+    }
+    if (!formValue.timer_active) {
+      formValue.time = 0;
+    }
+    if (!formValue.default_sets) {
+      formValue.default_sets = 0;
+    }
+    if (!formValue.default_reps) {
+      formValue.default_reps = 0;
+    }
+    return formValue;
   }
 }

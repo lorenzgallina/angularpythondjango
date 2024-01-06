@@ -5,6 +5,9 @@ export interface Exercise {
     default_sets: number;
     default_reps: number;
     user?: number;
+    time?: number;
+    timer_active?: boolean;
+    comment?: string;
   }
 
 export interface WorkoutPlan {
@@ -28,5 +31,8 @@ export interface ExerciseLog {
   weight: number;
   workout: number[];
   user?: number;
+  time?: number;
+  timer_active?: boolean;
+  comment?: string;
 }
 

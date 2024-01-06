@@ -34,6 +34,9 @@ class Exercise(models.Model):
     default_weight = models.DecimalField(max_digits=5, decimal_places=2)
     default_sets = models.PositiveIntegerField()
     default_reps = models.PositiveIntegerField()
+    comments = models.TextField(blank=True, null=True)
+    timer_active = models.BooleanField(default=False)
+    time = models.IntegerField(default=0) 
     
     # User who created this exercise.
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -85,6 +88,9 @@ class ExerciseLog(models.Model):
     sets = models.PositiveIntegerField()
     reps = models.PositiveIntegerField()
     weight = models.DecimalField(max_digits=5, decimal_places=2)
+    comments = models.TextField(blank=True, null=True)
+    timer_active = models.BooleanField(default=False)
+    time = models.IntegerField(default=0) 
     workout = models.ManyToManyField(Workout)
     
     # User who recorded this exercise log.

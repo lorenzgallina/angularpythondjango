@@ -13,14 +13,37 @@
       <input matInput formControlName="default_weight">
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Default Sets</mat-label>
-      <input matInput type="number" formControlName="default_sets">
-    </mat-form-field>
+    <mat-checkbox formControlName="timer_active">Use Timer</mat-checkbox>
 
+    <ng-container *ngIf="exerciseForm.get('timer_active')?.value">
+      <mat-form-field appearance="fill">
+        <mat-label>Time (seconds)</mat-label>
+        <input matInput type="number" formControlName="time">
+        <mat-error *ngIf="exerciseForm.get('time')?.errors?.['required']">
+          Time is required.
+        </mat-error>
+        <mat-error *ngIf="exerciseForm.get('time')?.errors?.['min']">
+          Time cannot be negative.
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+
+    <ng-container *ngIf="!exerciseForm.get('timer_active')?.value">
+      <mat-form-field appearance="fill">
+        <mat-label>Default Sets</mat-label>
+        <input matInput type="number" formControlName="default_sets">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Default Reps</mat-label>
+        <input matInput type="number" formControlName="default_reps">
+      </mat-form-field>
+    </ng-container>
+
+    <!-- Comments Field -->
     <mat-form-field appearance="fill">
-      <mat-label>Default Reps</mat-label>
-      <input matInput type="number" formControlName="default_reps">
+      <mat-label>Comments</mat-label>
+      <textarea matInput formControlName="comments"></textarea>
     </mat-form-field>
 
     <!-- Action Buttons -->

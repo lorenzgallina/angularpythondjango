@@ -1,0 +1,24 @@
+<div class="timer-container flex flex-col items-center space-y-4 bg-white p-4 rounded-lg shadow max-w-sm mx-auto">
+    <div class="text-xl font-semibold">
+        <span [class.text-red-500]="(elapsedTime / 1000) < defaultTime" [class.text-green-500]="(elapsedTime / 1000) >= defaultTime">
+            {{ elapsedTime / 1000 | number: '1.0-0' }}
+        </span> seconds
+    </div>
+    
+    <div class="flex space-x-4">
+        <!-- Start Button -->
+        <button class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-green-500 hover:bg-green-600 transition duration-300 text-white" (click)="startTimer()">
+            <mat-icon>play_arrow</mat-icon>
+        </button>
+
+        <!-- Stop Button -->
+        <button class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-red-500 hover:bg-red-600 transition duration-300 text-white" (click)="stopTimer()">
+            <mat-icon>stop</mat-icon>
+        </button>
+
+        <!-- Reset Button -->
+        <button class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-blue-500 hover:bg-blue-600 transition duration-300 text-white" (click)="resetTimer()">
+            <mat-icon>refresh</mat-icon>
+        </button>
+    </div>
+</div>
