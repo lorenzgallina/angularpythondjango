@@ -89,6 +89,8 @@ export class WorkoutComponent implements OnInit {
 
   onWorkoutPlanSelected() {
     if (this.selectedWorkoutPlanId !== null) {
+      this.selectedExerciseIndex = null;
+      this.completedExercises.clear();
     
       this.selectedWorkoutPlan = this.workoutPlans?.find(plan => plan.id === Number(this.selectedWorkoutPlanId));
 
@@ -161,6 +163,7 @@ export class WorkoutComponent implements OnInit {
     if (this.selectedExerciseGroup) {
       const currentIndex = this.exerciseControls.indexOf(this.selectedExerciseGroup);
       if (this.isLastExercise()) {
+        this.completedExercises.add(currentIndex);
         this.openConfirmDialog();
       }
       if (currentIndex >= 0 && currentIndex < this.exerciseControls.length - 1) {
