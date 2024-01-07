@@ -45,6 +45,7 @@ import { ContactComponent } from './contact/contact.component';
 import { StartingPageComponent } from './starting-page/starting-page.component';
 import { TimerComponent } from './fitnesstracker/timer/timer.component';
 import { WorkoutDialogComponent } from './fitnesstracker/workout/workout-dialog/workout-dialog.component';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 
 
@@ -105,7 +106,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     NgChartsModule,
     MatSidenavModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    SlickCarouselModule
   ],
   providers: [{
     provide: APP_INITIALIZER,

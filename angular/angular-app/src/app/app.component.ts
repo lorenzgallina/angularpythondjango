@@ -15,6 +15,20 @@ export class AppComponent implements OnInit{
   isLoggedIn = false;
   title = 'angular-app';
   isMobile: boolean = false;
+  images = [
+    { url: 'assets/quotes/GYMTS2Q22.jpg', alt: 'Image 1' },
+    { url: 'assets/quotes/GYMTS3Q12.jpg', alt: 'Image 2' },
+    { url: 'assets/quotes/GYMTS5Q32.jpg', alt: 'Image 2' },
+    // add more images as needed
+  ];
+  slideConfig = {
+    "slidesToShow": 1, 
+    "slidesToScroll": 1,
+    "dots": true,
+    "infinite": true,
+    "autoplay": true,
+    "autoplaySpeed": 4000
+  };
 
   constructor(private router: Router, private keycloakService: KeycloakService, private breakpointObserver: BreakpointObserver, private authService: AuthService) {}
   
