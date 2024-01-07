@@ -39,6 +39,7 @@
     <img src="assets/fitnesstrackerheaderv4.jpg" alt="Fitness Tracker" class="">
 </div>-->
 
+
 <mat-sidenav-container class="flex flex-col h-screen">
     <!-- Mobile Navigation Sidenav -->
     <mat-sidenav #sidenav mode="over" *ngIf="isMobile && isLoggedIn" class="bg-gray-100 w-48">
@@ -56,6 +57,14 @@
         <a mat-button routerLink="/workout" routerLinkActive="active">Training</a>
         <a mat-button routerLink="/workout-display" routerLinkActive="active">Workout-Display</a>
     </nav>
+
+    <div class="w-full" >
+        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+            <div ngxSlickItem *ngFor="let img of images" class="slide">
+            <img [src]="img.url" alt="{{img.alt}}">
+            </div>
+        </ngx-slick-carousel>
+    </div>
 
     <!-- Main Content Area -->
     <div class="flex flex-col h-screen">
