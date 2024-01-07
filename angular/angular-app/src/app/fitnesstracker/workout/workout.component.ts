@@ -8,6 +8,8 @@ import { WorkoutService } from 'src/app/core/services/workout.service';
 import { WorkoutPlanService } from 'src/app/core/services/workoutplan.service';
 import { ExerciseLogService } from 'src/app/core/services/exerciselog.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { WorkoutDialogComponent } from './workout-dialog/workout-dialog.component';
 
 @Component({
   selector: 'app-workout',
@@ -22,6 +24,8 @@ export class WorkoutComponent implements OnInit {
   allExercises: Exercise[] | undefined;
   selectedExerciseGroup: FormGroup | null = null;
   routerplanid!: number | null;
+  selectedExerciseIndex: number | null = null;
+  completedExercises: Set<number> = new Set();
 
 
   constructor(private exerciseService: ExerciseService,
@@ -31,7 +35,8 @@ export class WorkoutComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private router: Router) 
+    private router: Router,
+    private dialog: MatDialog) 
     {
     const currentDate = new Date();
     const formattedDate = formatDate(currentDate, 'yyyy-MM-dd', 'en-US');
@@ -80,9 +85,7 @@ export class WorkoutComponent implements OnInit {
     );
   }
 
-  selectExercise(index: number) {
-    this.selectedExerciseGroup = this.exerciseControls[index];
-  }
+
 
   onWorkoutPlanSelected() {
     if (this.selectedWorkoutPlanId !== null) {
@@ -129,10 +132,17 @@ export class WorkoutComponent implements OnInit {
     return (this.workoutForm.get('exercises') as FormArray).controls as FormGroup[];
   }
 
+  selectExercise(index: number) {
+    this.selectedExerciseIndex = index;
+    this.selectedExerciseGroup = this.exerciseControls[index];
+  }
+
   preselectFirstExercise() {
     if (this.exerciseControls.length > 0) {
+      this.selectedExerciseIndex = 0;
       this.selectedExerciseGroup = this.exerciseControls[0];
     } else {
+      this.selectedExerciseIndex = null;
       this.selectedExerciseGroup = null;
     }
   }
@@ -141,6 +151,7 @@ export class WorkoutComponent implements OnInit {
     if (this.selectedExerciseGroup) {
       const currentIndex = this.exerciseControls.indexOf(this.selectedExerciseGroup);
       if (currentIndex > 0) {
+        this.selectedExerciseIndex = currentIndex - 1;
         this.selectedExerciseGroup = this.exerciseControls[currentIndex - 1];
       }
     }
@@ -149,10 +160,23 @@ export class WorkoutComponent implements OnInit {
   selectNextExercise() {
     if (this.selectedExerciseGroup) {
       const currentIndex = this.exerciseControls.indexOf(this.selectedExerciseGroup);
+      if (this.isLastExercise()) {
+        this.openConfirmDialog();
+      }
       if (currentIndex >= 0 && currentIndex < this.exerciseControls.length - 1) {
+        this.completedExercises.add(currentIndex);
+        this.selectedExerciseIndex = currentIndex + 1;
         this.selectedExerciseGroup = this.exerciseControls[currentIndex + 1];
       }
     }
+  }
+
+  isLastExercise(): boolean {
+    if (this.selectedExerciseGroup) {
+      const currentIndex = this.exerciseControls.indexOf(this.selectedExerciseGroup);
+      return currentIndex >= 0 && currentIndex === this.exerciseControls.length - 1;
+    }
+    else return false
   }
 
   onTimeUpdated(time: number) {
@@ -160,6 +184,16 @@ export class WorkoutComponent implements OnInit {
       const roundedTime = Math.round(time);
       this.selectedExerciseGroup.patchValue({ time: roundedTime });
     }
+  }
+
+  openConfirmDialog() {
+    const dialogRef = this.dialog.open(WorkoutDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.submitWorkout();
+      }
+    });
   }
 
   submitWorkout() {

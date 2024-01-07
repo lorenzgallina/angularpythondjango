@@ -44,6 +44,7 @@ import { RegisterComponent } from './register/register.component';
 import { ContactComponent } from './contact/contact.component';
 import { StartingPageComponent } from './starting-page/starting-page.component';
 import { TimerComponent } from './fitnesstracker/timer/timer.component';
+import { WorkoutDialogComponent } from './fitnesstracker/workout/workout-dialog/workout-dialog.component';
 
 
 
@@ -79,6 +80,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     ContactComponent,
     StartingPageComponent,
     TimerComponent,
+    WorkoutDialogComponent,
   ],
   imports: [
     BrowserModule,

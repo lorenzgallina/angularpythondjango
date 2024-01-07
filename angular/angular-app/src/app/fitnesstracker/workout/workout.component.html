@@ -21,7 +21,9 @@
         <tbody>
           <tr *ngFor="let exerciseGroup of exerciseControls; let i = index" (click)="selectExercise(i)" class="cursor-pointer hover:bg-gray-100 my-12">
             <td class="py-1">
-              <div class="button-like-mini">{{ exerciseGroup.get('name')?.value }}</div>
+              <div [class.button-like-mini]="i !== selectedExerciseIndex && !completedExercises.has(i)"
+              [class.button-like-mini-orange]="i === selectedExerciseIndex"
+              [class.button-like-mini-green]="completedExercises.has(i)">{{ exerciseGroup.get('name')?.value }}</div>
             </td>
           </tr>
         </tbody>
@@ -79,6 +81,6 @@
   </div>
 </div>
 
-<form *ngIf="selectedWorkoutPlan" [formGroup]="workoutForm" (ngSubmit)="submitWorkout()" class="flex justify-center w-full mt-8">
+<form *ngIf="selectedWorkoutPlan" [formGroup]="workoutForm" (click)="openConfirmDialog()" class="flex justify-center w-full mt-8">
   <button class="button-like" type="submit">Finish Workout</button>
 </form>
