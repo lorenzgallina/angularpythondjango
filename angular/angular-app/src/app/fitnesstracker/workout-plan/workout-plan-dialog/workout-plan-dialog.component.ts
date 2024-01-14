@@ -80,7 +80,7 @@ export class WorkoutPlanDialogComponent {
   
     this.workoutPlanService.add(workoutPlanData).subscribe(
       response => {
-        this.snackBar.open('WorkoutPlan added successfully!', 'Close', { duration: 3000 });
+        this.snackBar.open('Workout added successfully!', 'Close', { duration: 3000 });
         this.dialogRef.close(true);
       },
       error => {
@@ -103,11 +103,11 @@ export class WorkoutPlanDialogComponent {
 
     this.workoutPlanService.update(workoutPlanData, workoutPlanData.id!).subscribe(
       response => {
-        this.snackBar.open('WorkoutPlan updated successfully!', 'Close', { duration: 3000 });
+        this.snackBar.open('Workoutupdated successfully!', 'Close', { duration: 3000 });
         this.dialogRef.close(true);
       },
       error => {
-        this.snackBar.open('Error updating WorkoutPlan.', 'Close', { duration: 3000 });
+        this.snackBar.open('Error updating Workout', 'Close', { duration: 3000 });
         console.error('Error updating WorkoutPlan:', error);
       }
     );
@@ -117,7 +117,7 @@ export class WorkoutPlanDialogComponent {
     if (this.data && this.data.workoutPlan) {
       this.workoutPlanService.delete(this.data.workoutPlan.id!).subscribe(
         response => {
-          this.snackBar.open('WorkoutPlan deleted successfully!', 'Close', { duration: 3000 });
+          this.snackBar.open('Workout deleted successfully!', 'Close', { duration: 3000 });
           this.dialogRef.close(true);
         },
         error => {

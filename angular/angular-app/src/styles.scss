@@ -52,11 +52,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .button-like {
-  @apply flex justify-center items-center w-1/2 mx-auto py-2.5 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-white focus:text-black active:bg-white active:text-black transition duration-150 ease-in-out;
+  @apply flex justify-center items-center w-1/2 mx-auto py-2.5 text-center bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-white focus:text-black active:bg-white active:text-black transition duration-150 ease-in-out;
+} 
+
+.button-like-big {
+  @apply flex justify-center items-center w-3/5 mx-auto py-2.5 px-2 text-center bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-white focus:text-black active:bg-white active:text-black transition duration-150 ease-in-out ml-4;
 } 
 
 .button-like-add {
-  @apply flex justify-center items-center w-1/4 mx-auto py-2.5 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-white focus:text-black active:bg-white active:text-black transition duration-150 ease-in-out;
+  @apply flex justify-center items-center mx-auto py-2.5 px-3 text-center bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-white focus:text-black active:bg-white active:text-black transition duration-150 ease-in-out mr-0;
 } 
 
 .button-like-mini {
