@@ -24,9 +24,9 @@ export class ExerciseComponent {
     this.exerciseForm = this.formBuilder.group({
       id: '',
       name: ['', Validators.required],
-      default_weight: ['', [Validators.pattern("^[0-9]*$")]],
-      default_sets: ['', [Validators.pattern("^[0-9]*$")]],
-      default_reps: ['', [Validators.pattern("^[0-9]*$")]],
+      default_weight: ['', [Validators.pattern("^[0-9]*\\.?[0-9]+$")]],
+      default_sets: ['', [Validators.pattern("^[0-9]*\\.?[0-9]+$")]],
+      default_reps: ['', [Validators.pattern("^[0-9]*\\.?[0-9]+$")]],
       comments: ['', Validators.maxLength(500)],
       timer_active: [false],
       time: [0, [Validators.min(0)]]

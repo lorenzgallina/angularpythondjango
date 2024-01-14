@@ -72,9 +72,9 @@
         </div>
         <!-- Navigation Buttons -->
         <div class="flex justify-between mt-4">
-          <button *ngIf="!isFirstExercise()" class="button-like-horizontal mr-2" (click)="selectPreviousExercise()">Back</button>
-          <button *ngIf="isFirstExercise()" class="button-like-horizontal-white mr-2" (click)="selectPreviousExercise()">Back</button>
-          <button class="button-like-horizontal" (click)="selectNextExercise()"><mat-icon class="text-sm mr-2">done</mat-icon> Done</button>
+          <button *ngIf="!isFirstExercise()" mat-raised-button color="primary" (click)="selectPreviousExercise()"><mat-icon>arrow_back</mat-icon>Back</button>
+          <button *ngIf="isFirstExercise()" mat-raised-button color="warn" (click)="selectPreviousExercise()"><mat-icon>arrow_back</mat-icon>Back</button>
+          <button mat-raised-button color="primary" (click)="selectNextExercise()"><mat-icon class="text-sm mr-2">done</mat-icon> Done</button>
         </div>
       </div>
     </div>
