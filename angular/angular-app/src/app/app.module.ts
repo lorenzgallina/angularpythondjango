@@ -5,14 +5,10 @@ import { MatInputModule } from '@angular/material/input';
 import { NgChartsModule } from 'ng2-charts';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-import { PublicSpaceComponent } from './public-space/public-space.component';
 import { JwtInterceptor } from './jwt.interceptor';
 import { ExerciseComponent } from './fitnesstracker/exercise-list/exercise-dialog/exercise-dialog.component';
 import { ExerciseListComponent } from './fitnesstracker/exercise-list/exercise-list.component';
@@ -35,8 +31,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-
-
 
 // Flex Layout Module
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -69,8 +63,6 @@ function initializeKeycloak(keycloak: KeycloakService) {
 @NgModule({
   declarations: [
     AppComponent,
-    TaskListComponent,
-    PublicSpaceComponent,
     ExerciseComponent,
     ExerciseListComponent,
     WorkoutComponent,

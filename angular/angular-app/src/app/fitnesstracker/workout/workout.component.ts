@@ -162,16 +162,18 @@ export class WorkoutComponent implements OnInit {
   selectNextExercise() {
     if (this.selectedExerciseGroup) {
       const currentIndex = this.exerciseControls.indexOf(this.selectedExerciseGroup);
-      if (this.isLastExercise()) {
-        this.completedExercises.add(currentIndex);
-        this.openConfirmDialog();
-      }
-      if (currentIndex >= 0 && currentIndex < this.exerciseControls.length - 1) {
-        this.completedExercises.add(currentIndex);
+      this.completedExercises.add(currentIndex);
+      if (this.isLastUncompletedExercise(currentIndex)) {
+        this.openConfirmDialog('Well done, you have finished all Exercises!');
+      } else if (currentIndex >= 0 && currentIndex < this.exerciseControls.length - 1) {
         this.selectedExerciseIndex = currentIndex + 1;
         this.selectedExerciseGroup = this.exerciseControls[currentIndex + 1];
       }
     }
+  }
+
+  isFirstExercise(): boolean {
+    return this.selectedExerciseIndex === 0;
   }
 
   isLastExercise(): boolean {
@@ -182,6 +184,15 @@ export class WorkoutComponent implements OnInit {
     else return false
   }
 
+  isLastUncompletedExercise(currentIndex: number): boolean {
+    for (let i = 0; i < this.exerciseControls.length; i++) {
+      if (i !== currentIndex && !this.completedExercises.has(i)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   onTimeUpdated(time: number) {
     if (this.selectedExerciseGroup) {
       const roundedTime = Math.round(time);
@@ -189,8 +200,10 @@ export class WorkoutComponent implements OnInit {
     }
   }
 
-  openConfirmDialog() {
-    const dialogRef = this.dialog.open(WorkoutDialogComponent);
+  openConfirmDialog(dialogText: string = "Not all Exercises are completed.") {
+    const dialogRef = this.dialog.open(WorkoutDialogComponent, {
+      data: {message: dialogText}
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -208,11 +221,12 @@ export class WorkoutComponent implements OnInit {
     this.workoutService.add(workoutData).subscribe(
       (createdWorkout: any) => {
         this.createExerciseLogs(createdWorkout.id);
-        this.snackBar.open('Workout created successfully!', 'Close', { duration: 3000 });
+        this.snackBar.open('Workout saved!', 'Close', { duration: 3000 });
+        this.router.navigate(['/workout-plan']);
       },
       (error) => {
-        this.snackBar.open('Error creating workout.', 'Close', { duration: 3000 });
-        console.error('Error creating workout:', error);
+        this.snackBar.open('Error saving workout.', 'Close', { duration: 3000 });
+        console.error('Error saving workout:', error);
       }
     );
   }
@@ -233,11 +247,9 @@ export class WorkoutComponent implements OnInit {
   
       this.exerciseLogService.add(exerciseLogData).subscribe(
         (response) => {
-          this.snackBar.open('Exercise log created successfully!', 'Close', { duration: 3000 });
           console.log('Exercise log created successfully', response);
         },
         (error) => {
-          this.snackBar.open('Error creating exercise log.', 'Close', { duration: 3000 });
           console.error('Error creating exercise log:', error);
         }
       );

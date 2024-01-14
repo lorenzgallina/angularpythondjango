@@ -1,3 +1,4 @@
+<body>
 <mat-toolbar class="py-2 md:py-4 px-4 md:px-6 bg-gray-200 flex justify-between items-center">
     <!-- Mobile Burger Menu Button -->
     <button mat-icon-button (click)="sidenav.toggle()" *ngIf="isMobile && isLoggedIn" class="md:hidden">
@@ -5,40 +6,24 @@
     </button>
     <div *ngIf="!(isMobile && isLoggedIn)" style="width: 48px;" ></div>
 
-    <!-- Header Image -->
-    <!--<div class="w-full">
-        <img src="assets/fitnesstrackerheaderv2.jpg" alt="Fitness Tracker" class="w-full h-auto object-cover">
-    </div>-->
+    <!-- Title and Authentication -->
+    <!-- Title -->
+    <h1 class="text-lg md:text-xl font-bold">Gym Tracker</h1>
 
-     <!-- Title and Authentication -->
-
-        <!-- Title -->
-        <h1 class="text-lg md:text-xl font-bold">Gym Tracker</h1>
-
-        <!-- Authentication Area -->
-        <div class="flex items-center space-x-4">
-            <!-- Sign In Button (Visible when not logged in) -->
-            <button mat-button *ngIf="!isLoggedIn" (click)="login()">Sign In</button>
-            
-            <!-- Account Dropdown (Visible when logged in) -->
-            <div *ngIf="isLoggedIn">
-                <button mat-icon-button [matMenuTriggerFor]="userMenu" class="pr-2">
-                    <mat-icon class="icon-display">account_circle</mat-icon>
-                </button>
-                <mat-menu #userMenu="matMenu">
-                    <button mat-menu-item routerLink="/contact">Account</button>
-                    <button mat-menu-item (click)="logout()">Log Out</button>
-                </mat-menu>
-            </div>
+    <!-- Authentication Area -->
+    <div class="flex items-center space-x-4">
+        <button mat-button *ngIf="!isLoggedIn" (click)="login()">Sign In</button>
+        <div *ngIf="isLoggedIn">
+            <button mat-icon-button [matMenuTriggerFor]="userMenu" class="pr-2">
+                <mat-icon class="icon-display">account_circle</mat-icon>
+            </button>
+            <mat-menu #userMenu="matMenu">
+                <button mat-menu-item routerLink="/contact">Account</button>
+                <button mat-menu-item (click)="logout()">Log Out</button>
+            </mat-menu>
         </div>
-
+    </div>
 </mat-toolbar>
-
-<!-- Header Image -->
-<!--<div class="w-full overflow-hidden max-h-12 sm:max-h-16 md:max-h-24 lg:max-h-32">
-    <img src="assets/fitnesstrackerheaderv4.jpg" alt="Fitness Tracker" class="">
-</div>-->
-
 
 <mat-sidenav-container class="flex flex-col h-screen">
     <!-- Mobile Navigation Sidenav -->
@@ -46,20 +31,20 @@
         <!-- Mobile navigation links -->
         <div><a mat-button routerLink="/exercises" class="block my-2">Exercises</a></div>
         <div><a mat-button routerLink="/workout-plan" class="block my-2">Workouts</a></div>
-        <div><a mat-button routerLink="/workout" class="block my-2">Training</a></div>
+        <!--<div><a mat-button routerLink="/workout" class="block my-2">Training</a></div>-->
         <div><a mat-button routerLink="/workout-display" class="block my-2">Workout-Display</a></div>
     </mat-sidenav>
 
     <!-- Desktop Top Navigation Links -->
-    <nav *ngIf="!isMobile && isLoggedIn" class="md:flex justify-around bg-gray-100 p-4">
+    <nav *ngIf="!isMobile && isLoggedIn" class="fixed top-14 left-0 right-0 z-10 md:flex justify-around bg-gray-100 p-4">
         <a mat-button routerLink="/exercises" routerLinkActive="active">Exercises</a>
         <a mat-button routerLink="/workout-plan" routerLinkActive="active">Workouts</a>
-        <a mat-button routerLink="/workout" routerLinkActive="active">Training</a>
-        <a mat-button routerLink="/workout-display" routerLinkActive="active">Workout-Display</a>
+        <!--<a mat-button routerLink="/workout" routerLinkActive="active">Training</a>-->
+        <a mat-button routerLink="/workout-display" routerLinkActive="active">Progress</a>
     </nav>
 
     <div class="w-full" >
-        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+        <ngx-slick-carousel [class.desktop-carousel]="!isMobile" class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
             <div ngxSlickItem *ngFor="let img of images" class="slide">
             <img [src]="img.url" alt="{{img.alt}}">
             </div>
@@ -69,16 +54,10 @@
     <!-- Main Content Area -->
     <div class="flex flex-col h-screen">
         <div class="flex flex-grow">
-            <div class="hidden md:block md:w-1/12 custom-background">
-            </div>
-
-            <!-- Main Content Area -->
             <div class="flex-grow p-4 mx-auto max-w-5xl">
                 <router-outlet></router-outlet>
-            </div>
-
-            <div class="hidden md:block md:w-1/12 custom-background">
             </div>
         </div>
     </div>
 </mat-sidenav-container>
+</body>

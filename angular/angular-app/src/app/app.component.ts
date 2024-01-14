@@ -19,7 +19,6 @@ export class AppComponent implements OnInit{
     { url: 'assets/quotes/GYMTS2Q22.jpg', alt: 'Image 1' },
     { url: 'assets/quotes/GYMTS3Q12.jpg', alt: 'Image 2' },
     { url: 'assets/quotes/GYMTS5Q32.jpg', alt: 'Image 2' },
-    // add more images as needed
   ];
   slideConfig = {
     "slidesToShow": 1, 

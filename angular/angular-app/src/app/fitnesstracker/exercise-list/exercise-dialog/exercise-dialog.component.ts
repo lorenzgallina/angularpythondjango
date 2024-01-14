@@ -24,12 +24,12 @@ export class ExerciseComponent {
     this.exerciseForm = this.formBuilder.group({
       id: '',
       name: ['', Validators.required],
-      default_weight: '',
-      default_sets: '',
-      default_reps: '',
+      default_weight: ['', [Validators.pattern("^[0-9]*$")]],
+      default_sets: ['', [Validators.pattern("^[0-9]*$")]],
+      default_reps: ['', [Validators.pattern("^[0-9]*$")]],
       comments: ['', Validators.maxLength(500)],
       timer_active: [false],
-      time: [0, [Validators.required, Validators.min(0)]]
+      time: [0, [Validators.min(0)]]
     });
 
     if (data && data.exercise) {

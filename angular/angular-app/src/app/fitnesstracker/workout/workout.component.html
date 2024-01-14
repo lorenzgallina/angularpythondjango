@@ -72,8 +72,9 @@
         </div>
         <!-- Navigation Buttons -->
         <div class="flex justify-between mt-4">
-          <button class="button-like-horizontal mr-2" (click)="selectPreviousExercise()">Previous</button>
-          <button class="button-like-horizontal" (click)="selectNextExercise()">Next</button>
+          <button *ngIf="!isFirstExercise()" class="button-like-horizontal mr-2" (click)="selectPreviousExercise()">Back</button>
+          <button *ngIf="isFirstExercise()" class="button-like-horizontal-white mr-2" (click)="selectPreviousExercise()">Back</button>
+          <button class="button-like-horizontal" (click)="selectNextExercise()"><mat-icon class="text-sm mr-2">done</mat-icon> Done</button>
         </div>
       </div>
     </div>
