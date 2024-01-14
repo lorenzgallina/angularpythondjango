@@ -115,6 +115,19 @@ export class WorkoutDisplayComponent implements OnInit {
     }
   }
 
+  selectExercise(exerciseId: number, event: MouseEvent): void {
+    event.stopPropagation();
+    this.selectedExerciseId = exerciseId;
+    this.onExerciseSelected();
+  }
+
+  calculateDifference(actual: number, defaultValue: number): string {
+    const defaultVal = defaultValue ?? 0; // Treat undefined as 0
+    const difference = actual - defaultVal;
+    return difference >= 0 ? `+${difference}` : `${difference}`;
+  }
+  
+
   onExerciseSelected() {
     this.lineChartWeightData[0].data = [];
     this.lineChartLabels = [];
