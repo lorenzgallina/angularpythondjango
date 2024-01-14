@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PublicSpaceComponent } from './public-space/public-space.component';
 import { KeycloakGuard } from './keycloak.guard';
 import { ExerciseListComponent } from './fitnesstracker/exercise-list/exercise-list.component';
 import { WorkoutPlanComponent } from './fitnesstracker/workout-plan/workout-plan.component';

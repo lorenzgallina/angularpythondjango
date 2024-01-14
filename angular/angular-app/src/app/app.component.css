@@ -2,7 +2,18 @@
     transform: scale(1.5);
  }
 
- .carousel .slide img {
-    width: 100%;
-    height: auto; /* This maintains the aspect ratio */
-  }
+.carousel .slide img {
+   width: 100%;
+   height: auto; /* This maintains the aspect ratio */
+}
+
+.desktop-carousel .slide img {
+   height: 400px; /* Adjust for desktop */
+   object-fit: cover; /* Ensures image covers the area */
+}
+
+body {
+   margin: 0;
+   height: 100vh;
+   overflow: hidden;
+}
