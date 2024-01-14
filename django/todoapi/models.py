@@ -63,7 +63,6 @@ class WorkoutPlan(models.Model):
 
     def __str__(self):
         return self.name
-    
 
 
 class Workout(models.Model):

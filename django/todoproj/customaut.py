@@ -33,13 +33,13 @@ class CustomJSONWebTokenAuthentication(JSONWebTokenAuthentication):
     def create_default_exercises(self, user):
         # Default exercises
         default_exercises = [
+            {"name": "Planks", "default_weight": 0, "default_sets": 1, "default_reps": 1, "comments": "", "timer_active": True, "time": 100},
             {"name": "Push-up", "default_weight": 0, "default_sets": 3, "default_reps": 10, "comments": "", "timer_active": False, "time": 0},
             {"name": "Pull-up", "default_weight": 0, "default_sets": 3, "default_reps": 10, "comments": "", "timer_active": False, "time": 0},
-            {"name": "Planks", "default_weight": 0, "default_sets": 1, "default_reps": 1, "comments": "", "timer_active": True, "time": 100},
             {"name": "Bench-Press", "default_weight": 80, "default_sets": 3, "default_reps": 10, "comments": "", "timer_active": False, "time": 0},
+            {"name": "Jogging", "default_weight": 0, "default_sets": 1, "default_reps": 1, "comments": "", "timer_active": True, "time": 100},
             {"name": "Squads", "default_weight": 80, "default_sets": 3, "default_reps": 10, "comments": "", "timer_active": False, "time": 0},
             {"name": "Leg Extension", "default_weight": 60, "default_sets": 3, "default_reps": 10, "comments": "", "timer_active": False, "time": 0},
-            {"name": "Jogging", "default_weight": 0, "default_sets": 1, "default_reps": 1, "comments": "", "timer_active": True, "time": 100},
         ]
 
         # Create exercises for the user
@@ -47,8 +47,8 @@ class CustomJSONWebTokenAuthentication(JSONWebTokenAuthentication):
             Exercise.objects.create(user=user, **exercise_data)
 
     def create_default_workouts(self, user):
-        upper_body_exercises = ["Push-up", "Pull-up", "Planks", "Bench-Press"]
-        lower_body_exercises = ["Squads", "Leg Extension", "Jogging"]
+        upper_body_exercises = ["Planks", "Push-up", "Pull-up", "Bench-Press"]
+        lower_body_exercises = ["Jogging","Squads", "Leg Extension"]
 
         upper_body_plan = WorkoutPlan.objects.create(name="Upper Body Workout", user=user)
         self.add_exercises_to_plan(upper_body_plan, upper_body_exercises, user)
