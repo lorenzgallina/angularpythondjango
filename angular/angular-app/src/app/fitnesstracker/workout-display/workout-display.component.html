@@ -22,23 +22,53 @@
     <mat-accordion multi class="w-3/4 mx-auto">
       <mat-expansion-panel *ngFor="let workout of workouts">
         <mat-expansion-panel-header>
-          <mat-panel-title>
+          <mat-panel-title class="flex justify-center w-full">
             Workout on {{workout.date}}
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngFor="let exerciseLog of exerciseLogs[workout.id!]">
           <ng-container *ngIf="findExercise(exerciseLog.exercise)">
-            <mat-card>
-              <mat-card-title>{{ findExercise(exerciseLog.exercise)?.name }}</mat-card-title>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <div class="flex justify-between items-center w-full">
+                  <div class="flex-grow text-center">
+                    <mat-panel-title class="text-sm">{{ findExercise(exerciseLog.exercise)?.name }}</mat-panel-title>
+                  </div>
+                  <mat-card-actions class="mr-4">
+                    <button color="warn" mat-raised-button type="button" (click)="selectExercise(exerciseLog.exercise, $event)">
+                      Chart <mat-icon>insert_chart_outlined</mat-icon>
+                    </button>
+                  </mat-card-actions>
+                </div>
+              </mat-expansion-panel-header>
               <mat-card-content>
-                <p>Default Sets: {{ findExercise(exerciseLog.exercise)?.default_sets }}</p>
-                <p>Default Reps: {{ findExercise(exerciseLog.exercise)?.default_reps }}</p>
-                <p>Default Weight: {{ findExercise(exerciseLog.exercise)?.default_weight }}</p>
-                <p>Sets: {{exerciseLog.sets}}</p>
-                <p>Reps: {{exerciseLog.reps}}</p>
-                <p>Weight: {{exerciseLog.weight}}</p>
+                <p>Weight: {{exerciseLog.weight}}
+                  <span [ngClass]="{'text-green-500': (exerciseLog.weight - (findExercise(exerciseLog.exercise)?.default_weight ?? 0)) >= 0,
+                                    'text-red-500': (exerciseLog.weight - (findExercise(exerciseLog.exercise)?.default_weight ?? 0)) < 0}">
+                    {{ calculateDifference(exerciseLog.weight, findExercise(exerciseLog.exercise)?.default_weight ?? 0) }}
+                  </span>
+                </p>
+                <p *ngIf="exerciseLog.timer_active">Time: {{exerciseLog.time}}
+                  <span [ngClass]="{'text-green-500': ((exerciseLog.time ?? 0 )- (findExercise(exerciseLog.exercise)?.time ?? 0)) >= 0,
+                                    'text-red-500': ((exerciseLog.time ?? 0)- (findExercise(exerciseLog.exercise)?.time ?? 0)) < 0}">
+                    {{ calculateDifference((exerciseLog.time ?? 0), findExercise(exerciseLog.exercise)?.time ?? 0) }}
+                  </span>
+                </p>
+                <p>Sets: {{exerciseLog.sets}} 
+                  <span [ngClass]="{'text-green-500': (exerciseLog.sets - (findExercise(exerciseLog.exercise)?.default_sets ?? 0)) >= 0,
+                    'text-red-500': (exerciseLog.sets - (findExercise(exerciseLog.exercise)?.default_sets ?? 0)) < 0}">
+                    {{ calculateDifference(exerciseLog.sets, findExercise(exerciseLog.exercise)?.default_sets ?? 0) }}
+                  </span>
+                </p>
+                <p>Reps: {{exerciseLog.reps}}
+                  <span [ngClass]="{'text-green-500': (exerciseLog.reps - (findExercise(exerciseLog.exercise)?.default_reps ?? 0)) >= 0,
+                                    'text-red-500': (exerciseLog.reps - (findExercise(exerciseLog.exercise)?.default_reps ?? 0)) < 0}">
+                    {{ calculateDifference(exerciseLog.reps, findExercise(exerciseLog.exercise)?.default_reps ?? 0) }}
+                  </span>
+                </p>
               </mat-card-content>
-            </mat-card>
+              
+            </mat-expansion-panel>
           </ng-container>
         </div>
       </mat-expansion-panel>
