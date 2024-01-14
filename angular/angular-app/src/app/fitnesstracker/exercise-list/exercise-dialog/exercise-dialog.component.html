@@ -17,7 +17,12 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-checkbox formControlName="timer_active">Use Timer</mat-checkbox>
+    <div class="flex items-center">
+      <mat-checkbox formControlName="timer_active" class="align-checkbox"></mat-checkbox>
+      <label class="custom-label">
+        Use Timer <mat-icon class="ml-2">timer</mat-icon>
+      </label>
+    </div>
 
     <ng-container *ngIf="exerciseForm.get('timer_active')?.value">
       <mat-form-field appearance="fill">
@@ -65,7 +70,7 @@
       <!-- Delete Button -->
       <button *ngIf="isEditing" color="warn" mat-raised-button type="button" (click)="deleteExercise()" >
         <mat-icon>delete</mat-icon> Delete
-      </button>
+      </button> 
     </div>
   </form>
 </div>

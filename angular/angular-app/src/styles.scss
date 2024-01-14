@@ -74,3 +74,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .label-style {
   @apply block text-gray-700 text-sm font-bold mb-2;
 }
+
+.icon-class {
+  @apply flex justify-center items-center mx-auto py-2.5;
+} 
