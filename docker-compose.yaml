@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - ./backup:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: mypassword
       POSTGRES_USER: postgres
