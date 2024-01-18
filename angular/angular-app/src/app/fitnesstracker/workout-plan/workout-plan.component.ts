@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Exercise, WorkoutPlan } from 'src/app/core/interfaces/fitness.interface';
 import { WorkoutPlanService } from 'src/app/core/services/workoutplan.service';
 import { ExerciseService } from 'src/app/core/services/exercise.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workout-plan',
@@ -21,7 +22,11 @@ export class WorkoutPlanComponent implements OnInit {
   constructor(
     private exerciseService: ExerciseService,
     private workoutPlanService: WorkoutPlanService,
-    private formBuilder: FormBuilder, private snackBar: MatSnackBar, private dialog: MatDialog, private changeDetectorRef: ChangeDetectorRef) {
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private changeDetectorRef: ChangeDetectorRef,
+    private router: Router) {
     this.workoutPlanForm = this.formBuilder.group({
       name: '',
       selectedExercises: []
@@ -67,5 +72,9 @@ export class WorkoutPlanComponent implements OnInit {
         this.changeDetectorRef.detectChanges();
       }
     });
+  }
+
+  navigateToWorkout(planId: number) {
+    this.router.navigate(['/workout'], { queryParams: { planId: planId } });
   }
 }

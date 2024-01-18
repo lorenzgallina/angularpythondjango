@@ -3,6 +3,7 @@
     "id" : "Project2",
     "enabled": true,
     "sslRequired" : "None",
+    "sslRequired" : "None",
     "clients": [
       {
         "clientId": "myapp",

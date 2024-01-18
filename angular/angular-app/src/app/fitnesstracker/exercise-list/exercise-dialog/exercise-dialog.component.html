@@ -1,31 +1,76 @@
-<form [formGroup]="exerciseForm" (ngSubmit)="isEditing && exerciseForm ? updateExercise() : addExercise()">
-  <mat-form-field appearance="fill">
-    <mat-label>Name</mat-label>
-    <input matInput formControlName="name">
-    <mat-error *ngIf="exerciseForm.get('name')?.errors?.['required'] && exerciseForm.get('name')?.touched">
-      Name is required.
-    </mat-error>
-  </mat-form-field>
+<div class="p-4 border border-gray-300 rounded-lg">
+  <form [formGroup]="exerciseForm" (ngSubmit)="isEditing && exerciseForm ? updateExercise() : addExercise()">
+    <!-- Input fields -->
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error color="red" *ngIf="exerciseForm.get('name')?.errors?.['required'] && exerciseForm.get('name')?.touched">
+        <span class="error-class">Name is required</span>
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Default Weight</mat-label>
-    <input matInput formControlName="default_weight">
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Default Weight (kg)</mat-label>
+      <input matInput type="number" formControlName="default_weight">
+      <mat-error *ngIf="exerciseForm.get('default_weight')?.errors?.['pattern']">
+        <span class="error-class">Weight must be a positive number</span>
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Default Sets</mat-label>
-    <input matInput type="number" formControlName="default_sets">
-  </mat-form-field>
+    <div class="flex items-center">
+      <mat-checkbox formControlName="timer_active" class="align-checkbox"></mat-checkbox>
+      <label class="custom-label">
+        Use Timer <mat-icon class="ml-2">timer</mat-icon>
+      </label>
+    </div>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Default Reps</mat-label>
-    <input matInput type="number" formControlName="default_reps">
-  </mat-form-field>
+    <ng-container *ngIf="exerciseForm.get('timer_active')?.value">
+      <mat-form-field appearance="fill">
+        <mat-label>Time (seconds)</mat-label>
+        <input matInput type="number" formControlName="time">
+        <mat-error *ngIf="exerciseForm.get('time')?.errors?.['required']">
+          <span class="error-class">Time is required</span>
+        </mat-error>
+        <mat-error *ngIf="exerciseForm.get('time')?.errors?.['min']">
+          <span class="error-class">Time cannot be negative</span>
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
 
-  <button mat-raised-button class="custom-primary-button" type="submit">
-    {{ isEditing ? 'Update' : 'Add' }} <mat-icon>done</mat-icon>
-</button>
+    <ng-container *ngIf="!exerciseForm.get('timer_active')?.value">
+      <mat-form-field appearance="fill">
+        <mat-label>Default Sets</mat-label>
+        <input matInput type="number" formControlName="default_sets">
+        <mat-error *ngIf="exerciseForm.get('default_sets')?.errors?.['pattern']">
+          <span class="error-class">Sets must be a positive number</span>
+        </mat-error>
+      </mat-form-field>
 
+      <mat-form-field appearance="fill">
+        <mat-label>Default Reps</mat-label>
+        <input matInput type="number" formControlName="default_reps">
+        <mat-error *ngIf="exerciseForm.get('default_reps')?.errors?.['pattern']">
+          <span class="error-class">Reps must be a positive number</span>
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
 
-  <button *ngIf="isEditing" mat-raised-button type="button" (click)="deleteExercise()"><mat-icon>delete</mat-icon> Delete</button>
-</form>
+    <mat-form-field appearance="fill">
+      <mat-label>Comments</mat-label>
+      <textarea matInput formControlName="comments"></textarea>
+    </mat-form-field>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-end space-x-2">
+      <!-- Update/Add Button -->
+      <button mat-raised-button color="primary" type="submit">
+        {{ isEditing ? 'Update' : 'Add' }} <mat-icon>done</mat-icon>
+      </button>
+
+      <!-- Delete Button -->
+      <button *ngIf="isEditing" color="warn" mat-raised-button type="button" (click)="deleteExercise()" >
+        <mat-icon>delete</mat-icon> Delete
+      </button> 
+    </div>
+  </form>
+</div>

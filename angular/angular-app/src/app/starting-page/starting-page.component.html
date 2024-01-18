@@ -1,0 +1,12 @@
+<div class="lex flex-col items-center min-h-screen">
+    <h1 class="text-xl md:text-3xl lg:text-4xl font-bold text-center mb-4">Welcome to Gym Tracker!</h1>
+    
+
+    <!-- Shown when not logged in -->
+    <p *ngIf="!isLoggedIn" class="text-center mb-6"><br>  Manage your fitness journey effectively. <br> Sign In, and get started!<br> <br> </p>
+    
+    <!-- Shown when logged in -->
+    <p *ngIf="isLoggedIn" class="text-center mb-6"><br> Select a workout from the Menu and start Training. <br> Or create your own Exercises and Workouts.<br><br>  </p>
+
+    <img src="assets/DumbbelsStartv2.jpg" alt="Welcome Image" class="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto">
+</div>
