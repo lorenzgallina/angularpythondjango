@@ -1,73 +1,74 @@
-<div class="container">
-  <mat-form-field appearance="fill">
-    <mat-label>Select a Workout Plan</mat-label>
-    <mat-select [(value)]="selectedWorkoutPlanId" (selectionChange)="onWorkoutPlanSelected()">
-      <mat-option *ngFor="let plan of workoutPlans" [value]="plan.id">{{plan.name}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+<div class="flex flex-col items-center w-full">
+  <select class="w-1/2 mx-auto py-2.5 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 focus:bg-white focus:text-black focus:outline-none focus:shadow-outline text-center" [(ngModel)]="selectedWorkoutPlanId" (change)="onWorkoutPlanSelected()">
+    <option value="null" [selected]="selectedWorkoutPlanId === null" disabled>--Select Workout Plan--</option>
+    <option *ngFor="let plan of workoutPlans" [value]="plan.id">{{ plan.name }}</option>
+  </select>
+  <select *ngIf="selectedWorkoutPlanId" class="w-1/2 mx-auto py-2.5 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 focus:bg-white focus:text-black focus:outline-none focus:shadow-outline text-center" [(ngModel)]="selectedExerciseId" (change)="onExerciseSelected()">
+    <option value="null" [selected]="selectedWorkoutPlanId === null" disabled>--Select an Exercise--</option>
+    <option *ngFor="let exercise of allExercises" [value]="exercise.id">{{exercise.name}}</option>
+  </select>
 
-  <div class="chart-section">
-    <mat-form-field appearance="fill">
-      <mat-label>Select an Exercise</mat-label>
-      <mat-select [(value)]="selectedExerciseId" (selectionChange)="onExerciseSelected()">
-        <mat-option *ngFor="let exercise of allExercises" [value]="exercise.id">{{exercise.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    
-    <div class="charts-container">
-      <div class="chart" *ngIf="combinedChartData[0].data.length">
-        <canvas baseChart
-                [datasets]="combinedChartData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions"
-                chartType="line">
-        </canvas>
-      </div>
-      <div class="chart" *ngIf="lineChartWeightData[0].data.length">
-        <canvas baseChart
-                [datasets]="lineChartWeightData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions">
-        </canvas>
-      </div>
-      <div class="chart" *ngIf="lineChartRepsData[0].data.length">
-        <canvas baseChart
-                [datasets]="lineChartRepsData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions">
-        </canvas>
-      </div>
-      <div class="chart" *ngIf="lineChartSetsData[0].data.length">
-        <canvas baseChart
-                [datasets]="lineChartSetsData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions">
-        </canvas>
-      </div>
+  <div class="justify-center w-full mx-auto">
+    <div class="w-3/4 mx-auto m-5 bg-black p-5 rounded-lg shadow-lg" *ngIf="lineChartWeightData[0].data.length">
+      <canvas baseChart
+              [datasets]="lineChartWeightData"
+              [labels]="lineChartLabels"
+              [options]="lineChartOptions">
+      </canvas>
     </div>
   </div>
 
-  <div class="accordion-section">
-    <mat-accordion multi>
+  <div class="justify-center w-full mx-auto">
+    <mat-accordion multi class="w-3/4 mx-auto">
       <mat-expansion-panel *ngFor="let workout of workouts">
         <mat-expansion-panel-header>
-          <mat-panel-title>
+          <mat-panel-title class="flex justify-center w-full">
             Workout on {{workout.date}}
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngFor="let exerciseLog of exerciseLogs[workout.id!]">
           <ng-container *ngIf="findExercise(exerciseLog.exercise)">
-            <mat-card>
-              <mat-card-title>{{ findExercise(exerciseLog.exercise)?.name }}</mat-card-title>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <div class="flex justify-between items-center w-full">
+                  <div class="flex-grow text-center">
+                    <mat-panel-title class="text-sm">{{ findExercise(exerciseLog.exercise)?.name }}</mat-panel-title>
+                  </div>
+                  <mat-card-actions class="mr-4">
+                    <button color="warn" mat-raised-button type="button" (click)="selectExercise(exerciseLog.exercise, $event)">
+                      Chart <mat-icon>insert_chart_outlined</mat-icon>
+                    </button>
+                  </mat-card-actions>
+                </div>
+              </mat-expansion-panel-header>
               <mat-card-content>
-                <p>Default Sets: {{ findExercise(exerciseLog.exercise)?.default_sets }}</p>
-                <p>Default Reps: {{ findExercise(exerciseLog.exercise)?.default_reps }}</p>
-                <p>Default Weight: {{ findExercise(exerciseLog.exercise)?.default_weight }}</p>
-                <p>Sets: {{exerciseLog.sets}}</p>
-                <p>Reps: {{exerciseLog.reps}}</p>
-                <p>Weight: {{exerciseLog.weight}}</p>
+                <p>Weight: {{exerciseLog.weight}}
+                  <span [ngClass]="{'text-green-500': (exerciseLog.weight - (findExercise(exerciseLog.exercise)?.default_weight ?? 0)) >= 0,
+                                    'text-red-500': (exerciseLog.weight - (findExercise(exerciseLog.exercise)?.default_weight ?? 0)) < 0}">
+                    {{ calculateDifference(exerciseLog.weight, findExercise(exerciseLog.exercise)?.default_weight ?? 0) }}
+                  </span>
+                </p>
+                <p *ngIf="exerciseLog.timer_active">Time: {{exerciseLog.time}}
+                  <span [ngClass]="{'text-green-500': ((exerciseLog.time ?? 0 )- (findExercise(exerciseLog.exercise)?.time ?? 0)) >= 0,
+                                    'text-red-500': ((exerciseLog.time ?? 0)- (findExercise(exerciseLog.exercise)?.time ?? 0)) < 0}">
+                    {{ calculateDifference((exerciseLog.time ?? 0), findExercise(exerciseLog.exercise)?.time ?? 0) }}
+                  </span>
+                </p>
+                <p>Sets: {{exerciseLog.sets}} 
+                  <span [ngClass]="{'text-green-500': (exerciseLog.sets - (findExercise(exerciseLog.exercise)?.default_sets ?? 0)) >= 0,
+                    'text-red-500': (exerciseLog.sets - (findExercise(exerciseLog.exercise)?.default_sets ?? 0)) < 0}">
+                    {{ calculateDifference(exerciseLog.sets, findExercise(exerciseLog.exercise)?.default_sets ?? 0) }}
+                  </span>
+                </p>
+                <p>Reps: {{exerciseLog.reps}}
+                  <span [ngClass]="{'text-green-500': (exerciseLog.reps - (findExercise(exerciseLog.exercise)?.default_reps ?? 0)) >= 0,
+                                    'text-red-500': (exerciseLog.reps - (findExercise(exerciseLog.exercise)?.default_reps ?? 0)) < 0}">
+                    {{ calculateDifference(exerciseLog.reps, findExercise(exerciseLog.exercise)?.default_reps ?? 0) }}
+                  </span>
+                </p>
               </mat-card-content>
-            </mat-card>
+              
+            </mat-expansion-panel>
           </ng-container>
         </div>
       </mat-expansion-panel>

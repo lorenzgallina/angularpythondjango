@@ -5,15 +5,10 @@ import { MatInputModule } from '@angular/material/input';
 import { NgChartsModule } from 'ng2-charts';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-import { PublicSpaceComponent } from './public-space/public-space.component';
-import { RestrictedSpaceComponent } from './restricted-space/restricted-space.component';
 import { JwtInterceptor } from './jwt.interceptor';
 import { ExerciseComponent } from './fitnesstracker/exercise-list/exercise-dialog/exercise-dialog.component';
 import { ExerciseListComponent } from './fitnesstracker/exercise-list/exercise-list.component';
@@ -35,11 +30,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-
-
+import { MatMenuModule } from '@angular/material/menu';
 
 // Flex Layout Module
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { RegisterComponent } from './register/register.component';
+import { ContactComponent } from './contact/contact.component';
+import { StartingPageComponent } from './starting-page/starting-page.component';
+import { TimerComponent } from './fitnesstracker/timer/timer.component';
+import { WorkoutDialogComponent } from './fitnesstracker/workout/workout-dialog/workout-dialog.component';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 
 
@@ -63,15 +63,17 @@ function initializeKeycloak(keycloak: KeycloakService) {
 @NgModule({
   declarations: [
     AppComponent,
-    TaskListComponent,
-    PublicSpaceComponent,
-    RestrictedSpaceComponent,
     ExerciseComponent,
     ExerciseListComponent,
     WorkoutComponent,
     WorkoutPlanComponent,
     WorkoutPlanDialogComponent,
     WorkoutDisplayComponent,
+    RegisterComponent,
+    ContactComponent,
+    StartingPageComponent,
+    TimerComponent,
+    WorkoutDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,6 +98,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     NgChartsModule,
     MatSidenavModule,
     MatIconModule,
+    MatMenuModule,
+    SlickCarouselModule
   ],
   providers: [{
     provide: APP_INITIALIZER,

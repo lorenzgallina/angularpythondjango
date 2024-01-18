@@ -1,43 +1,22 @@
+// Angular theme
 @use '@angular/material' as mat;
+
+// Imports
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
+
 /* Tailwind CSS Directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
-:root {
-    --primary-color: #212121;
-  }
-  
-  .custom-background {
-    background-color: var(--primary-color);
-  }
-
- 
-  /*.button-like {
-    @apply flex justify-center items-center w-1/2 mx-auto py-2.5 bg-primary text-accent font-medium rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 active:bg-gray-800;
-  }*/
-  
-   .button-like {
-    @apply flex justify-center items-center w-1/2 mx-auto py-2.5 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out;
-  } 
-
-  .button-like-mini {
-    @apply flex justify-center items-center w-2/3 mx-auto py-3 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out;
-  }
-
-  
+/* Angular Material Configuration */
 
 // Define black and white palettes
-$my-black: mat.define-palette(mat.$grey-palette, 900); // Black
-$my-white: mat.define-palette(mat.$grey-palette, 50); // White
+$my-black: mat.define-palette(mat.$grey-palette, 900);
+$my-white: mat.define-palette(mat.$grey-palette, 50);
 $tailwind-black: #000000;
-
-// Optionally, you can define a grey palette for the warn color
-$my-warn: mat.define-palette(mat.$grey-palette, 500); // Grey for warnings
+$my-warn: mat.define-palette(mat.$grey-palette, 500);
 
 // Define the theme
 $my-theme: mat.define-light-theme((
@@ -52,3 +31,54 @@ $my-theme: mat.define-light-theme((
 
 // Include the theme
 @include mat.all-component-themes($my-theme);
+
+// Custom Style
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+:root {
+  --primary-color: #212121;
+}
+  
+.custom-background {
+  background-color: var(--primary-color);
+}
+
+/* Tailwind buttons */
+.error-class {
+  @apply text-red-500;
+}
+
+.button-like {
+  @apply flex justify-center items-center w-1/2 mx-auto py-2.5 text-center bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-white focus:text-black active:bg-white active:text-black transition duration-150 ease-in-out;
+} 
+
+.button-like-big {
+  @apply flex justify-center items-center w-3/5 mx-auto py-2.5 px-2 text-center bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-white focus:text-black active:bg-white active:text-black transition duration-150 ease-in-out ml-4;
+} 
+
+.button-like-add {
+  @apply flex justify-center items-center mx-auto py-2.5 px-3 text-center bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-white focus:text-black active:bg-white active:text-black transition duration-150 ease-in-out;
+} 
+
+.button-like-mini {
+  @apply flex justify-center items-center w-3/4 mx-auto py-3 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-white focus:text-black active:bg-white active:text-black transition duration-150 ease-in-out;
+}
+
+.button-like-horizontal {
+  @apply flex justify-center items-center w-1/2 py-2.5 bg-black text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-white focus:text-black active:bg-white active:text-black transition duration-150 ease-in-out;
+}
+
+.button-like-horizontal-white {
+  @apply flex justify-center items-center w-1/2 py-2.5 bg-white text-black font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-white focus:text-black active:bg-white active:text-black transition duration-150 ease-in-out;
+}
+
+.label-style {
+  @apply block text-gray-700 text-sm font-bold mb-2;
+}
+
+.icon-class {
+  @apply flex justify-center items-center mx-auto py-2.5;
+} 

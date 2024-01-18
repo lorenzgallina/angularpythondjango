@@ -15,7 +15,7 @@ import { ExerciseLogService } from 'src/app/core/services/exerciselog.service';
 export class WorkoutDisplayComponent implements OnInit {
 
   workoutPlans: WorkoutPlan[] | undefined;
-  selectedWorkoutPlanId: number | undefined;
+  selectedWorkoutPlanId: number | null = null;
   workouts: Workout[] | undefined;
   exerciseLogs: { [key: number]: ExerciseLog[] } = {};
   allExercises: Exercise[] | undefined;
@@ -27,54 +27,12 @@ export class WorkoutDisplayComponent implements OnInit {
     fill: true,
     backgroundColor: 'rgba(255, 99, 132, 0.25)',
     borderColor: 'rgb(255, 99, 132)',
+    yAxisID: 'y-axis-l',
     //pointBackgroundColor: 'blue',
     //pointRadius: 5,
     //pointHoverRadius: 7,
     type: 'line'
   }];
-
-  public lineChartRepsData: ChartDataset[] = [{
-    data: [],
-    label: 'Reps',
-    fill: true,
-    backgroundColor: 'rgba(255, 99, 132, 0.25)',
-    borderColor: 'rgb(255, 99, 132)',
-    //pointBackgroundColor: 'green',
-    //pointRadius: 5,
-    //pointHoverRadius: 7,
-    type: 'line'
-  }];
-
-  public lineChartSetsData: ChartDataset[] = [{
-    data: [],
-    label: 'Sets',
-    fill: true,
-    backgroundColor: 'rgba(255, 99, 132, 0.25)',
-    borderColor: 'rgb(255, 99, 132)',
-    //pointBackgroundColor: 'red',
-    //pointRadius: 5,
-    //pointHoverRadius: 7,
-    type: 'line'
-  }];
-  
-  public combinedChartData: ChartDataset[] = [
-    {
-      data: [], // Weight data
-      label: 'Exercise Weight',
-      borderColor: 'blue',
-      backgroundColor: 'rgba(0, 0, 255, 0.3)',
-      yAxisID: 'y-axis-l', // Assign to left y-axis
-      //type: 'line'
-    },
-    {
-      data: [], // Reps data
-      label: 'Exercise Reps',
-      borderColor: 'green',
-      backgroundColor: 'rgba(0, 255, 0, 0.3)',
-      yAxisID: 'y-axis-r', // Assign to right y-axis
-      //type: 'line'
-    }
-  ];
   
 
   public lineChartLabels: string[] = [];
@@ -88,16 +46,6 @@ export class WorkoutDisplayComponent implements OnInit {
           text: 'Weight'
         }
       },
-      'y-axis-r': {
-        position: 'right',
-        grid: {
-          drawOnChartArea: false,
-        },
-        title: {
-          display: true,
-          text: 'Reps'
-        }
-      }
     }
   };
   
@@ -148,7 +96,7 @@ export class WorkoutDisplayComponent implements OnInit {
       this. workoutService.getWorkoutByWorkoutPlanID(this.selectedWorkoutPlanId!).subscribe(
         (workouts) => {
           this.workouts = workouts;
-          this.exerciseLogService.getAllExerciseLogsGroupedByWorkout(this.selectedWorkoutPlanId).subscribe(
+          this.exerciseLogService.getAllExerciseLogsGroupedByWorkout(Number(this.selectedWorkoutPlanId)).subscribe(
             (groupedExerciseLogs) => {
               this.exerciseLogs = groupedExerciseLogs;
               this.snackBar.open('Exercise Logs Loaded successfully!', 'Close', { duration: 3000 });
@@ -167,23 +115,35 @@ export class WorkoutDisplayComponent implements OnInit {
     }
   }
 
+  selectExercise(exerciseId: number, event: MouseEvent): void {
+    event.stopPropagation();
+    this.selectedExerciseId = exerciseId;
+    this.onExerciseSelected();
+  }
+
+  calculateDifference(actual: number, defaultValue: number): string {
+    const defaultVal = defaultValue ?? 0; // Treat undefined as 0
+    const difference = actual - defaultVal;
+    return difference >= 0 ? `+${difference}` : `${difference}`;
+  }
+  
+
   onExerciseSelected() {
-    this.combinedChartData[0].data = []; // Reset weight data
-    this.combinedChartData[1].data = []; // Reset reps data
+    this.lineChartWeightData[0].data = [];
     this.lineChartLabels = [];
 
     this.workouts?.forEach(workout => {
       if (typeof workout.id === 'number') {
         const exerciseLogsForWorkout = this.exerciseLogs[workout.id];
         if (exerciseLogsForWorkout) {
-          const exerciseLog = exerciseLogsForWorkout.find(log => log.exercise === this.selectedExerciseId);
+          const exerciseLog = exerciseLogsForWorkout.find(log => log.exercise === Number(this.selectedExerciseId));
           if (exerciseLog) {
-            this.combinedChartData[0].data.push(exerciseLog.weight);
-            this.combinedChartData[1].data.push(exerciseLog.reps);
+            this.lineChartWeightData[0].data.push(exerciseLog.weight);
             this.lineChartLabels.push(new Date(workout.date).toLocaleDateString());
           }
         }
-  }});
+      }
+    });
   }
 
 }

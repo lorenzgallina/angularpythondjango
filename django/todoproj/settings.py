@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'todoproj.handle_users.EnsureUserExistsMiddleware',
 ]
 
 ROOT_URLCONF = 'todoproj.urls'
@@ -115,8 +116,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -154,13 +153,21 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-       'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'todoproj.customaut.CustomJSONWebTokenAuthentication',
+       #'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
 }
 
 
 KEYCLOAK_CLIENT_PUBLIC_KEY ='-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApTQS9MbSKgf8hE8bdHFs0jTWbs/N6Umnz2mLBgUm6n7bz9nR2Bnf5tOcKV8LHahM7qZCo47BEo994/pZfbVIpAeK062WvOvzcqCEJ+RQogoBCTrMHQqFmuXYC0Q22bv9GzLmzIyETJY+gR1sObtnPY72EJh5o0abHDD6dhcgJDhrVxqPYmjUvLfUo5gLAXuLXZ8wlTRV8+u4IdEDK0x5YGMz0nw/f8wzlGk7h6a6XwppOGBDMCX8vvsHU9Yd1FjMalLtDDarWxpiaWutATpz/JmF6xBmtaUXSuo5E7ZE1ZBSpvowEVvnVsinKYDL6CuxCCEk/kLhNiSEYKXgaphImQIDAQAB\n-----END PUBLIC KEY-----'
 
+OIDC_HOST = "http://localhost:8180/auth"
+# Your OIDC realm
+OIDC_REALM = "Project2"
+# Additional URL for registration
+OIDC_OP_REGISTRATION_ENDPOINT = f"{OIDC_HOST}/realms/{OIDC_REALM}/protocol/openid-connect/registrations"
+
+OIDC_RP_CLIENT_ID = "myapp"
 
 def jwt_get_username_from_payload_handler(payload):
     return payload.get('preferred_username','user')
@@ -189,6 +196,10 @@ LOGGING = {
             'level': 'DEBUG',
         },
         'todoapi' : {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'todoproj': {
             'handlers': ['console'],
             'level': 'DEBUG',
         },

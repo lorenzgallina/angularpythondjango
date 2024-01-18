@@ -1,23 +1,2 @@
-.container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .select-field {
-    width: 100%;
-  }
-  
-  .left-panel, .right-panel {
-    flex-basis: 50%;
-  }
 
-  .charts-container {
-    display: flex;
-    justify-content: space-around; /* Adjusts space between charts */
-    flex-wrap: wrap; /* Allows charts to wrap onto the next line on smaller screens */
-  }
   
-  .chart {
-    flex-basis: 30%; /* Adjust the width of each chart */
-    margin: 10px; /* Adds some space around each chart */
-  }

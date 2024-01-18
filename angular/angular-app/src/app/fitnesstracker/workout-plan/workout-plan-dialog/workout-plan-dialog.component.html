@@ -1,11 +1,11 @@
-<div>
+<div class="p-4 border border-gray-300 rounded-lg">
   <form [formGroup]="workoutPlanForm" (ngSubmit)="isEditing && workoutPlanForm ? updateWorkoutPlan() : addWorkoutPlan()">
     
     <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
       <input matInput type="text" id="name" formControlName="name" placeholder="Workout Plan Name">
       <mat-error *ngIf="workoutPlanForm.get('name')?.errors?.['required'] && workoutPlanForm.get('name')?.touched">
-        Name is required.
+        <span class="error-class">Name is required</span>
       </mat-error>
     </mat-form-field>
 
@@ -18,8 +18,9 @@
 
       </div>
     </ng-container>
-
-    <button mat-raised-button color="primary" type="submit">{{ isEditing ? 'Update' : 'Add' }} <mat-icon>done</mat-icon></button>
-    <button *ngIf="isEditing" mat-raised-button color="warn" type="button" (click)="deleteWorkoutPlan()"><mat-icon>delete</mat-icon> Delete</button>
+    <div class="flex justify-end space-x-2">
+      <button mat-raised-button color="primary" type="submit">{{ isEditing ? 'Update' : 'Add' }} <mat-icon>done</mat-icon></button>
+      <button *ngIf="isEditing" mat-raised-button color="warn" type="button" (click)="deleteWorkoutPlan()"><mat-icon>delete</mat-icon> Delete</button>
+    </div>
   </form>
 </div>
