@@ -10,7 +10,7 @@ WORKDIR /app
 COPY angular-app/package.json angular-app/package-lock.json /app/angular-app/
 
 # Install app dependencies.
-RUN npm install --prefix angular-app
+RUN npm install --prefix angular-app --legacy-peer-deps
 
 # Copy app files.
 COPY . /app
