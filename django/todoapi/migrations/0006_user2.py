@@ -6,7 +6,7 @@ from django.conf import settings
 
 def create_data(apps, schema_editor):
     User = apps.get_model(settings.AUTH_USER_MODEL)
-    user = User(pk=4, username="user2", is_active=True , email="lorenz.gallina@optimatik.ch")
+    user = User(username="user2", is_active=True , email="lorenz.gallina@optimatik.ch")
     user.save()
 
 class Migration(migrations.Migration):
