@@ -25,6 +25,8 @@ services:
       - db
 
   ng:
+    depends_on:
+      - keycloak
     container_name: ng
     build: angular
     ports:
@@ -42,6 +44,7 @@ services:
       KEYCLOAK_PASSWORD: admin
       KEYCLOAK_IMPORT: /tmp/realm-export.json
       PROXY_ADDRESS_FORWARDING: "true"
+      KEYCLOAK_FRONTEND_URL: "https://gymtracker.ch/auth"
     ports:
       - "8180:8080"
     volumes:
