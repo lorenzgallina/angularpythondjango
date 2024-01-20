@@ -16,3 +16,15 @@ body {
    margin: 0;
    overflow: hidden;
 }
+
+mat-toolbar {
+   position: fixed; /* Fixes the toolbar at the top of the page */
+   top: 0; /* Positions the toolbar at the very top */
+   left: 0;
+   right: 0;
+   z-index: 1000; /* High z-index to ensure it stays on top */
+}
+
+.mat-sidenav-content {
+   padding-top: 60px; /* Same as the height of the mat-toolbar */
+}

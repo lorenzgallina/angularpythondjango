@@ -27,7 +27,7 @@
 
 <mat-sidenav-container class="flex flex-col h-screen">
     <!-- Mobile Navigation Sidenav -->
-    <mat-sidenav #sidenav mode="over" *ngIf="isMobile && isLoggedIn" class="bg-gray-100 w-48 z-10">
+    <mat-sidenav #sidenav mode="over" *ngIf="isMobile && isLoggedIn" class="bg-gray-100 w-48 z-10" [style.paddingTop]="isMobile ? '60px' : '0'" >
         <!-- Mobile navigation links -->
         <div><a mat-button routerLink="/exercises" class="block my-2" (click)="toggleSidenav()">Exercises</a></div>
         <div><a mat-button routerLink="/workout-plan" class="block my-2" (click)="toggleSidenav()">Workouts</a></div>
