@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,6 +10,7 @@ import { ExerciseLogService } from 'src/app/core/services/exerciselog.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { WorkoutDialogComponent } from './workout-dialog/workout-dialog.component';
+import { TimerComponent } from '../timer/timer.component';
 
 @Component({
   selector: 'app-workout',
@@ -17,6 +18,7 @@ import { WorkoutDialogComponent } from './workout-dialog/workout-dialog.componen
   styleUrls: ['./workout.component.css']
 })
 export class WorkoutComponent implements OnInit {
+  @ViewChild(TimerComponent) timerComponent!: TimerComponent;
   workoutPlans: WorkoutPlan[] | undefined;
   selectedWorkoutPlan: WorkoutPlan | undefined;
   workoutForm: FormGroup;
@@ -26,6 +28,7 @@ export class WorkoutComponent implements OnInit {
   routerplanid!: number | null;
   selectedExerciseIndex: number | null = null;
   completedExercises: Set<number> = new Set();
+  uniqueKeyForTimer = 1;
 
 
   constructor(private exerciseService: ExerciseService,
@@ -36,7 +39,8 @@ export class WorkoutComponent implements OnInit {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router,
-    private dialog: MatDialog) 
+    private dialog: MatDialog,
+    private cdRef: ChangeDetectorRef) 
     {
     const currentDate = new Date();
     const formattedDate = formatDate(currentDate, 'yyyy-MM-dd', 'en-US');
@@ -135,8 +139,12 @@ export class WorkoutComponent implements OnInit {
   }
 
   selectExercise(index: number) {
+    if (this.timerComponent){
+      this.timerComponent.stopTimer();
+    }
     this.selectedExerciseIndex = index;
     this.selectedExerciseGroup = this.exerciseControls[index];
+    this.initializeTimerForSelectedExercise();
   }
 
   preselectFirstExercise() {
@@ -161,6 +169,10 @@ export class WorkoutComponent implements OnInit {
 
   selectNextExercise() {
     if (this.selectedExerciseGroup) {
+      if (this.timerComponent){
+        this.timerComponent.stopTimer();
+      }
+      
       const currentIndex = this.exerciseControls.indexOf(this.selectedExerciseGroup);
       this.completedExercises.add(currentIndex);
       if (this.isLastUncompletedExercise(currentIndex)) {
@@ -168,6 +180,7 @@ export class WorkoutComponent implements OnInit {
       } else if (currentIndex >= 0 && currentIndex < this.exerciseControls.length - 1) {
         this.selectedExerciseIndex = currentIndex + 1;
         this.selectedExerciseGroup = this.exerciseControls[currentIndex + 1];
+        this.initializeTimerForSelectedExercise();
       }
     }
   }
@@ -197,6 +210,19 @@ export class WorkoutComponent implements OnInit {
     if (this.selectedExerciseGroup) {
       const roundedTime = Math.round(time);
       this.selectedExerciseGroup.patchValue({ time: roundedTime });
+    }
+  }
+
+  initializeTimerForSelectedExercise(): void {
+    if (this.timerComponent && this.selectedExerciseGroup) {
+      const initialTime = this.selectedExerciseGroup.get('time')?.value || 0;
+      const defaultTime = this.selectedExerciseGroup.get('defaultTime')?.value || 0;
+      this.timerComponent.initialTime = initialTime;
+      this.timerComponent.defaultTime = defaultTime;
+      this.uniqueKeyForTimer = 0;
+      this.cdRef.detectChanges();
+      this.uniqueKeyForTimer = 1;
+      this.cdRef.detectChanges();
     }
   }
 
