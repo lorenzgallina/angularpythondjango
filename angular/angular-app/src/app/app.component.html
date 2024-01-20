@@ -1,5 +1,5 @@
 <body>
-<mat-toolbar class="py-2 md:py-4 px-4 md:px-6 bg-gray-200 flex justify-between items-center">
+<mat-toolbar class="py-2 md:py-4 px-4 md:px-6 z-50 bg-gray-100 flex justify-between items-center">
     <!-- Mobile Burger Menu Button -->
     <button mat-icon-button (click)="sidenav.toggle()" *ngIf="isMobile && isLoggedIn" class="md:hidden">
         <mat-icon class="icon-display">menu</mat-icon>
@@ -27,7 +27,7 @@
 
 <mat-sidenav-container class="flex flex-col h-screen">
     <!-- Mobile Navigation Sidenav -->
-    <mat-sidenav #sidenav mode="over" *ngIf="isMobile && isLoggedIn" class="bg-gray-100 w-48">
+    <mat-sidenav #sidenav mode="over" *ngIf="isMobile && isLoggedIn" class="bg-gray-100 w-48 z-10">
         <!-- Mobile navigation links -->
         <div><a mat-button routerLink="/exercises" class="block my-2" (click)="toggleSidenav()">Exercises</a></div>
         <div><a mat-button routerLink="/workout-plan" class="block my-2" (click)="toggleSidenav()">Workouts</a></div>
