@@ -10,7 +10,6 @@ describe('TimerComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ TimerComponent ],
       imports: [ MatIconModule ]
-      // Add any necessary imports here
     })
     .compileComponents();
   });
