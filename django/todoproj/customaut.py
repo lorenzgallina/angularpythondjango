@@ -58,13 +58,13 @@ class CustomJSONWebTokenAuthentication(JSONWebTokenAuthentication):
         lower_body_exercises = ["Jogging","Squads", "Leg Extension", "Leg Curl"]
         lose_weight_exercises = ["Jogging","Jumping Ropes", "Planks", "Cross Trainer"]
 
-        upper_body_plan = WorkoutPlan.objects.create(name="Upper Body Workout", user=user)
+        upper_body_plan = WorkoutPlan.objects.create(name="Upper Body", user=user)
         self.add_exercises_to_plan(upper_body_plan, upper_body_exercises, user)
 
-        lower_body_plan = WorkoutPlan.objects.create(name="Lower Body Workout", user=user)
+        lower_body_plan = WorkoutPlan.objects.create(name="Lower Body", user=user)
         self.add_exercises_to_plan(lower_body_plan, lower_body_exercises, user)
 
-        lose_weight_plan = WorkoutPlan.objects.create(name="Lose Weight Workout", user=user)
+        lose_weight_plan = WorkoutPlan.objects.create(name="Lose Weight", user=user)
         self.add_exercises_to_plan(lose_weight_plan, lose_weight_exercises, user)
 
 

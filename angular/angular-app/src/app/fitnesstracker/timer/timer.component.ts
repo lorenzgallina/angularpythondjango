@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-timer',
@@ -11,9 +11,12 @@ export class TimerComponent {
   elapsedTime: number = 0;
   isRunning: boolean = false;
   lapCount: number = 0;
+  @Input() key: number= 1;
   @Input() initialTime: number = 0;
   @Input() defaultTime: number = 0; 
   @Output() timeUpdated = new EventEmitter<number>();
+
+  constructor(private changeDetector: ChangeDetectorRef) { }
 
   startTimer(): void {
     if (!this.isRunning) {
@@ -67,6 +70,10 @@ export class TimerComponent {
     return (this.elapsedTime / 1000) < this.defaultTime ? '#F97316' : '#22C55E';
   }
 
+  get currentTime(): number {
+    return this.elapsedTime / 1000;
+  }
+
   completeLap(): void {
     this.lapCount++;
   }
@@ -75,6 +82,7 @@ export class TimerComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['initialTime'] && !this.intervalId) {
       this.elapsedTime = this.initialTime * 1000;
+      this.changeDetector.detectChanges();
     }
   }
 
