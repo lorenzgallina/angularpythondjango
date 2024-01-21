@@ -26,7 +26,7 @@ export class TimerComponent {
         if (this.elapsedTime >= this.defaultTime * 1000 + this.lapCount * this.defaultTime * 1000) {
           this.completeLap();
         }
-      }, 1000); // maybe 1000 here to change in seconds?
+      }, 1000);
       this.isRunning = true;
     }
   }
