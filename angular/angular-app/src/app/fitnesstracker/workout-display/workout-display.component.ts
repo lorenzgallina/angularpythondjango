@@ -23,6 +23,7 @@ export class WorkoutDisplayComponent implements OnInit {
   exerciseLogs: { [key: number]: ExerciseLog[] } = {};
   allExercises: Exercise[] | undefined;
   statistics!: any;
+  statisticsReady = false;
 
   isMobile: boolean = false;
 
@@ -122,6 +123,7 @@ export class WorkoutDisplayComponent implements OnInit {
       this.workoutService.getWorkoutByWorkoutPlanID(this.selectedWorkoutPlanId!).subscribe(
         (workouts) => {
           this.workouts = workouts;
+          this.statisticsReady = false;
           this.exerciseLogService.getAllExerciseLogsGroupedByWorkout(Number(this.selectedWorkoutPlanId)).subscribe(
             (groupedExerciseLogs) => {
               this.exerciseLogs = groupedExerciseLogs;
@@ -211,22 +213,17 @@ export class WorkoutDisplayComponent implements OnInit {
           position: 'left',
           title: {
             display: true,
-            text: 'Weight'
+            text: 'Weight [kg]'
           }
         },
         'y-axis-r': {
           position: 'right',
           title: {
             display: true,
-            text: 'Time'
+            text: 'Time [s]'
           }
         }
       },
-    }
-    if (this.isMobile) {
-      // e.g., smaller labels, adjusted layout, etc.
-    } else {
-      // Set chart options for desktop view
     }
   }
 
@@ -273,6 +270,7 @@ export class WorkoutDisplayComponent implements OnInit {
         avgReps: Math.round(stats.totalReps / stats.count)
       };
     }
+    this.statisticsReady = true;
   
     return statistics;
   }

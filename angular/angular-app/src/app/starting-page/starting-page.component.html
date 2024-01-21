@@ -3,10 +3,16 @@
     
 
     <!-- Shown when not logged in -->
-    <p *ngIf="!isLoggedIn" class="text-center mb-6"><br>  Manage your fitness journey effectively. <br> Sign In, and get started!<br> <br> </p>
+    <p *ngIf="!isLoggedIn" class="text-center font-bold mb-6"><br>  Manage your fitness journey effectively. <br> Sign In, and get started!<br> <br> </p>
     
     <!-- Shown when logged in -->
-    <p *ngIf="isLoggedIn" class="text-center mb-6"><br> Select a workout from the Menu and start Training. <br> Or create your own Exercises and Workouts.<br><br>  </p>
+    <p *ngIf="isLoggedIn" class="text-center font-bold mb-6">
+        <a button routerLink="/workout-plan" class="flex items-center justify-center bg-black hover:bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-lg hover:shadow-xl transition duration-150 ease-in-out py-2.5 px-3">
+            <mat-icon class="mr-2">play_arrow</mat-icon>START TRAINING
+        </a>
+        <br><br>
+        Every Workout Counts!<br> 
+    </p>
 
     <img src="assets/DumbbelsStartv2.jpg" alt="Welcome Image" class="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto">
 </div>
