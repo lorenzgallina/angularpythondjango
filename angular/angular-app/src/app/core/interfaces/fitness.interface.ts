@@ -36,3 +36,18 @@ export interface ExerciseLog {
   comment?: string;
 }
 
+export interface StatisticRecord {
+  maxTime: number,
+  maxWeight: number;
+  maxSets: number,
+  maxReps: number,
+  avgWeight: number;
+  avgTime: number;
+  avgSets: number;
+  avgReps: number;
+}
+
+export interface Statistics {
+  [exerciseId: number]: StatisticRecord;
+}
+

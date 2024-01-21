@@ -8,7 +8,7 @@
     <option *ngFor="let exercise of allExercises" [value]="exercise.id">{{exercise.name}}</option>
   </select>
 
-  <div class="justify-center w-full mx-auto">
+  <div  #chartSection class="justify-center w-full mx-auto">
     <div [ngClass]="isMobile ? 'w-full' : 'w-3/4'" class="mx-auto m-5 bg-black p-5 rounded-lg shadow-lg" *ngIf="lineChartData[0].data.length || lineChartData[1].data.length">
       <canvas baseChart
               [datasets]="lineChartData"
@@ -19,7 +19,15 @@
   </div>
 
 
-  <div class="justify-center w-full mx-auto">
+  <div class="justify-center w-full mx-auto mt-5">
+    <div *ngIf="workouts" class="flex justify-between w-full">
+      <button mat-raised-button color="warn" (click)="closeAllPanels()">
+        <mat-icon>expand_less</mat-icon> Close All
+      </button>
+      <button mat-raised-button color="warn"  (click)="openAllPanels()">
+        <mat-icon>expand_more</mat-icon> Open All
+      </button>
+    </div>
     <mat-accordion multi class="w-3/4 mx-auto">
       <mat-expansion-panel *ngFor="let workout of workouts">
         <mat-expansion-panel-header>
@@ -43,32 +51,77 @@
                 </div>
               </mat-expansion-panel-header>
               <mat-card-content>
-                <p>Weight: {{exerciseLog.weight}}
+                <div class="flex justify-between items-center">
+                <p>Weight: {{exerciseLog.weight}} kg</p>
                   <span [ngClass]="{'text-green-500': (exerciseLog.weight - (findExercise(exerciseLog.exercise)?.default_weight ?? 0)) >= 0,
                                     'text-red-500': (exerciseLog.weight - (findExercise(exerciseLog.exercise)?.default_weight ?? 0)) < 0}">
-                    {{ calculateDifference(exerciseLog.weight, findExercise(exerciseLog.exercise)?.default_weight ?? 0) }}
+                    {{ calculateDifference(exerciseLog.weight, findExercise(exerciseLog.exercise)?.default_weight ?? 0) }} kg
                   </span>
-                </p>
-                <p *ngIf="exerciseLog.timer_active">Time: {{exerciseLog.time}}
+                </div>
+                <div *ngIf="exerciseLog.timer_active" class="flex justify-between items-center">
+                <p>Time: {{exerciseLog.time}} s</p>
                   <span [ngClass]="{'text-green-500': ((exerciseLog.time ?? 0 )- (findExercise(exerciseLog.exercise)?.time ?? 0)) >= 0,
                                     'text-red-500': ((exerciseLog.time ?? 0)- (findExercise(exerciseLog.exercise)?.time ?? 0)) < 0}">
-                    {{ calculateDifference((exerciseLog.time ?? 0), findExercise(exerciseLog.exercise)?.time ?? 0) }}
+                    {{ calculateDifference((exerciseLog.time ?? 0), findExercise(exerciseLog.exercise)?.time ?? 0) }} s
                   </span>
-                </p>
-                <p>Sets: {{exerciseLog.sets}} 
+                </div>
+                <div class="flex justify-between items-center">
+                <p>Sets: {{exerciseLog.sets}} </p>
                   <span [ngClass]="{'text-green-500': (exerciseLog.sets - (findExercise(exerciseLog.exercise)?.default_sets ?? 0)) >= 0,
                     'text-red-500': (exerciseLog.sets - (findExercise(exerciseLog.exercise)?.default_sets ?? 0)) < 0}">
                     {{ calculateDifference(exerciseLog.sets, findExercise(exerciseLog.exercise)?.default_sets ?? 0) }}
                   </span>
-                </p>
-                <p>Reps: {{exerciseLog.reps}}
+                </div>
+                <div class="flex justify-between items-center">
+                <p>Reps: {{exerciseLog.reps}}</p>
                   <span [ngClass]="{'text-green-500': (exerciseLog.reps - (findExercise(exerciseLog.exercise)?.default_reps ?? 0)) >= 0,
                                     'text-red-500': (exerciseLog.reps - (findExercise(exerciseLog.exercise)?.default_reps ?? 0)) < 0}">
                     {{ calculateDifference(exerciseLog.reps, findExercise(exerciseLog.exercise)?.default_reps ?? 0) }}
                   </span>
-                </p>
+                </div>
               </mat-card-content>
-              
+            </mat-expansion-panel>
+          </ng-container>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel *ngIf="workouts">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="flex justify-center w-full">
+            Statistics
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngFor="let exerciseId of statisticsExerciseIds">
+          <ng-container *ngIf="findExercise(exerciseId)?.name && statistics">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <div class="flex justify-between items-center w-full">
+                  <div class="flex-grow text-center">
+                    <mat-panel-title class="text-sm">{{ findExercise(exerciseId)?.name }}</mat-panel-title>
+                  </div>
+                </div>
+              </mat-expansion-panel-header>
+              <mat-card-content>
+                <div class="flex justify-between items-center">
+                  <p class="title">Average</p>
+                  <p class="title">Max</p>
+                </div>
+                <div class="flex justify-between items-center">
+                  <p class="average">Weight: {{ statistics[exerciseId].avgWeight }} kg</p>
+                  <p class="max">Weight: {{ statistics[exerciseId].maxWeight }} kg</p>
+                </div>
+                <div class="flex justify-between items-center">
+                  <p class="average">Time: {{ statistics[exerciseId].avgTime }} s</p>
+                  <p class="max">Time: {{ statistics[exerciseId].maxTime }} s</p>
+                </div>
+                <div class="flex justify-between items-center">
+                  <p class="average">Sets: {{ statistics[exerciseId].avgSets }}</p>
+                  <p class="max">Sets: {{ statistics[exerciseId].maxSets }}</p>
+                </div>
+                <div class="flex justify-between items-center">
+                  <p class="average">Reps: {{ statistics[exerciseId].avgReps }}</p>
+                  <p class="max">Reps: {{ statistics[exerciseId].maxReps }}</p>
+                </div>
+              </mat-card-content>
             </mat-expansion-panel>
           </ng-container>
         </div>

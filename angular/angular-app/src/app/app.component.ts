@@ -18,20 +18,20 @@ export class AppComponent implements OnInit{
   images!: any [];
 
   mobileImages = [
-    { url: 'assets/quotes/G1.jpg', alt: 'Image 1', caption: 'YOU CAN DO IT' },
-    { url: 'assets/quotes/G2.jpg', alt: 'Image 2', caption: 'BUILD A STRONG MINDSET THE BODY WILL FOLLOW' },
-    { url: 'assets/quotes/G3.jpg', alt: 'Image 3', caption: 'PUSH YOURSELF TO THE LIMIT' },
-    { url: 'assets/quotes/G4.jpg', alt: 'Image 4', caption: 'IF IT WERE EASY EVERYONE WOULD HAVE DONE IT' },
-    { url: 'assets/quotes/G5.jpg', alt: 'Image 5', caption: 'PROGRESS OVER PERFECTION' },
-    { url: 'assets/quotes/G6.jpg', alt: 'Image 6', caption: 'THE KEY TO SUCCESS IS TO START BEFORE YOU ARE READY' },
+    { url: 'assets/quotes/G1.jpg', alt: 'Gym Motivation Image 1, failed to load', caption: 'YOU CAN DO IT' },
+    { url: 'assets/quotes/G2.jpg', alt: 'Gym Motivation Image 2, failed to load', caption: 'BE THE BEST VERSION OF YOU' },
+    { url: 'assets/quotes/G3.jpg', alt: 'Gym Motivation Image 3, failed to load', caption: 'PUSH YOURSELF TO THE LIMIT' },
+    { url: 'assets/quotes/G4.jpg', alt: 'Gym Motivation Image 4, failed to load', caption: 'LIFE IS SHORT STAY HARD' },
+    { url: 'assets/quotes/G5.jpg', alt: 'Gym Motivation Image 5, failed to load', caption: 'PROGRESS OVER PERFECTION' },
+    { url: 'assets/quotes/G6.jpg', alt: 'Gym Motivation Image 6, failed to load', caption: 'DONT STOP UNTIL YOU ARE PROUD' },
   ];
 
   desktopImages = [
-    { url: 'assets/quotes/DG4.jpg', alt: 'Image 5', caption: 'YOU CAN DO IT' },
-    { url: 'assets/quotes/G1.jpg', alt: 'Image 1', caption: 'PROGRESS OVER PERFECTION' },
-    { url: 'assets/quotes/DG2.jpg', alt: 'Image 2', caption: 'BUILD A STRONG MINDSET THE BODY WILL FOLLOW' },
-    { url: 'assets/quotes/DG3.jpg', alt: 'Image 3', caption: 'IF IT WERE EASY EVERYONE WOULD HAVE DONE IT' },
-    { url: 'assets/quotes/DG5.jpg', alt: 'Image 6', caption: 'THE KEY TO SUCCESS IS TO START BEFORE YOU ARE READY' },
+    { url: 'assets/quotes/G1.jpg', alt: 'Gym Motivation Image 1, failed to load', caption: 'YOU CAN DO IT' },
+    { url: 'assets/quotes/DG2.jpg', alt: 'Gym Motivation Image 2, failed to load', caption: 'BE THE BEST VERSION OF YOU' },
+    { url: 'assets/quotes/DG4.jpg', alt: 'Gym Motivation Image 3, failed to load', caption: 'PROGRESS OVER PERFECTION' },
+    { url: 'assets/quotes/DG3.jpg', alt: 'Gym Motivation Image 4, failed to load', caption: 'LIFE IS SHORT STAY HARD' },
+    { url: 'assets/quotes/DG5.jpg', alt: 'Gym Motivation Image 5, failed to load', caption: 'DONT STOP UNTIL YOU ARE PROUD' },
   ];
 
   slideConfig = {
