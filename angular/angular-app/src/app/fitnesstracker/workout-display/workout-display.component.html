@@ -9,30 +9,15 @@
   </select>
 
   <div class="justify-center w-full mx-auto">
-    <!--<div class="w-3/4 mx-auto m-5 bg-black p-5 rounded-lg shadow-lg" *ngIf="lineChartWeightData[0].data.length">
+    <div [ngClass]="isMobile ? 'w-full' : 'w-3/4'" class="mx-auto m-5 bg-black p-5 rounded-lg shadow-lg" *ngIf="lineChartData[0].data.length || lineChartData[1].data.length">
       <canvas baseChart
-              [datasets]="lineChartWeightData"
+              [datasets]="lineChartData"
               [labels]="lineChartLabels"
               [options]="lineChartOptions">
       </canvas>
-    </div>
-    <div class="w-3/4 mx-auto m-5 bg-black p-5 rounded-lg shadow-lg" *ngIf="lineChartTimeData[0].data.length">
-      <canvas baseChart
-              [datasets]="lineChartTimeData"
-              [labels]="lineChartLabels"
-              [options]="lineChartOptions">
-      </canvas>
-    </div>-->
-    <div class="justify-center w-full mx-auto">
-      <div [ngClass]="isMobile ? 'w-full' : 'w-3/4'" class="mx-auto m-5 bg-black p-5 rounded-lg shadow-lg" *ngIf="lineChartData[0].data.length || lineChartData[1].data.length">
-        <canvas baseChart
-                [datasets]="lineChartData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions">
-        </canvas>
-      </div>
     </div>
   </div>
+
 
   <div class="justify-center w-full mx-auto">
     <mat-accordion multi class="w-3/4 mx-auto">

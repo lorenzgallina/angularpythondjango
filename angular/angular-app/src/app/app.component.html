@@ -44,7 +44,8 @@
     <div class="w-full" >
         <ngx-slick-carousel [class.desktop-carousel]="!isMobile" class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
             <div ngxSlickItem *ngFor="let img of images" class="slide">
-            <img [src]="img.url" alt="{{img.alt}}">
+                <img [src]="img.url" alt="{{img.alt}}">
+                <div class="slide-caption">{{ img.caption }}</div>
             </div>
         </ngx-slick-carousel>
     </div>

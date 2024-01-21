@@ -23,33 +23,9 @@ export class WorkoutDisplayComponent implements OnInit {
 
   isMobile: boolean = false;
 
-  // chart:
-  public lineChartWeightData: ChartDataset[] = [{
-    data: [],
-    label: 'Weight',
-    fill: true,
-    backgroundColor: 'rgba(255, 99, 132, 0.25)',
-    borderColor: 'rgb(255, 99, 132)',
-    yAxisID: 'y-axis-l',
-    //pointBackgroundColor: 'blue',
-    //pointRadius: 5,
-    //pointHoverRadius: 7,
-    type: 'line'
-  }];
-
-  public lineChartTimeData: ChartDataset[] = [{
-    data: [],
-    label: 'Time',
-    fill: true,
-    backgroundColor: 'rgba(54, 162, 235, 0.25)',
-    borderColor: 'rgb(54, 162, 235)',
-    yAxisID: 'y-axis-r',
-    type: 'line'
-  }];
-
   public lineChartData: ChartDataset[] = [
     {
-      data: [], // This will hold the weight data
+      data: [],
       label: 'Weight',
       fill: true,
       backgroundColor: 'rgba(255, 99, 132, 0.25)',
@@ -58,7 +34,7 @@ export class WorkoutDisplayComponent implements OnInit {
       type: 'line'
     },
     {
-      data: [], // This will hold the time data
+      data: [],
       label: 'Time',
       fill: false,
       borderColor: 'rgb(54, 162, 235)',
@@ -176,8 +152,6 @@ export class WorkoutDisplayComponent implements OnInit {
   
 
   onExerciseSelected() {
-    // this.lineChartWeightData[0].data = [];
-    // this.lineChartTimeData[0].data = [];
     this.lineChartData[0].data = [];
     this.lineChartData[1].data = [];
     this.lineChartLabels = [];
@@ -188,9 +162,6 @@ export class WorkoutDisplayComponent implements OnInit {
         if (exerciseLogsForWorkout) {
           const exerciseLog = exerciseLogsForWorkout.find(log => log.exercise === Number(this.selectedExerciseId));
           if (exerciseLog) {
-            // this.lineChartWeightData[0].data.push(exerciseLog.weight);
-            // this.lineChartTimeData[0].data.push(exerciseLog.time ? exerciseLog.time : 0);
-            // this.lineChartLabels.push(new Date(workout.date).toLocaleDateString());
             this.lineChartData[0].data.push(exerciseLog.weight);
             this.lineChartData[1].data.push(exerciseLog.time ? exerciseLog.time : 0);
             this.lineChartLabels.push(workout.date);

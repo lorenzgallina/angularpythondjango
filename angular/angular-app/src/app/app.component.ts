@@ -15,18 +15,32 @@ export class AppComponent implements OnInit{
   isLoggedIn = false;
   title = 'angular-app';
   isMobile: boolean = false;
-  images = [
-    { url: 'assets/quotes/GYMTS2Q22.jpg', alt: 'Image 1' },
-    { url: 'assets/quotes/GYMTS3Q12.jpg', alt: 'Image 2' },
-    { url: 'assets/quotes/GYMTS5Q32.jpg', alt: 'Image 2' },
+  images!: any [];
+
+  mobileImages = [
+    { url: 'assets/quotes/G1.jpg', alt: 'Image 1', caption: 'YOU CAN DO IT' },
+    { url: 'assets/quotes/G2.jpg', alt: 'Image 2', caption: 'BUILD A STRONG MINDSET THE BODY WILL FOLLOW' },
+    { url: 'assets/quotes/G3.jpg', alt: 'Image 3', caption: 'PUSH YOURSELF TO THE LIMIT' },
+    { url: 'assets/quotes/G4.jpg', alt: 'Image 4', caption: 'IF IT WERE EASY EVERYONE WOULD HAVE DONE IT' },
+    { url: 'assets/quotes/G5.jpg', alt: 'Image 5', caption: 'PROGRESS OVER PERFECTION' },
+    { url: 'assets/quotes/G6.jpg', alt: 'Image 6', caption: 'THE KEY TO SUCCESS IS TO START BEFORE YOU ARE READY' },
   ];
+
+  desktopImages = [
+    { url: 'assets/quotes/DG4.jpg', alt: 'Image 5', caption: 'YOU CAN DO IT' },
+    { url: 'assets/quotes/G1.jpg', alt: 'Image 1', caption: 'PROGRESS OVER PERFECTION' },
+    { url: 'assets/quotes/DG2.jpg', alt: 'Image 2', caption: 'BUILD A STRONG MINDSET THE BODY WILL FOLLOW' },
+    { url: 'assets/quotes/DG3.jpg', alt: 'Image 3', caption: 'IF IT WERE EASY EVERYONE WOULD HAVE DONE IT' },
+    { url: 'assets/quotes/DG5.jpg', alt: 'Image 6', caption: 'THE KEY TO SUCCESS IS TO START BEFORE YOU ARE READY' },
+  ];
+
   slideConfig = {
     "slidesToShow": 1, 
     "slidesToScroll": 1,
     "dots": true,
     "infinite": true,
     "autoplay": true,
-    "autoplaySpeed": 4000
+    "autoplaySpeed": 5000
   };
 
   constructor(private router: Router, private keycloakService: KeycloakService, private breakpointObserver: BreakpointObserver, private authService: AuthService) {}
@@ -40,6 +54,7 @@ export class AppComponent implements OnInit{
       .observe([Breakpoints.Handset])
       .subscribe(result => {
         this.isMobile = result.matches;
+        this.images = this.isMobile ? this.mobileImages : this.desktopImages;
       });
   }
 
