@@ -6,6 +6,7 @@ import { WorkoutPlanService } from 'src/app/core/services/workoutplan.service';
 import { ExerciseService } from 'src/app/core/services/exercise.service';
 import { WorkoutService } from 'src/app/core/services/workout.service';
 import { ExerciseLogService } from 'src/app/core/services/exerciselog.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-workout-display',
@@ -20,6 +21,8 @@ export class WorkoutDisplayComponent implements OnInit {
   exerciseLogs: { [key: number]: ExerciseLog[] } = {};
   allExercises: Exercise[] | undefined;
 
+  isMobile: boolean = false;
+
   // chart:
   public lineChartWeightData: ChartDataset[] = [{
     data: [],
@@ -33,6 +36,36 @@ export class WorkoutDisplayComponent implements OnInit {
     //pointHoverRadius: 7,
     type: 'line'
   }];
+
+  public lineChartTimeData: ChartDataset[] = [{
+    data: [],
+    label: 'Time',
+    fill: true,
+    backgroundColor: 'rgba(54, 162, 235, 0.25)',
+    borderColor: 'rgb(54, 162, 235)',
+    yAxisID: 'y-axis-r',
+    type: 'line'
+  }];
+
+  public lineChartData: ChartDataset[] = [
+    {
+      data: [], // This will hold the weight data
+      label: 'Weight',
+      fill: true,
+      backgroundColor: 'rgba(255, 99, 132, 0.25)',
+      borderColor: 'rgb(255, 99, 132)',
+      yAxisID: 'y-axis-l',
+      type: 'line'
+    },
+    {
+      data: [], // This will hold the time data
+      label: 'Time',
+      fill: false,
+      borderColor: 'rgb(54, 162, 235)',
+      yAxisID: 'y-axis-r',
+      type: 'line'
+    }
+  ];
   
 
   public lineChartLabels: string[] = [];
@@ -46,6 +79,13 @@ export class WorkoutDisplayComponent implements OnInit {
           text: 'Weight'
         }
       },
+      'y-axis-r': {
+        position: 'right',
+        title: {
+          display: true,
+          text: 'Time'
+        }
+      }
     }
   };
   
@@ -57,11 +97,18 @@ export class WorkoutDisplayComponent implements OnInit {
     private workoutService: WorkoutService,
     private workoutPlanService: WorkoutPlanService,
     private exerciseLogService: ExerciseLogService,
-    private snackBar: MatSnackBar) {}
+    private snackBar: MatSnackBar,
+    private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit() {
     this.loadWorkoutPlans();
     this.getExercises();
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .subscribe(result => {
+        this.isMobile = result.matches;
+        this.updateChartOptions();
+      });
   }
 
   loadWorkoutPlans() {
@@ -122,14 +169,17 @@ export class WorkoutDisplayComponent implements OnInit {
   }
 
   calculateDifference(actual: number, defaultValue: number): string {
-    const defaultVal = defaultValue ?? 0; // Treat undefined as 0
+    const defaultVal = defaultValue ?? 0;
     const difference = actual - defaultVal;
     return difference >= 0 ? `+${difference}` : `${difference}`;
   }
   
 
   onExerciseSelected() {
-    this.lineChartWeightData[0].data = [];
+    // this.lineChartWeightData[0].data = [];
+    // this.lineChartTimeData[0].data = [];
+    this.lineChartData[0].data = [];
+    this.lineChartData[1].data = [];
     this.lineChartLabels = [];
 
     this.workouts?.forEach(workout => {
@@ -138,12 +188,58 @@ export class WorkoutDisplayComponent implements OnInit {
         if (exerciseLogsForWorkout) {
           const exerciseLog = exerciseLogsForWorkout.find(log => log.exercise === Number(this.selectedExerciseId));
           if (exerciseLog) {
-            this.lineChartWeightData[0].data.push(exerciseLog.weight);
-            this.lineChartLabels.push(new Date(workout.date).toLocaleDateString());
+            // this.lineChartWeightData[0].data.push(exerciseLog.weight);
+            // this.lineChartTimeData[0].data.push(exerciseLog.time ? exerciseLog.time : 0);
+            // this.lineChartLabels.push(new Date(workout.date).toLocaleDateString());
+            this.lineChartData[0].data.push(exerciseLog.weight);
+            this.lineChartData[1].data.push(exerciseLog.time ? exerciseLog.time : 0);
+            this.lineChartLabels.push(workout.date);
           }
         }
       }
     });
+  }
+
+  updateChartOptions() {
+    this.lineChartOptions= {
+      responsive: true,
+      scales: {
+        x: {
+          ticks: {
+            callback: (value, index, values) => {
+              const date = new Date(this.lineChartLabels[index]);
+              if (!isNaN(date.getTime())) {
+                return date.toLocaleDateString('en-GB', {
+                  month: 'numeric', 
+                  day: 'numeric'
+                });
+              } else {
+                return '';
+              }
+            }
+          }
+        },
+        'y-axis-l': {
+          position: 'left',
+          title: {
+            display: true,
+            text: 'Weight'
+          }
+        },
+        'y-axis-r': {
+          position: 'right',
+          title: {
+            display: true,
+            text: 'Time'
+          }
+        }
+      },
+    }
+    if (this.isMobile) {
+      // e.g., smaller labels, adjusted layout, etc.
+    } else {
+      // Set chart options for desktop view
+    }
   }
 
 }
